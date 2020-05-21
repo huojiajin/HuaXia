@@ -1,4 +1,4 @@
-package hx.service.demo;
+package hx.service.manage;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

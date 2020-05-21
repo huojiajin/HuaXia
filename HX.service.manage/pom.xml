@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>HX.service</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>manage</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>HX.service.manage</name>
-    <description>华夏经营主管系统</description>
+    <description>华夏主管经营系统</description>
 
     <properties>
         <java.version>11</java.version>

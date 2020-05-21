@@ -1,4 +1,4 @@
-package hx.service.demo;
+package hx.service.manage;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
