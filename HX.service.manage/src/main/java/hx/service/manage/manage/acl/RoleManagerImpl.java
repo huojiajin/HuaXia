@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,7 +86,7 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
     public void delete(RoleDeleteRequest deleteRequest){
         Optional<Role> op = roleRepo.findById(deleteRequest.getRoleId());
         addSysLog("删除角色" + op.get().getName(), deleteRequest.getToken());
-        roleRepo.deleteById(deleteRequest.getRoleId());
+        roleRepo.updateDelete(deleteRequest.getRoleId(), LocalDateTime.now());
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.Base64;
  */
 public class VerifyResponse extends BaseEntity {
 
-    private String imageBase64;//验证码图片base64流
+    private String verifyImage;//验证码图片base64流
     private String verifyId;//验证码对应ID
 
     public VerifyResponse() {
@@ -28,19 +28,19 @@ public class VerifyResponse extends BaseEntity {
         try {
             ImageIO.write(bufferedImage, "png", outputStream);
             Base64.Encoder encoder = Base64.getEncoder();
-            this.imageBase64 = encoder.encodeToString(outputStream.toByteArray());
+            this.verifyImage = encoder.encodeToString(outputStream.toByteArray());
         } finally {
             outputStream.close();
         }
         this.verifyId = verifyId;
     }
 
-    public String getImageBase64() {
-        return imageBase64;
+    public String getVerifyImage() {
+        return verifyImage;
     }
 
-    public void setImageBase64(String imageBase64) {
-        this.imageBase64 = imageBase64;
+    public void setVerifyImage(String verifyImage) {
+        this.verifyImage = verifyImage;
     }
 
     public String getVerifyId() {

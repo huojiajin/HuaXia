@@ -49,7 +49,6 @@ public class Role extends AbstractInsertTimeEntity {
     }
 
     @Column(name = "is_delete", nullable = false)
-
     public boolean isDelete() {
         return isDelete;
     }

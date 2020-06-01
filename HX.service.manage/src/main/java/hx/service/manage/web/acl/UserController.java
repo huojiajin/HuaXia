@@ -10,6 +10,8 @@ import hx.service.manage.manage.model.acl.user.UserEditRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @name: UserController
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author: huojiajin
  * @time: 2020/5/28 14:59
  */
+@RestController
+@RequestMapping("/manage/role")
 public class UserController extends BaseEntity {
 
     @Autowired

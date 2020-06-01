@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 /**
  * @name: UserRepo
  * @description: 用户表Repo
@@ -18,6 +20,6 @@ public interface UserRepo extends AbstractJpaRepo<User, String> {
 
     @Modifying
     @Transactional
-    @Query("update User set status = 'INVALID' where id = ?1")
-    int updateDelete(String id);
+    @Query("update User set status = 'INVALID', updateTime = ?2 where id = ?1")
+    int updateDelete(String id, LocalDateTime now);
 }

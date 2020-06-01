@@ -32,7 +32,7 @@ public class MyTest extends ApplicationTests{
         CommonResponse response = JsonTools.json2Object(responseStr, CommonResponse.class);
         VerifyResponse verifyResponse = JsonTools.json2Object(response.getData(), VerifyResponse.class);
 
-        byte[] b = Base64Utils.decodeFromString(verifyResponse.getImageBase64());
+        byte[] b = Base64Utils.decodeFromString(verifyResponse.getVerifyImage());
         for (int i = 0; i < b.length; ++i) {
             if (b[i] < 0) {// 调整异常数据
                 b[i] += 256;
@@ -66,7 +66,7 @@ public class MyTest extends ApplicationTests{
     public void roleQuery() throws IOException {
 
         CommonPageRequest request = new CommonPageRequest();
-        request.setCurrentPage(1);
+        request.setPageNo(1);
         request.setPageSize(16);
         request.setToken("0ed83461cc9d4803a5a3187755e8c24a");
         request.setResourceCode(1);

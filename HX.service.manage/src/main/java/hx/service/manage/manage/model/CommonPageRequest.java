@@ -8,15 +8,15 @@ package hx.service.manage.manage.model;
  */
 public class CommonPageRequest extends CommonRequest {
 
-    private int currentPage;
+    private int pageNo;
     private int pageSize = 16;
 
-    public int getCurrentPage() {
-        return currentPage;
+    public int getPageNo() {
+        return pageNo;
     }
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
+    public void setPageNo(int pageNo) {
+        this.pageNo = pageNo;
     }
 
     public int getPageSize() {

@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 /**
  * @name: RoleRepo
  * @description: 角色表Repo
@@ -16,6 +18,6 @@ public interface RoleRepo extends AbstractJpaRepo<Role, String> {
 
     @Modifying
     @Transactional
-    @Query("update Role set isDelete = 1 where id = ?1")
-    int updateDelete(String id);
+    @Query("update Role set isDelete = 1, updateTime = ?2 where id = ?1")
+    int updateDelete(String id, LocalDateTime now);
 }
