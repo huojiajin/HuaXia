@@ -11,7 +11,8 @@
     <groupId>HX.service</groupId>
     <artifactId>manage</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>HX.service.manage</name>
+    <packaging>war</packaging>
+    <name>manage</name>
     <description>华夏主管经营系统</description>
 
     <properties>
@@ -136,6 +137,24 @@
 
 
     <build>
+        <resources>
+            <resource>
+                <!--控制资源目录下要打包进去的文件，这里为全部打包-->
+                <directory>src/main/java/hx/service/manage/dao</directory>
+                <filtering>true</filtering>
+                <targetPath>src/resources/lib</targetPath>
+            </resource>
+<!--            <resource>-->
+<!--                &lt;!&ndash;细粒度控制&ndash;&gt;-->
+<!--                <directory>src/main/resources2</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/*.txt</include>-->
+<!--                </includes>-->
+<!--                <excludes>-->
+<!--                    <exclude>**/*.jpg</exclude>-->
+<!--                </excludes>-->
+<!--            </resource>-->
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
