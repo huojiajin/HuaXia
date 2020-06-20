@@ -5,27 +5,27 @@ import hx.service.manage.dao.dict.ErrorType;
 import hx.service.manage.dao.dict.ResourceType;
 import hx.service.manage.dao.entity.Role;
 import hx.service.manage.dao.entity.RoleResource;
+import hx.service.manage.dao.entity.User;
 import hx.service.manage.dao.repo.jpa.RoleRepo;
 import hx.service.manage.dao.repo.jpa.RoleResourceRepo;
+import hx.service.manage.dao.repo.jpa.UserRepo;
 import hx.service.manage.dao.repo.request.RolePageRequest;
 import hx.service.manage.dao.repo.request.common.Pagination;
 import hx.service.manage.manage.common.AbstractManager;
 import hx.service.manage.manage.model.CommonPageRequest;
 import hx.service.manage.manage.model.CommonRequest;
 import hx.service.manage.manage.model.CommonResponse;
-import hx.service.manage.manage.model.acl.role.RoleAddRequest;
-import hx.service.manage.manage.model.acl.role.RoleDeleteRequest;
-import hx.service.manage.manage.model.acl.role.RoleEditRequest;
-import hx.service.manage.manage.model.acl.role.RoleResourceRequest;
-import hx.service.manage.manage.tools.JsonTools;
+import hx.service.manage.manage.model.acl.role.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @name: RoleManagerImpl
@@ -40,6 +40,8 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
     private RoleRepo roleRepo;
     @Autowired
     private RoleResourceRepo roleResourceRepo;
+    @Autowired
+    private UserRepo userRepo;
 
     @Override
     public String query(CommonPageRequest request){
@@ -47,7 +49,7 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
         RolePageRequest pageRequest = new RolePageRequest();
         BeanUtils.copyProperties(request, pageRequest);
         Pagination page = roleRepo.page(pageRequest);
-        response.setData(page.toJson());
+        response.setData(page);
         return response.toJson();
     }
 
@@ -56,41 +58,60 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
         CommonResponse response = new CommonResponse();
         RolePageRequest pageRequest = new RolePageRequest();
         List<Role> list = roleRepo.list(pageRequest);
-        try {
-            response.setData(JsonTools.toJsonStr(list));
-        } catch (IOException e) {
-            logger.error("", e);
-            response.setError(ErrorType.CONVERT);
-        }
+        RoleListResponse data = new RoleListResponse();
+        data.setRoleList(list);
+        response.setData(data);
         return response.toJson();
     }
 
     @Override
-    public void add(RoleAddRequest addRequest){
+    public String add(RoleAddRequest addRequest){
+        CommonResponse response = new CommonResponse();
         Role role = new Role();
         BeanUtils.copyProperties(addRequest, role);
+        role.setInsertTime(LocalDateTime.now());
         roleRepo.persist(role);
         addSysLog("添加角色" + addRequest.getName(), addRequest.getToken());
+        response.setMessage("添加角色成功");
+        return response.toJson();
     }
 
     @Override
-    public void update(RoleEditRequest editRequest){
+    public String update(RoleEditRequest editRequest){
+        CommonResponse response = new CommonResponse();
         Role role = roleRepo.findById(editRequest.getId()).get();
         BeanUtils.copyProperties(editRequest, role);
+        role.setUpdateTime(LocalDateTime.now());
         roleRepo.save(role);
         addSysLog("修改角色" + editRequest.getName(), editRequest.getToken());
+        response.setMessage("修改角色成功");
+        return response.toJson();
     }
 
     @Override
-    public void delete(RoleDeleteRequest deleteRequest){
+    public String delete(RoleDeleteRequest deleteRequest){
+        CommonResponse response = new CommonResponse();
         Optional<Role> op = roleRepo.findById(deleteRequest.getRoleId());
+        if (op.isEmpty()){
+            return response.setError(ErrorType.NOROLE);
+        }
+        List<User> users = userRepo.listByRoleId(op.get().getId());
+        if (!isEmpty(users)){
+            List<User> normalUsers = users.stream().filter(u -> u.getStatus() == User.UserStatus.NORMAL).collect(Collectors.toList());
+            if (!isEmpty(normalUsers)){
+                return response.setError(ErrorType.HASUSER);
+            }
+        }
+        roleRepo.updateDelete(deleteRequest.getRoleId());
         addSysLog("删除角色" + op.get().getName(), deleteRequest.getToken());
-        roleRepo.deleteById(deleteRequest.getRoleId());
+        response.setMessage("删除角色成功");
+        return response.toJson();
     }
 
     @Override
     @Transactional
-    public void resourceConfig(RoleResourceRequest resourceRequest){
+    public String resourceConfig(RoleResourceRequest resourceRequest){
+        CommonResponse response = new CommonResponse();
         List<RoleResource> roleResourceList = Lists.newArrayList();
         String roleId = resourceRequest.getRoleId();
         Optional<Role> op = roleRepo.findById(roleId);
@@ -103,5 +124,7 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
         roleResourceRepo.deleteByRoleId(roleId);
         roleResourceRepo.persistAll(roleResourceList);
         addSysLog("配置角色" + op.get().getName() + "的权限", resourceRequest.getToken());
+        response.setMessage("配置权限成功");
+        return response.toJson();
     }
 }

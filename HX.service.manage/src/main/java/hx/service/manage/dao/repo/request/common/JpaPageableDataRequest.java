@@ -22,6 +22,7 @@ public abstract class JpaPageableDataRequest<E> extends JpaSortDataRequest<E>
 	protected JpaPageableDataRequest(Class<E> clazz)
 	{
 		super(clazz);
+		this.pageSize = 16;
 	}
 
 	/**

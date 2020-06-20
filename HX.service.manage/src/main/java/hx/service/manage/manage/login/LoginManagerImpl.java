@@ -52,7 +52,7 @@ public class LoginManagerImpl extends CommonAbstract implements LoginManager{
         memcachedClient.set(MyMecachedPrefix.loginVerifyImagePrefix + verifyId, 5 * 60, verifyImage.getVerifyCode());
         try {
             VerifyResponse verifyResponse = new VerifyResponse(verifyImage.getBuffImg(), verifyId);
-            response.setData(verifyResponse.toJson());
+            response.setData(verifyResponse);
         } catch (IOException e) {
             logger.error("", e);
             response.setError(ErrorType.CONVERT);
@@ -93,7 +93,7 @@ public class LoginManagerImpl extends CommonAbstract implements LoginManager{
         List<RoleResource> roleResources = roleResourceRepo.listByRoleId(user.getRoleId());
         List<ResourceModel> resourceModelList = roleResources.stream().map(this::getResourceModel).collect(Collectors.toList());
         loginResponse.setResourceList(resourceModelList);
-        response.setData(loginResponse.toJson());
+        response.setData(loginResponse);
 
         //存放菜单权限至memcached
         List<Integer> resourceCodeList = roleResources.stream().map(r -> r.getResourceType().getCode()).collect(Collectors.toList());

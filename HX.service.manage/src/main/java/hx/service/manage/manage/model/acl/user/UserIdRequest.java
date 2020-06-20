@@ -9,7 +9,7 @@ import hx.service.manage.manage.model.CommonRequest;
  * @author: huojiajin
  * @time: 2020/5/28 15:21
  */
-public class UserDeleteRequest extends CommonRequest {
+public class UserIdRequest extends CommonRequest {
 
     private String userId;
 

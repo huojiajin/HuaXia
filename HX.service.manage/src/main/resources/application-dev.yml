@@ -4,6 +4,17 @@ server:
     encoding:
       force-request: true
 
+# 显示Sql
+#hibernate:
+#  show_sql: true
+# 自动扫描的包前缀
+#entitymanager:
+#  packagesToScan: hx.service.manage.dao
+
+memcache:
+  ip: 123.56.154.176
+  port: 11211
+
 spring:
   application:
     name: manage
@@ -65,26 +76,16 @@ spring:
         # 登录密码
         login-password: 18513086652
 
-
   jpa:
     properties:
       #hibernate设置
       #方言
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+#        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         # 自动建表方式
         hbm2ddl.auto: update
 
 
-# 显示Sql
-hibernate:
-  show_sql: true
-# 自动扫描的包前缀
-entitymanager:
-  packagesToScan: hx.service.manage.dao
 
-#memcache
-memcache:
-  ip: 123.56.154.176
-  port: 11211
+
 

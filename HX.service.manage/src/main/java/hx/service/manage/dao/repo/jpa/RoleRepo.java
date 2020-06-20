@@ -16,6 +16,6 @@ public interface RoleRepo extends AbstractJpaRepo<Role, String> {
 
     @Modifying
     @Transactional
-    @Query("update Role set isDelete = 1 where id = ?1")
+    @Query("update Role set stop = 1 where id = ?1")
     int updateDelete(String id);
 }

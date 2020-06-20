@@ -12,13 +12,9 @@ import hx.service.manage.dao.repo.request.common.JpaPageableDataRequest;
  */
 public class UserPageRequest extends JpaPageableDataRequest<User> {
 
-    public UserPageRequest() {
-        this.orderBy = "list";
-    }
-
     @Override
     public HqlBuilder toSelectHql() {
-        HqlBuilder hql = new HqlBuilder("from " + User.class + " where status = 'NORMAL' ");
+        HqlBuilder hql = new HqlBuilder("from " + clazz.getName() + " where status = 'NORMAL' ");
         return hql;
     }
 }

@@ -19,12 +19,12 @@ public interface RoleManager {
 
     String list(CommonRequest request);
 
-    void add(RoleAddRequest roleAddRequest);
+    String add(RoleAddRequest roleAddRequest);
 
-    void update(RoleEditRequest editRequest);
+    String update(RoleEditRequest editRequest);
 
-    void delete(RoleDeleteRequest deleteRequest);
+    String delete(RoleDeleteRequest deleteRequest);
 
     @Transactional
-    void resourceConfig(RoleResourceRequest resourceRequest);
+    String resourceConfig(RoleResourceRequest resourceRequest);
 }
