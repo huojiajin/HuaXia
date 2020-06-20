@@ -10,9 +10,9 @@
     </parent>
     <groupId>HX.service</groupId>
     <artifactId>manage</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
-    <name>manage</name>
+    <version>0.0.1</version>
+<!--    <packaging>war</packaging>-->
+    <name>HX.service.manage</name>
     <description>华夏主管经营系统</description>
 
     <properties>
@@ -87,16 +87,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.13</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.13</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-api</artifactId>-->
+<!--            <version>1.7.13</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-log4j12</artifactId>-->
+<!--            <version>1.7.13</version>-->
+<!--        </dependency>-->
 
         <!-- aspectj 切面管理 -->
         <dependency>
@@ -122,43 +122,31 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.9</version>
         </dependency>
 
+        <!-- quartz定时任务 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
     </dependencies>
 
 
     <build>
-        <resources>
-            <resource>
-                <!--控制资源目录下要打包进去的文件，这里为全部打包-->
-                <directory>src/main/java/hx/service/manage/dao</directory>
-                <filtering>true</filtering>
-                <targetPath>src/resources/lib</targetPath>
-            </resource>
-<!--            <resource>-->
-<!--                &lt;!&ndash;细粒度控制&ndash;&gt;-->
-<!--                <directory>src/main/resources2</directory>-->
-<!--                <includes>-->
-<!--                    <include>**/*.txt</include>-->
-<!--                </includes>-->
-<!--                <excludes>-->
-<!--                    <exclude>**/*.jpg</exclude>-->
-<!--                </excludes>-->
-<!--            </resource>-->
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>

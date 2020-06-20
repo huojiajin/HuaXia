@@ -14,6 +14,9 @@ public enum ErrorType {
     NOLOGIN(70004, "用户未登陆"){},
     USEREXISTS(70005, "用户已存在"){},
     NORESOURCE(70006, "无该菜单权限"){},
+    NOUSER(70007, "用户不存在"){},
+    NOROLE(70008, "角色不存在"){},
+    HASUSER(70009, "该角色下存在在用用户"){},
     ;
 
     private final int errCode;

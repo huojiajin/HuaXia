@@ -5,7 +5,7 @@ import hx.service.manage.manage.acl.UserManager;
 import hx.service.manage.manage.model.CommonPageRequest;
 import hx.service.manage.manage.model.CommonResponse;
 import hx.service.manage.manage.model.acl.user.UserAddRequest;
-import hx.service.manage.manage.model.acl.user.UserDeleteRequest;
+import hx.service.manage.manage.model.acl.user.UserIdRequest;
 import hx.service.manage.manage.model.acl.user.UserEditRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @time: 2020/5/28 14:59
  */
 @RestController
-@RequestMapping("/manage/role")
+@RequestMapping("/manage/user")
 public class UserController extends BaseEntity {
 
     @Autowired
@@ -44,11 +44,13 @@ public class UserController extends BaseEntity {
         return response.toJson();
     }
 
-    @PostMapping("/delete")
-    public String delete(@RequestBody UserDeleteRequest deleteRequest){
-        userManager.delete(deleteRequest);
-        CommonResponse response = new CommonResponse();
-        response.setMessage("删除角色成功");
-        return response.toJson();
+    @PostMapping("/stop")
+    public String stop(@RequestBody UserIdRequest deleteRequest){
+        return userManager.stop(deleteRequest);
+    }
+
+    @PostMapping("/start")
+    public String start(@RequestBody UserIdRequest startRequest){
+        return userManager.start(startRequest);
     }
 }

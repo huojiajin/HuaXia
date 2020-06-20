@@ -1,5 +1,7 @@
 package hx.service.manage.dao.entity;
 
+import hx.service.manage.dao.dict.PositionsClass;
+import hx.service.manage.dao.dict.PositionsType;
 import hx.service.manage.dao.entity.common.StringUUIDEntity;
 
 import javax.persistence.Column;
@@ -14,21 +16,19 @@ import javax.persistence.Table;
  * @time: 2020/5/25 17:08
  */
 @Entity
-@Table(name = "hx_mobile_role_resource", indexes = {
-        @Index(columnList = "role_id", name = "hx_role_resource_index")
-})
+@Table(name = "hx_mobile_role_resource")
 public class MobileRoleResource extends StringUUIDEntity {
 
-    private String roleId;//角色ID
+    private PositionsType positionsType;
     private String resource;//菜单ID
 
-    @Column(name = "role_id", nullable = false)
-    public String getRoleId() {
-        return roleId;
+    @Column(name = "positions_type", nullable = false)
+    public PositionsType getPositionsType() {
+        return positionsType;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setPositionsType(PositionsType positionsType) {
+        this.positionsType = positionsType;
     }
 
     @Column(name = "resource_id", nullable = false)

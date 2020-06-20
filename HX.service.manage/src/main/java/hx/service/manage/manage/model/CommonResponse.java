@@ -9,12 +9,12 @@ import hx.service.manage.dao.entity.common.BaseEntity;
  * @author: huojiajin
  * @time: 2020/5/27 15:31
  */
-public class CommonResponse extends BaseEntity {
+public class  CommonResponse<T extends BaseEntity> extends BaseEntity {
 
     private boolean success = true;
     private int errCode;//错误码
     private String message;//错误信息
-    private String data;//数据json
+    private T data;//数据json
 
     public boolean isSuccess() {
         return success;
@@ -40,11 +40,11 @@ public class CommonResponse extends BaseEntity {
         this.message = message;
     }
 
-    public String getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(T data) {
         this.data = data;
     }
 

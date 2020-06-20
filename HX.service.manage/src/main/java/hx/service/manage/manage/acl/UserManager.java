@@ -3,7 +3,7 @@ package hx.service.manage.manage.acl;
 import hx.service.manage.dao.entity.User;
 import hx.service.manage.manage.model.CommonPageRequest;
 import hx.service.manage.manage.model.acl.user.UserAddRequest;
-import hx.service.manage.manage.model.acl.user.UserDeleteRequest;
+import hx.service.manage.manage.model.acl.user.UserIdRequest;
 import hx.service.manage.manage.model.acl.user.UserEditRequest;
 
 /**
@@ -28,5 +28,7 @@ public interface UserManager {
 
     void update(UserEditRequest editRequest);
 
-    void delete(UserDeleteRequest deleteRequest);
+    String stop(UserIdRequest deleteRequest);
+
+    String start(UserIdRequest startRequest);
 }

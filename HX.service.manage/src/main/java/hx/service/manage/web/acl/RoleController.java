@@ -42,33 +42,22 @@ public class RoleController extends MyBaseController {
 
     @PostMapping("/add")
     public String add(@RequestBody RoleAddRequest addRequest){
-        roleManager.add(addRequest);
-        CommonResponse response = new CommonResponse();
-        response.setMessage("添加角色成功");
-        return response.toJson();
+        return roleManager.add(addRequest);
     }
 
     @PostMapping("/edit")
     public String edit(@RequestBody RoleEditRequest editRequest){
-        roleManager.update(editRequest);
-        CommonResponse response = new CommonResponse();
-        response.setMessage("修改角色成功");
-        return response.toJson();
+
+        return roleManager.update(editRequest);
     }
 
     @PostMapping("/delete")
     public String delete(@RequestBody RoleDeleteRequest deleteRequest){
-        roleManager.delete(deleteRequest);
-        CommonResponse response = new CommonResponse();
-        response.setMessage("删除角色成功");
-        return response.toJson();
+        return roleManager.delete(deleteRequest);
     }
 
-    @PostMapping("/resource")
+    @PostMapping("/resource/config")
     public String resourceConfig(@RequestBody RoleResourceRequest resourceRequest){
-        roleManager.resourceConfig(resourceRequest);
-        CommonResponse response = new CommonResponse();
-        response.setMessage("配置权限成功");
-        return response.toJson();
+        return roleManager.resourceConfig(resourceRequest);
     }
 }

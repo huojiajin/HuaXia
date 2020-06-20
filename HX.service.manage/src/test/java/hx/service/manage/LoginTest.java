@@ -23,14 +23,16 @@ import java.net.URISyntaxException;
  * @author: huojiajin
  * @time: 2020/5/28 17:12
  */
-public class MyTest extends ApplicationTests{
+public class LoginTest extends ApplicationTests{
 
     @Test
     void verify() throws URISyntaxException, IOException {
         String url = "http://localhost/manage/login/verify";
+//        String url = "http://123.56.154.176/manage/login/verify";
+
         String responseStr = HttpClientHelper.httpGet(new URI(url), "UTF-8");
-        CommonResponse response = JsonTools.json2Object(responseStr, CommonResponse.class);
-        VerifyResponse verifyResponse = JsonTools.json2Object(response.getData(), VerifyResponse.class);
+        CommonResponse<VerifyResponse> response = JsonTools.json2Object(responseStr, CommonResponse.class, VerifyResponse.class);
+        VerifyResponse verifyResponse = response.getData();
 
         byte[] b = Base64Utils.decodeFromString(verifyResponse.getVerifyImage());
         for (int i = 0; i < b.length; ++i) {
@@ -51,31 +53,35 @@ public class MyTest extends ApplicationTests{
         LoginRequest request = new LoginRequest();
         request.setLoginName("000000001");
         request.setPassword("123456");
-        request.setVerifyId("6d09557dc9dc43e1bd1a24948ee23dec");
-        request.setVerifyCode("e5dc");
+        request.setVerifyId("2811168b73604c778614ca00f9e81bf4");
+        request.setVerifyCode("kade");
+//        String url = "http://123.56.154.176/manage/login/login";
         String url = "http://localhost/manage/login/login";
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
-        CommonResponse response = JsonTools.json2Object(responseStr, CommonResponse.class);
-        LoginResponse loginResponse = JsonTools.json2Object(response.getData(), LoginResponse.class);
+        CommonResponse<LoginResponse> response = JsonTools.json2Object(responseStr, CommonResponse.class, LoginResponse.class);
+        LoginResponse loginResponse = response.getData();
         echo(loginResponse);
     }
 
+
+
     @Test
-    public void roleQuery() throws IOException {
+    public void userQuery() throws IOException {
 
         CommonPageRequest request = new CommonPageRequest();
         request.setPageNo(1);
         request.setPageSize(16);
-        request.setToken("0ed83461cc9d4803a5a3187755e8c24a");
-        request.setResourceCode(1);
-        String url = "http://localhost/manage/role/query";
+        request.setToken("0106130d1d804137b4e038054cc81a91");
+        request.setResourceCode(12);
+        String url = "http://localhost/manage/user/query";
+//        String url = "http://123.56.154.176/manage/user/query";
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
-        CommonResponse response = JsonTools.json2Object(responseStr, CommonResponse.class);
-        Pagination page = JsonTools.json2Object(response.getData(), Pagination.class);
+        CommonResponse<Pagination> response = JsonTools.json2Object(responseStr, CommonResponse.class, Pagination.class);
+        Pagination page = response.getData();
         echo(page);
     }
 }

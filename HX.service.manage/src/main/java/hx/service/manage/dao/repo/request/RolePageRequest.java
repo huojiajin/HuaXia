@@ -18,7 +18,7 @@ public class RolePageRequest extends JpaPageableDataRequest<Role> {
 
     @Override
     public HqlBuilder toSelectHql() {
-        HqlBuilder hql = new HqlBuilder("from " + Role.class + " where isDelete = 0 ");
+        HqlBuilder hql = new HqlBuilder("from " + clazz.getName() + " where 1=1 and stop = 0");
         return hql;
     }
 }

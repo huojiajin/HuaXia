@@ -4,6 +4,7 @@ import hx.service.manage.dao.entity.common.AbstractInsertTimeEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 /**
@@ -19,7 +20,7 @@ public class Role extends AbstractInsertTimeEntity {
     private String name;// 角色名称
     private String info;// 描述
     private Integer list;// 排序
-    private boolean isDelete;//是否删除
+    private boolean stop;//是否删除
 
     @Column(name = "name", nullable = false)
     public String getName() {
@@ -49,11 +50,11 @@ public class Role extends AbstractInsertTimeEntity {
     }
 
     @Column(name = "is_delete", nullable = false)
-    public boolean isDelete() {
-        return isDelete;
+    public boolean isStop() {
+        return stop;
     }
 
-    public void setDelete(boolean delete) {
-        isDelete = delete;
+    public void setStop(boolean stop) {
+        this.stop = stop;
     }
 }

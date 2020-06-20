@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="HX.service.manage:war">
+    <output-path>$PROJECT_DIR$/HX.service.manage/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>HX.service.manage</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="manage-0.0.1.war">
+      <element id="artifact" artifact-name="HX.service.manage:war exploded" />
+    </root>
+  </artifact>
+</component>
