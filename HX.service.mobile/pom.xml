@@ -12,7 +12,7 @@
     <artifactId>mobile</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>mobile</name>
+    <name>HX.service.mobile</name>
     <description>华夏经营主管系统-移动端</description>
 
     <properties>
