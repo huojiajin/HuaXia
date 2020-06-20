@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HX.service.manage/HX.service.manage.iml" filepath="$PROJECT_DIR$/HX.service.manage/HX.service.manage.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/myProject.iml" filepath="$PROJECT_DIR$/.idea/myProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HX.service.mobile/HX.service.mobile.iml" filepath="$PROJECT_DIR$/HX.service.mobile/HX.service.mobile.iml" />
     </modules>
   </component>
 </project>

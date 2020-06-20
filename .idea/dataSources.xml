@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="huaxia" uuid="bd8a5023-9151-41b1-a02d-8ad955529da4">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://rm-2ze0n47guv52dh261vo.mysql.rds.aliyuncs.com:3306/huaxia?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=GMT%2B8</jdbc-url>
+    </data-source>
+  </component>
+</project>
