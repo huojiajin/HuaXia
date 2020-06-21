@@ -3,12 +3,12 @@ package hx.service.manage.manage.model.acl.role;
 import hx.service.manage.manage.model.CommonRequest;
 
 /**
- * @name: RoleDeleteRequest
- * @description: 角色删除请求
+ * @name: RoleIdRequest
+ * @description: 角色ID通用类
  * @author: huojiajin
  * @time: 2020/5/28 13:47
  */
-public class RoleDeleteRequest extends CommonRequest {
+public class RoleIdRequest extends CommonRequest {
 
     private String roleId;
 

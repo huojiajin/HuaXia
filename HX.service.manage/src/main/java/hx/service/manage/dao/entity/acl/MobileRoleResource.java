@@ -1,12 +1,10 @@
-package hx.service.manage.dao.entity;
+package hx.service.manage.dao.entity.acl;
 
-import hx.service.manage.dao.dict.PositionsClass;
 import hx.service.manage.dao.dict.PositionsType;
 import hx.service.manage.dao.entity.common.StringUUIDEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Index;
 import javax.persistence.Table;
 
 /**
@@ -20,7 +18,7 @@ import javax.persistence.Table;
 public class MobileRoleResource extends StringUUIDEntity {
 
     private PositionsType positionsType;
-    private String resource;//菜单ID
+    private Integer resourceCode;//菜单ID
 
     @Column(name = "positions_type", nullable = false)
     public PositionsType getPositionsType() {
@@ -31,12 +29,12 @@ public class MobileRoleResource extends StringUUIDEntity {
         this.positionsType = positionsType;
     }
 
-    @Column(name = "resource_id", nullable = false)
-    public String getResource() {
-        return resource;
+    @Column(name = "resource_code", nullable = false)
+    public Integer getResourceCode() {
+        return resourceCode;
     }
 
-    public void setResource(String resource) {
-        this.resource = resource;
+    public void setResourceCode(Integer resource) {
+        this.resourceCode = resource;
     }
 }

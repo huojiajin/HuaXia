@@ -1,6 +1,6 @@
 package hx.service.manage.manage.model.acl.role;
 
-import hx.service.manage.dao.entity.Role;
+import hx.service.manage.dao.entity.acl.Role;
 import hx.service.manage.dao.entity.common.BaseEntity;
 
 import java.util.List;

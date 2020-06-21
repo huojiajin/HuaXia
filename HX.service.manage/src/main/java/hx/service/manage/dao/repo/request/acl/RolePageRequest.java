@@ -1,6 +1,6 @@
-package hx.service.manage.dao.repo.request;
+package hx.service.manage.dao.repo.request.acl;
 
-import hx.service.manage.dao.entity.Role;
+import hx.service.manage.dao.entity.acl.Role;
 import hx.service.manage.dao.repo.request.common.HqlBuilder;
 import hx.service.manage.dao.repo.request.common.JpaPageableDataRequest;
 

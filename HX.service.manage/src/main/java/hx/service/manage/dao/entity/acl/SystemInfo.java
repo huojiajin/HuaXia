@@ -1,4 +1,4 @@
-package hx.service.manage.dao.entity;
+package hx.service.manage.dao.entity.acl;
 
 import hx.service.manage.dao.entity.common.StringUUIDEntity;
 

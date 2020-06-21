@@ -1,13 +1,14 @@
 package hx.service.manage.manage.common;
 
-import hx.service.manage.dao.entity.SystemInfo;
-import hx.service.manage.dao.entity.User;
-import hx.service.manage.dao.repo.jpa.SystemInfoRepo;
+import hx.service.manage.dao.entity.acl.SystemInfo;
+import hx.service.manage.dao.entity.acl.User;
+import hx.service.manage.dao.repo.jpa.acl.SystemInfoRepo;
 import hx.service.manage.manage.MyMecachedPrefix;
 import hx.service.manage.manage.tools.JsonTools;
 import net.spy.memcached.MemcachedClient;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -40,4 +41,13 @@ public abstract class AbstractManager extends CommonAbstract {
         systemInfoRepo.persist(systemInfo);
     }
 
+    public static void closeQuietly(Closeable closeable){
+        if(closeable != null) {
+            try {
+                closeable.close();
+            } catch (IOException e) {
+
+            }
+        }
+    }
 }

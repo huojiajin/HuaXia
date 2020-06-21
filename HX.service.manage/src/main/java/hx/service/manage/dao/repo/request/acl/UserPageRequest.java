@@ -1,6 +1,6 @@
-package hx.service.manage.dao.repo.request;
+package hx.service.manage.dao.repo.request.acl;
 
-import hx.service.manage.dao.entity.User;
+import hx.service.manage.dao.entity.acl.User;
 import hx.service.manage.dao.repo.request.common.HqlBuilder;
 import hx.service.manage.dao.repo.request.common.JpaPageableDataRequest;
 
@@ -14,7 +14,7 @@ public class UserPageRequest extends JpaPageableDataRequest<User> {
 
     @Override
     public HqlBuilder toSelectHql() {
-        HqlBuilder hql = new HqlBuilder("from " + clazz.getName() + " where status = 'NORMAL' ");
+        HqlBuilder hql = new HqlBuilder("from " + clazz.getName() + " where 1 = 1 ");
         return hql;
     }
 }

@@ -1,10 +1,9 @@
-package hx.service.manage.dao.entity;
+package hx.service.manage.dao.entity.acl;
 
 import hx.service.manage.dao.entity.common.AbstractInsertTimeEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Index;
 import javax.persistence.Table;
 
 /**

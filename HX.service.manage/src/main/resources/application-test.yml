@@ -12,7 +12,7 @@ entitymanager:
   packagesToScan: hx.service.manage.dao
 
 memcache:
-  ip: 172.17.68.248
+  ip: 127.0.0.1
   port: 11211
 
 spring:

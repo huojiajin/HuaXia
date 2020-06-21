@@ -3,11 +3,7 @@ package hx.service.manage.web.acl;
 import hx.service.manage.manage.acl.RoleManager;
 import hx.service.manage.manage.model.CommonPageRequest;
 import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.CommonResponse;
-import hx.service.manage.manage.model.acl.role.RoleAddRequest;
-import hx.service.manage.manage.model.acl.role.RoleDeleteRequest;
-import hx.service.manage.manage.model.acl.role.RoleEditRequest;
-import hx.service.manage.manage.model.acl.role.RoleResourceRequest;
+import hx.service.manage.manage.model.acl.role.*;
 import hx.service.manage.web.MyBaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,12 +48,17 @@ public class RoleController extends MyBaseController {
     }
 
     @PostMapping("/delete")
-    public String delete(@RequestBody RoleDeleteRequest deleteRequest){
+    public String delete(@RequestBody RoleIdRequest deleteRequest){
         return roleManager.delete(deleteRequest);
     }
 
     @PostMapping("/resource/config")
     public String resourceConfig(@RequestBody RoleResourceRequest resourceRequest){
         return roleManager.resourceConfig(resourceRequest);
+    }
+
+    @PostMapping("/resource/list")
+    public String resourceList(@RequestBody RoleIdRequest request){
+        return roleManager.resourceList(request);
     }
 }

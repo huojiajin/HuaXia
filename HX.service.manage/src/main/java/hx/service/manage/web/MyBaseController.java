@@ -1,7 +1,7 @@
 package hx.service.manage.web;
 
-import hx.service.manage.dao.entity.SystemInfo;
-import hx.service.manage.dao.repo.jpa.SystemInfoRepo;
+import hx.service.manage.dao.entity.acl.SystemInfo;
+import hx.service.manage.dao.repo.jpa.acl.SystemInfoRepo;
 import hx.service.manage.manage.common.CommonAbstract;
 import org.springframework.beans.factory.annotation.Autowired;
 

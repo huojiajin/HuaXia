@@ -1,6 +1,6 @@
-package hx.service.manage.dao.repo.jpa;
+package hx.service.manage.dao.repo.jpa.acl;
 
-import hx.service.manage.dao.entity.SystemInfo;
+import hx.service.manage.dao.entity.acl.SystemInfo;
 import hx.service.manage.dao.repo.jpa.common.AbstractJpaRepo;
 
 /**

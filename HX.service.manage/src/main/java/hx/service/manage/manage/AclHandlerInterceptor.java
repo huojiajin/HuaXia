@@ -1,9 +1,9 @@
 package hx.service.manage.manage;
 
 import hx.service.manage.dao.dict.ErrorType;
-import hx.service.manage.dao.entity.RoleResource;
-import hx.service.manage.dao.entity.User;
-import hx.service.manage.dao.repo.jpa.RoleResourceRepo;
+import hx.service.manage.dao.entity.acl.RoleResource;
+import hx.service.manage.dao.entity.acl.User;
+import hx.service.manage.dao.repo.jpa.acl.RoleResourceRepo;
 import hx.service.manage.manage.model.CommonRequest;
 import hx.service.manage.manage.model.CommonResponse;
 import hx.service.manage.manage.tools.CollectionTools;

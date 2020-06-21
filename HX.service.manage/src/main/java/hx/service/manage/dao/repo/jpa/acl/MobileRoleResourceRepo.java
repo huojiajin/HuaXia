@@ -1,9 +1,7 @@
-package hx.service.manage.dao.repo.jpa;
+package hx.service.manage.dao.repo.jpa.acl;
 
-import hx.service.manage.dao.dict.PositionsClass;
 import hx.service.manage.dao.dict.PositionsType;
-import hx.service.manage.dao.entity.MobileRoleResource;
-import hx.service.manage.dao.entity.Role;
+import hx.service.manage.dao.entity.acl.MobileRoleResource;
 import hx.service.manage.dao.repo.jpa.common.AbstractJpaRepo;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

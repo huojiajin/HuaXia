@@ -3,13 +3,13 @@ package hx.service.manage.manage.acl;
 import com.google.common.collect.Lists;
 import hx.service.manage.dao.dict.ErrorType;
 import hx.service.manage.dao.dict.ResourceType;
-import hx.service.manage.dao.entity.Role;
-import hx.service.manage.dao.entity.RoleResource;
-import hx.service.manage.dao.entity.User;
-import hx.service.manage.dao.repo.jpa.RoleRepo;
-import hx.service.manage.dao.repo.jpa.RoleResourceRepo;
-import hx.service.manage.dao.repo.jpa.UserRepo;
-import hx.service.manage.dao.repo.request.RolePageRequest;
+import hx.service.manage.dao.entity.acl.Role;
+import hx.service.manage.dao.entity.acl.RoleResource;
+import hx.service.manage.dao.entity.acl.User;
+import hx.service.manage.dao.repo.jpa.acl.RoleRepo;
+import hx.service.manage.dao.repo.jpa.acl.RoleResourceRepo;
+import hx.service.manage.dao.repo.jpa.acl.UserRepo;
+import hx.service.manage.dao.repo.request.acl.RolePageRequest;
 import hx.service.manage.dao.repo.request.common.Pagination;
 import hx.service.manage.manage.common.AbstractManager;
 import hx.service.manage.manage.model.CommonPageRequest;
@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -89,7 +88,7 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
     }
 
     @Override
-    public String delete(RoleDeleteRequest deleteRequest){
+    public String delete(RoleIdRequest deleteRequest){
         CommonResponse response = new CommonResponse();
         Optional<Role> op = roleRepo.findById(deleteRequest.getRoleId());
         if (op.isEmpty()){
@@ -125,6 +124,19 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
         roleResourceRepo.persistAll(roleResourceList);
         addSysLog("配置角色" + op.get().getName() + "的权限", resourceRequest.getToken());
         response.setMessage("配置权限成功");
+        return response.toJson();
+    }
+
+    @Override
+    public String resourceList(RoleIdRequest request){
+        CommonResponse response = new CommonResponse();
+        RoleResourceListResponse listResponse = new RoleResourceListResponse();
+        List<RoleResource> roleResources = roleResourceRepo.listByRoleId(request.getRoleId());
+        if (!isEmpty(roleResources)){
+            List<Integer> codeList = roleResources.stream().map(r -> r.getResourceType().getCode()).collect(Collectors.toList());
+            listResponse.setResourceCodeList(codeList);
+        }
+        response.setData(listResponse);
         return response.toJson();
     }
 }

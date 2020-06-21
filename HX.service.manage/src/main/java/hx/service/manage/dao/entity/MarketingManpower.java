@@ -12,7 +12,9 @@ import java.time.LocalDate;
  * @time: 2020/6/17 15:18
  */
 @Entity
-@Table(name = "D_AGENT_PROVINCE")
+@Table(name = "D_AGENT_PROVINCE", indexes = {
+        @Index(columnList = "AGENTGRADE", name = "D_AGENT_PROVINCE_INDEX")
+})
 public class MarketingManpower extends BaseEntity {
 
     private String agentCode;//营销员编码

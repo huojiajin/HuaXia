@@ -1,6 +1,6 @@
 package hx.service.manage.manage.acl;
 
-import hx.service.manage.dao.entity.User;
+import hx.service.manage.dao.entity.acl.User;
 import hx.service.manage.manage.model.CommonPageRequest;
 import hx.service.manage.manage.model.acl.user.UserAddRequest;
 import hx.service.manage.manage.model.acl.user.UserIdRequest;
@@ -18,7 +18,7 @@ public interface UserManager {
      * @description: 根据登陆名查找用户
      * @author: huojiajin
      * @para: [loginName]
-     * @return: hx.service.manage.dao.entity.User
+     * @return: hx.service.manage.dao.entity.acl.User
     **/
     User findByLoginName(String loginName);
 

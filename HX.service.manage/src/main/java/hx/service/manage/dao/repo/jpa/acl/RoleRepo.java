@@ -1,6 +1,6 @@
-package hx.service.manage.dao.repo.jpa;
+package hx.service.manage.dao.repo.jpa.acl;
 
-import hx.service.manage.dao.entity.Role;
+import hx.service.manage.dao.entity.acl.Role;
 import hx.service.manage.dao.repo.jpa.common.AbstractJpaRepo;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

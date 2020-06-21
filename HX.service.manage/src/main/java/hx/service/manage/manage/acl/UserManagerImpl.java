@@ -1,11 +1,11 @@
 package hx.service.manage.manage.acl;
 
 import hx.service.manage.dao.dict.ErrorType;
-import hx.service.manage.dao.entity.Role;
-import hx.service.manage.dao.entity.User;
-import hx.service.manage.dao.repo.jpa.RoleRepo;
-import hx.service.manage.dao.repo.jpa.UserRepo;
-import hx.service.manage.dao.repo.request.UserPageRequest;
+import hx.service.manage.dao.entity.acl.Role;
+import hx.service.manage.dao.entity.acl.User;
+import hx.service.manage.dao.repo.jpa.acl.RoleRepo;
+import hx.service.manage.dao.repo.jpa.acl.UserRepo;
+import hx.service.manage.dao.repo.request.acl.UserPageRequest;
 import hx.service.manage.dao.repo.request.common.Pagination;
 import hx.service.manage.manage.common.AbstractManager;
 import hx.service.manage.manage.model.CommonPageRequest;
@@ -18,7 +18,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -75,7 +74,7 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
 
     @Override
     public void update(UserEditRequest editRequest){
-        User user = userRepo.findById(editRequest.getUserId()).get();
+        User user = userRepo.findById(editRequest.getId()).get();
         BeanUtils.copyProperties(editRequest, user);
         user.setUpdateTime(LocalDateTime.now());
         userRepo.save(user);
@@ -84,11 +83,11 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
     @Override
     public String stop(UserIdRequest deleteRequest){
         CommonResponse response = new CommonResponse();
-        Optional<User> op = userRepo.findById(deleteRequest.getUserId());
+        Optional<User> op = userRepo.findById(deleteRequest.getId());
         if (op.isEmpty()){
             return response.setError(ErrorType.NOUSER);
         }
-        userRepo.updateStop(deleteRequest.getUserId(), User.UserStatus.INVALID, LocalDateTime.now());
+        userRepo.updateStop(deleteRequest.getId(), User.UserStatus.INVALID, LocalDateTime.now());
         addSysLog("停用角色" + op.get().getName(), deleteRequest.getToken());
         response.setMessage("停用用户成功");
         return response.toJson();
@@ -97,7 +96,7 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
     @Override
     public String start(UserIdRequest startRequest){
         CommonResponse response = new CommonResponse();
-        Optional<User> op = userRepo.findById(startRequest.getUserId());
+        Optional<User> op = userRepo.findById(startRequest.getId());
         if (op.isEmpty()){
             return response.setError(ErrorType.NOUSER);
         }
@@ -105,7 +104,7 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
         if (roleOp.isEmpty() || roleOp.get().isStop()){
             return response.setError(ErrorType.NOROLE);
         }
-        userRepo.updateStop(startRequest.getUserId(), User.UserStatus.NORMAL, LocalDateTime.now());
+        userRepo.updateStop(startRequest.getId(), User.UserStatus.NORMAL, LocalDateTime.now());
         addSysLog("启动角色" + op.get().getName(), startRequest.getToken());
         response.setMessage("启用用户成功");
         return response.toJson();

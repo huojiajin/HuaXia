@@ -1,6 +1,5 @@
 package hx.service.manage.manage.model.acl.user;
 
-import hx.service.manage.dao.entity.common.BaseEntity;
 import hx.service.manage.manage.model.CommonRequest;
 
 /**
@@ -11,13 +10,13 @@ import hx.service.manage.manage.model.CommonRequest;
  */
 public class UserIdRequest extends CommonRequest {
 
-    private String userId;
+    private String id;
 
-    public String getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(String id) {
+        this.id = id;
     }
 }

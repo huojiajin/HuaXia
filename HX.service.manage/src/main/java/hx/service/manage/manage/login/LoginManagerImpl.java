@@ -1,9 +1,9 @@
 package hx.service.manage.manage.login;
 
 import hx.service.manage.dao.dict.ErrorType;
-import hx.service.manage.dao.entity.RoleResource;
-import hx.service.manage.dao.entity.User;
-import hx.service.manage.dao.repo.jpa.RoleResourceRepo;
+import hx.service.manage.dao.entity.acl.RoleResource;
+import hx.service.manage.dao.entity.acl.User;
+import hx.service.manage.dao.repo.jpa.acl.RoleResourceRepo;
 import hx.service.manage.manage.MyMecachedPrefix;
 import hx.service.manage.manage.VerifyImage;
 import hx.service.manage.manage.acl.UserManager;

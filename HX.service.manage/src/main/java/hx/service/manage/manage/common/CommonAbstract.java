@@ -50,4 +50,6 @@ public abstract class CommonAbstract
 		return CollectionUtils.isEmpty(map);
 	}
 
+
+
 }
