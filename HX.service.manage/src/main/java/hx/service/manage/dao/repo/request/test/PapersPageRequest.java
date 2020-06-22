@@ -1,7 +1,7 @@
 package hx.service.manage.dao.repo.request.test;
 
 import hx.service.manage.dao.dict.PapersType;
-import hx.service.manage.dao.entity.test.Papers;
+import hx.service.manage.dao.entity.test.papers.Papers;
 import hx.service.manage.dao.repo.request.common.HqlBuilder;
 import hx.service.manage.dao.repo.request.common.JpaPageableDataRequest;
 

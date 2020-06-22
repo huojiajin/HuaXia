@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
 
 /**
  * @name: MyTest
- * @description: TODO
+ * @description: 登陆Test
  * @author: huojiajin
  * @time: 2020/5/28 17:12
  */
@@ -27,8 +27,8 @@ public class LoginTest extends ApplicationTests{
 
     @Test
     void verify() throws URISyntaxException, IOException {
-        String url = "http://localhost/manage/login/verify";
-//        String url = "http://123.56.154.176/manage/login/verify";
+//        String url = "http://localhost/manage/login/verify";
+        String url = "http://123.56.154.176/manage/login/verify";
 
         String responseStr = HttpClientHelper.httpGet(new URI(url), "UTF-8");
         CommonResponse<VerifyResponse> response = JsonTools.json2Object(responseStr, CommonResponse.class, VerifyResponse.class);
@@ -53,10 +53,10 @@ public class LoginTest extends ApplicationTests{
         LoginRequest request = new LoginRequest();
         request.setLoginName("000000001");
         request.setPassword("123456");
-        request.setVerifyId("2811168b73604c778614ca00f9e81bf4");
-        request.setVerifyCode("kade");
-//        String url = "http://123.56.154.176/manage/login/login";
-        String url = "http://localhost/manage/login/login";
+        request.setVerifyId("37fdca5b596b44abbf5804e3cebc4611");
+        request.setVerifyCode("ew4h");
+        String url = "http://123.56.154.176/manage/login/login";
+//        String url = "http://localhost/manage/login/login";
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);

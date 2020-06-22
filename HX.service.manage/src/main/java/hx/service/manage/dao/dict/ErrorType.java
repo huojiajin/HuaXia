@@ -22,8 +22,9 @@ public enum ErrorType {
     HASUSER(70009, "该角色下存在在用用户"){},
     //基本法测试
     NOPAPERS(70010, "试卷不存在"){},
-    NOOPTION(70011, "选项小于两个"){},
-    SCORE(70012, "分值不正确"){},
+    NOIMPORT(70011, "试卷未导入"){},
+    NOOPTION(70012, "选项小于两个"){},
+    SCORE(70013, "分值不正确"){},
     ;
 
     private final int errCode;

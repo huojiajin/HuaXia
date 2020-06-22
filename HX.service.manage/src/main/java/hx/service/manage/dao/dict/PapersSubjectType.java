@@ -9,7 +9,7 @@ package hx.service.manage.dao.dict;
  **/
 public enum PapersSubjectType {
     SINGLE("单选", 1),
-    MULTIPLE("单选", 1),
+    MULTIPLE("多选", 2),
     ;
 
     PapersSubjectType(String value, int code) {

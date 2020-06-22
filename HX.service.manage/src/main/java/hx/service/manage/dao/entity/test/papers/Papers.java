@@ -1,4 +1,4 @@
-package hx.service.manage.dao.entity.test;
+package hx.service.manage.dao.entity.test.papers;
 
 import hx.service.manage.dao.dict.PapersStatus;
 import hx.service.manage.dao.dict.PapersType;

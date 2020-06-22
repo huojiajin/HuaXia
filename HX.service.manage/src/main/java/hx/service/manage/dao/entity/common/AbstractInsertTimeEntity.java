@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public class AbstractInsertTimeEntity extends StringUUIDEntity{
 
-    private LocalDateTime insertTime;//插入时间
+    private LocalDateTime insertTime = LocalDateTime.now();//插入时间
     private LocalDateTime updateTime;//更新时间
 
     @Column(name = "insert_time")

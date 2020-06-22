@@ -1,6 +1,6 @@
-package hx.service.manage.dao.repo.jpa.test;
+package hx.service.manage.dao.repo.jpa.test.papers;
 
-import hx.service.manage.dao.entity.test.PapersPushAnswer;
+import hx.service.manage.dao.entity.test.papers.PapersPushAnswer;
 import hx.service.manage.dao.repo.jpa.common.AbstractJpaRepo;
 import org.springframework.data.jpa.repository.Query;
 

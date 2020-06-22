@@ -2,9 +2,9 @@ package hx.service.manage.manage.test;
 
 import hx.service.manage.dao.dict.*;
 import hx.service.manage.dao.entity.MarketingManpower;
-import hx.service.manage.dao.entity.test.*;
+import hx.service.manage.dao.entity.test.papers.*;
 import hx.service.manage.dao.repo.jpa.MarketingManpowerRepo;
-import hx.service.manage.dao.repo.jpa.test.*;
+import hx.service.manage.dao.repo.jpa.test.papers.*;
 import hx.service.manage.dao.repo.request.common.Pagination;
 import hx.service.manage.dao.repo.request.test.PapersPageRequest;
 import hx.service.manage.manage.common.AbstractManager;
@@ -21,7 +21,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,7 +67,15 @@ public class PapersManagerImpl extends AbstractManager
 
         CommonResponse response = new CommonResponse();
         PapersPageRequest pageRequest = new PapersPageRequest();
-        BeanUtils.copyProperties(request, pageRequest);
+        pageRequest.setName(request.getName());
+        if (request.getType() != 0) {
+            try {
+                pageRequest.setType(PapersType.fromCode(request.getType()));
+            } catch (InterruptedException e) {
+                logger.error("", e);
+                return response.setError(ErrorType.CONVERT);
+            }
+        }
         Pagination page = papersRepo.page(pageRequest);
         page.convertResult(this::updateStatus);
         response.setData(page);
@@ -80,9 +87,10 @@ public class PapersManagerImpl extends AbstractManager
         model.setId(papers.getId());
         model.setName(papers.getName());
         model.setType(papers.getType().getCode());
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-hh HH:mm:ss");
+        model.setAnswerTime(papers.getAnswerTime());
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         model.setEndTime(df.format(papers.getEndTime()));
-        if (papers.getEndTime().isAfter(LocalDateTime.now())){
+        if (LocalDateTime.now().isAfter(papers.getEndTime())){
             papersRepo.updateStatus(papers.getId(), PapersStatus.YJZ);
             model.setStatus(PapersStatus.YJZ.getCode());
         }else {
@@ -97,7 +105,7 @@ public class PapersManagerImpl extends AbstractManager
         Papers papers = new Papers();
         papers.setName(request.getName());
         papers.setAnswerTime(request.getAnswerTime());
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         papers.setEndTime(LocalDateTime.parse(request.getEndTime(), df));
         try {
             papers.setType(PapersType.fromCode(request.getType()));
@@ -117,7 +125,12 @@ public class PapersManagerImpl extends AbstractManager
         CommonResponse response = new CommonResponse();
         Optional<Papers> op = papersRepo.findById(request.getId());
         if (op.isEmpty()) {
+            return response.setError(ErrorType.NOPAPERS);
+        }
+        if(op.get().getStatus() == PapersStatus.YTS || op.get().getStatus() == PapersStatus.YJZ){
             response.setError(ErrorType.NOPAPERS);
+            response.setMessage("试卷已推送，不可删除");
+            return response.toJson();
         }
         papersRepo.updateDelete(request.getId());
         addSysLog("删除试卷" + op.get().getName(), request.getToken());
@@ -176,7 +189,10 @@ public class PapersManagerImpl extends AbstractManager
         List<PapersSubject> subjectList = Lists.newArrayList();
         List<PapersOption> optionList = Lists.newArrayList();
         for (PapersImportSubjectModel importModel : importModels) {
-            if (importModel == null) return response.setError(ErrorType.CONVERT);
+            if (importModel == null) {
+                logger.error("未读到任何数据");
+                return response.setError(ErrorType.CONVERT);
+            }
             PapersSubject subject = new PapersSubject();
             subject.setPapersId(request.getPaperId());
             subject.setList(importModel.getList());
@@ -228,7 +244,7 @@ public class PapersManagerImpl extends AbstractManager
     public PapersImportSubjectModel row2Model(int row, Map<Integer, Cell> rowData) {
         PapersImportSubjectModel model = new PapersImportSubjectModel();
         try {
-            model.setList(Integer.valueOf(getCellValue(rowData, 0)));
+            model.setList(row - 1);
             model.setSubject(getCellValue(rowData, 1));
             model.setType(Integer.valueOf(getCellValue(rowData, 2)));
             model.setScore(Integer.valueOf(getCellValue(rowData, 3)));
@@ -263,7 +279,7 @@ public class PapersManagerImpl extends AbstractManager
         Cell cell = rowData.get(index);
         switch (cell.getCellType()) {
             case NUMERIC:
-                return String.valueOf(cell.getNumericCellValue());
+                return String.valueOf(Double.valueOf(cell.getNumericCellValue()).intValue());
             case STRING:
                 return cell.getStringCellValue();
             default:
@@ -292,6 +308,14 @@ public class PapersManagerImpl extends AbstractManager
     @Override
     public String view(PapersIdRequest request){
         CommonResponse response = new CommonResponse();
+        Optional<Papers> op = papersRepo.findById(request.getId());
+        if (op.isEmpty()){
+            return response.setError(ErrorType.NOPAPERS);
+        }else {
+            if (op.get().getStatus() == PapersStatus.WDR){
+                return response.setError(ErrorType.NOIMPORT);
+            }
+        }
         PapersViewResponse viewResponse = new PapersViewResponse();
         List<PapersViewModel> subjectList = Lists.newArrayList();
         List<PapersSubject> subjects = subjectRepo.listByPapersId(request.getId());

@@ -1,4 +1,4 @@
-package hx.service.manage.dao.entity.test;
+package hx.service.manage.dao.entity.test.papers;
 
 import hx.service.manage.dao.dict.PapersAnswerType;
 import hx.service.manage.dao.entity.common.AbstractInsertTimeEntity;
@@ -14,7 +14,8 @@ import javax.persistence.*;
  **/
 @Entity
 @Table(name = "hx_papers_push", indexes = {
-        @Index(columnList = "agent_code", name = "hx_papers_push_index")
+        @Index(columnList = "agent_code", name = "hx_papers_push_index"),
+        @Index(columnList = "papers_id", name = "hx_papers_push_index1")
 })
 public class PapersPush extends AbstractInsertTimeEntity {
 
