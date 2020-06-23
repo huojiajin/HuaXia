@@ -337,7 +337,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         List<String> rankCodeList = request.getRankCodeList();
         for (String rankCode : rankCodeList) {
             try {
-                PositionsType.valueOf(rankCode);
+                PositionsClass.valueOf(rankCode);
             } catch (IllegalArgumentException e) {
                 logger.error("无此类型{}", rankCode);
                 return response.setError(ErrorType.CONVERT);

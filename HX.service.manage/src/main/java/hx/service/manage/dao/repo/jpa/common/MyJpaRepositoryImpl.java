@@ -88,7 +88,7 @@ public class MyJpaRepositoryImpl<T extends BaseEntity, ID extends Serializable> 
 		try
 		{
 			entity.setPropertyValue(blobPropName, input2Blob(in));
-			entityManager.persist(entity);
+			save(entity);
 			entityManager.flush();
 		}
 		finally

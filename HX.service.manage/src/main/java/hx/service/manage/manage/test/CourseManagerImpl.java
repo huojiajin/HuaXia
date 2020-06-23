@@ -1,9 +1,6 @@
 package hx.service.manage.manage.test;
 
-import hx.service.manage.dao.dict.CourseStatus;
-import hx.service.manage.dao.dict.CourseType;
-import hx.service.manage.dao.dict.ErrorType;
-import hx.service.manage.dao.dict.PositionsType;
+import hx.service.manage.dao.dict.*;
 import hx.service.manage.dao.entity.MarketingManpower;
 import hx.service.manage.dao.entity.test.course.Course;
 import hx.service.manage.dao.entity.test.course.CoursePush;
@@ -126,7 +123,7 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
         ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
         courseRepo.blobSave(course, "content", inputStream);
         addSysLog("导入学习资料" + op.get().getName() + "成功", request.getToken(), request.getCourseId());
-        response.setMessage("删除学习资料成功！");
+        response.setMessage("导入学习资料成功！");
         return response.toJson();
     }
 
@@ -161,7 +158,7 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
         List<String> rankCodeList = request.getRankCodeList();
         for (String rankCode : rankCodeList) {
             try {
-                PositionsType.valueOf(rankCode);
+                PositionsClass.valueOf(rankCode);
             } catch (IllegalArgumentException e) {
                 logger.error("无此类型{}", rankCode);
                 return response.setError(ErrorType.CONVERT);
