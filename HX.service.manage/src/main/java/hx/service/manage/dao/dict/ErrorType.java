@@ -24,7 +24,8 @@ public enum ErrorType {
     NOPAPERS(70010, "试卷不存在"){},
     NOIMPORT(70011, "试卷未导入"){},
     NOOPTION(70012, "选项小于两个"){},
-    SCORE(70013, "分值不正确"){},
+    SCORE(70013, "所有题目分值相加不等于100"){},
+    NOCOURSE(70014, "学习资料不存在"){},
     ;
 
     private final int errCode;

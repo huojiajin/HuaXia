@@ -1,7 +1,6 @@
 package hx.service.manage.manage.test;
 
-import hx.service.manage.manage.model.test.course.CourseAddRequest;
-import hx.service.manage.manage.model.test.course.CourseQueryRequest;
+import hx.service.manage.manage.model.test.course.*;
 
 /**
  *@ClassName CourseManager
@@ -14,4 +13,14 @@ public interface CourseManager {
     String query(CourseQueryRequest request);
 
     String add(CourseAddRequest addRequest);
+
+    String delete(CourseIdRequest request);
+
+    String importCourse(CourseImportRequest request);
+
+    String view(CourseIdRequest request);
+
+    String push(CoursePushRequest request);
+
+    String viewLearned(CourseIdRequest request);
 }

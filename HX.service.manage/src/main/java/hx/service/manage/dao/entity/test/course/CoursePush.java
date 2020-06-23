@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 /**
  * @name: CoursePush
@@ -24,6 +25,7 @@ public class CoursePush extends AbstractInsertTimeEntity {
     private String agentCode;//营销员编码
     private String staffName;//员工姓名
     private boolean hasLearn;//是否已学
+    private LocalDateTime learnTime;//学习时间
 
     @Column(name = "course_id")
     public String getCourseId() {
@@ -59,5 +61,14 @@ public class CoursePush extends AbstractInsertTimeEntity {
 
     public void setHasLearn(boolean hasLearn) {
         this.hasLearn = hasLearn;
+    }
+
+    @Column(name = "learn_time")
+    public LocalDateTime getLearnTime() {
+        return learnTime;
+    }
+
+    public void setLearnTime(LocalDateTime learnTime) {
+        this.learnTime = learnTime;
     }
 }

@@ -20,7 +20,7 @@ public class Course extends AbstractInsertTimeEntity {
     private String name;//资料名称
     private CourseType type;//资料类别
     private CourseStatus status = CourseStatus.WDR;//资料状态
-    private boolean hasStop;//是否停用
+    private boolean hasDelete;//是否停用
     private Blob content;//学习文件内容
 
     @Column(name = "name")
@@ -52,13 +52,13 @@ public class Course extends AbstractInsertTimeEntity {
         this.status = status;
     }
 
-    @Column(name = "has_stop")
-    public boolean isHasStop() {
-        return hasStop;
+    @Column(name = "has_delete")
+    public boolean isHasDelete() {
+        return hasDelete;
     }
 
-    public void setHasStop(boolean hasStop) {
-        this.hasStop = hasStop;
+    public void setHasDelete(boolean hasStop) {
+        this.hasDelete = hasStop;
     }
 
     @Lob

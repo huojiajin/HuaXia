@@ -67,7 +67,7 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
         user.setPassword(password);
         user.setInsertTime(LocalDateTime.now());
         userRepo.persist(user);
-        addSysLog("添加用户" + addRequest.getEmployeeNum(), addRequest.getToken());
+        addSysLog("添加用户" + addRequest.getEmployeeNum(), addRequest.getToken(), user.getId());
         response.setMessage("添加用户成功");
         return response.toJson();
     }
@@ -88,7 +88,7 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
             return response.setError(ErrorType.NOUSER);
         }
         userRepo.updateStop(deleteRequest.getId(), User.UserStatus.INVALID, LocalDateTime.now());
-        addSysLog("停用角色" + op.get().getName(), deleteRequest.getToken());
+        addSysLog("停用角色" + op.get().getName(), deleteRequest.getToken(), deleteRequest.getId());
         response.setMessage("停用用户成功");
         return response.toJson();
     }
@@ -105,7 +105,7 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
             return response.setError(ErrorType.NOROLE);
         }
         userRepo.updateStop(startRequest.getId(), User.UserStatus.NORMAL, LocalDateTime.now());
-        addSysLog("启动角色" + op.get().getName(), startRequest.getToken());
+        addSysLog("启动角色" + op.get().getName(), startRequest.getToken(), startRequest.getId());
         response.setMessage("启用用户成功");
         return response.toJson();
 

@@ -71,7 +71,7 @@ public class MobileResourceManagerImpl extends AbstractManager implements Mobile
             resourceRepo.deleteByClass(type);
             resourceRepo.persistAll(entityList);
             addSysLog("配置" + type.getValue() + "层级资源代码为" + JsonTools.toJsonStr(request.getResourceCodeList())
-                    , request.getToken());
+                    , request.getToken(), null);
         } catch (Exception e) {
             logger.error("", e);
             return response.setError(ErrorType.CONVERT);

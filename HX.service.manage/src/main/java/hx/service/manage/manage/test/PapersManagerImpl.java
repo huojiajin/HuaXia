@@ -7,6 +7,7 @@ import hx.service.manage.dao.repo.jpa.MarketingManpowerRepo;
 import hx.service.manage.dao.repo.jpa.test.papers.*;
 import hx.service.manage.dao.repo.request.common.Pagination;
 import hx.service.manage.dao.repo.request.test.PapersPageRequest;
+import hx.service.manage.dao.repo.request.test.PapersSubjectPageRequest;
 import hx.service.manage.manage.common.AbstractManager;
 import hx.service.manage.manage.model.CommonRequest;
 import hx.service.manage.manage.model.CommonResponse;
@@ -21,6 +22,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,8 +48,8 @@ import java.util.stream.Collectors;
  * @Version 1.0
  **/
 @Service
-public class PapersManagerImpl extends AbstractManager
-        implements PapersManager, ExcelReadRowHandler<PapersImportSubjectModel>, WorkbookWithDataHandler<PapersIdRequest> {
+public class PapersManagerImpl extends AbstractManager implements PapersManager,
+        ExcelReadRowHandler<PapersImportSubjectModel>, WorkbookWithDataHandler<PapersIdRequest> {
 
     @Autowired
     private PapersRepo papersRepo;
@@ -115,7 +117,7 @@ public class PapersManagerImpl extends AbstractManager
         }
         papers.setInsertTime(LocalDateTime.now());
         papersRepo.persist(papers);
-        addSysLog("添加试卷" + request.getName(), request.getToken());
+        addSysLog("添加试卷" + request.getName(), request.getToken(), papers.getId());
         response.setMessage("添加试卷成功");
         return response.toJson();
     }
@@ -133,38 +135,24 @@ public class PapersManagerImpl extends AbstractManager
             return response.toJson();
         }
         papersRepo.updateDelete(request.getId());
-        addSysLog("删除试卷" + op.get().getName(), request.getToken());
+        addSysLog("删除试卷" + op.get().getName(), request.getToken(), request.getId());
         response.setMessage("删除试卷成功");
         return response.toJson();
     }
 
     @Override
     public String downloadTemplate(CommonRequest request) {
+        CommonResponse response = new CommonResponse();
         PaperTemplateResponse templateResponse = new PaperTemplateResponse();
         InputStream fis = FileTools.getResourcesFileInputStream("template/papersTemplate.xlsx");
-        byte[] data = null;
+        String str = null;
         try {
-            ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
-            byte[] buff = new byte[100];
-            int rc = 0;
-            while ((rc = fis.read(buff, 0, 100)) > 0) {
-                swapStream.write(buff, 0, rc);
-            }
-            data = swapStream.toByteArray();
+            str = inputStreamToBase64Str(fis);
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            logger.error("", e);
+            return response.setError(ErrorType.CONVERT);
         }
-        String str = new String(Base64.encodeBase64(data));
         templateResponse.setTemplate(str);
-        CommonResponse response = new CommonResponse();
         response.setData(templateResponse);
         return response.toJson();
     }
@@ -172,7 +160,10 @@ public class PapersManagerImpl extends AbstractManager
     @Override
     public String importPapers(PapersImportReqeust request){
         CommonResponse response = new CommonResponse();
-
+        Optional<Papers> op = papersRepo.findById(request.getPaperId());
+        if (op.isEmpty()){
+            return response.setError(ErrorType.NOPAPERS);
+        }
         PoiExcelInfo excelInfo = getExcelInfo(request);
         List<PapersImportSubjectModel> importModels;
         try {
@@ -218,7 +209,7 @@ public class PapersManagerImpl extends AbstractManager
             }
         }
         persist(request.getPaperId(), subjectList, optionList);
-        addSysLog("导入试卷成功", request.getToken());
+        addSysLog("导入试卷" + op.get().getName() + "成功", request.getToken(), request.getPaperId());
         response.setMessage("导入试卷成功");
         return response.toJson();
     }
@@ -306,7 +297,7 @@ public class PapersManagerImpl extends AbstractManager
     }
 
     @Override
-    public String view(PapersIdRequest request){
+    public String view(PapersViewRequest request){
         CommonResponse response = new CommonResponse();
         Optional<Papers> op = papersRepo.findById(request.getId());
         if (op.isEmpty()){
@@ -318,8 +309,12 @@ public class PapersManagerImpl extends AbstractManager
         }
         PapersViewResponse viewResponse = new PapersViewResponse();
         List<PapersViewModel> subjectList = Lists.newArrayList();
-        List<PapersSubject> subjects = subjectRepo.listByPapersId(request.getId());
-        for (PapersSubject subject : subjects) {
+        //分页查询
+        PapersSubjectPageRequest pageRequest = new PapersSubjectPageRequest();
+        BeanUtils.copyProperties(request, pageRequest);
+        pageRequest.setPapersId(request.getId());
+        Pagination page = subjectRepo.page(pageRequest);
+        for (PapersSubject subject : page.getResult(PapersSubject.class)) {
             PapersViewModel model = new PapersViewModel();
             model.setIndex(subject.getList());
             model.setStem(subject.getSubject());
@@ -357,15 +352,21 @@ public class PapersManagerImpl extends AbstractManager
                 pushList.add(entity);
             }
         }
-        pushRepo.persistAll(pushList);
-        papersRepo.updateStatus(request.getPaperId(), PapersStatus.YTS);
+        //保存实体
+        persistPush(request, pushList);
         try {
-            addSysLog("推送纸卷" + request.getPaperId() + "至职级" + JsonTools.toJsonStr(rankCodeList), request.getToken());
+            addSysLog("推送试卷" + request.getPaperId() + "至职级" + JsonTools.toJsonStr(rankCodeList), request.getToken(), request.getPaperId());
         } catch (IOException e) {
             logger.error("", e);
         }
         response.setMessage("推送试卷成功！");
         return response.toJson();
+    }
+
+    @Transactional
+    private void persistPush(PapersPushRequest request, List<PapersPush> pushList) {
+        pushRepo.persistAll(pushList);
+        papersRepo.updateStatus(request.getPaperId(), PapersStatus.YTS);
     }
 
     @Override
@@ -420,7 +421,7 @@ public class PapersManagerImpl extends AbstractManager
             cell.setCellValue(i + 1);
             setCellStyle(cell, workbook, false, false);
             //工号
-            cell = ExcelTemplateHelper.getCell(sheet, 4 + i, 2);
+            cell = ExcelTemplateHelper.getCell(sheet, 4 + i, 1);
             cell.setCellValue(pushList.get(i).getAgentCode());
             setCellStyle(cell, workbook, false, false);
             //姓名

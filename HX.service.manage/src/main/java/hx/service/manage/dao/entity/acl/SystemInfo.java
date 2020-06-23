@@ -20,6 +20,7 @@ public class SystemInfo extends StringUUIDEntity {
     private String userId;//操作用户
     private String info;//操作详情
     private LocalDateTime insertTime;//操作时间
+    private String eigenValue;//特征值
 
     @Column(name = "user_id")
     public String getUserId() {
@@ -46,5 +47,14 @@ public class SystemInfo extends StringUUIDEntity {
 
     public void setInsertTime(LocalDateTime insertTime) {
         this.insertTime = insertTime;
+    }
+
+    @Column(name = "eigen_value")
+    public String getEigenValue() {
+        return eigenValue;
+    }
+
+    public void setEigenValue(String eigenValue) {
+        this.eigenValue = eigenValue;
     }
 }

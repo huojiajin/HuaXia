@@ -70,7 +70,7 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
         BeanUtils.copyProperties(addRequest, role);
         role.setInsertTime(LocalDateTime.now());
         roleRepo.persist(role);
-        addSysLog("添加角色" + addRequest.getName(), addRequest.getToken());
+        addSysLog("添加角色" + addRequest.getName(), addRequest.getToken(), role.getId());
         response.setMessage("添加角色成功");
         return response.toJson();
     }
@@ -82,7 +82,7 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
         BeanUtils.copyProperties(editRequest, role);
         role.setUpdateTime(LocalDateTime.now());
         roleRepo.save(role);
-        addSysLog("修改角色" + editRequest.getName(), editRequest.getToken());
+        addSysLog("修改角色" + editRequest.getName(), editRequest.getToken(), editRequest.getId());
         response.setMessage("修改角色成功");
         return response.toJson();
     }
@@ -102,7 +102,7 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
             }
         }
         roleRepo.updateDelete(deleteRequest.getRoleId());
-        addSysLog("删除角色" + op.get().getName(), deleteRequest.getToken());
+        addSysLog("删除角色" + op.get().getName(), deleteRequest.getToken(), deleteRequest.getRoleId());
         response.setMessage("删除角色成功");
         return response.toJson();
     }
@@ -122,7 +122,7 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
         }
         roleResourceRepo.deleteByRoleId(roleId);
         roleResourceRepo.persistAll(roleResourceList);
-        addSysLog("配置角色" + op.get().getName() + "的权限", resourceRequest.getToken());
+        addSysLog("配置角色" + op.get().getName() + "的权限", resourceRequest.getToken(), resourceRequest.getRoleId());
         response.setMessage("配置权限成功");
         return response.toJson();
     }

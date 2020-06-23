@@ -1,8 +1,10 @@
 package hx.service.manage.dao.repo.jpa.test.course;
 
-import hx.service.manage.dao.entity.test.course.Course;
 import hx.service.manage.dao.entity.test.course.CoursePush;
 import hx.service.manage.dao.repo.jpa.common.AbstractJpaRepo;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @name: CoursePushRepo
@@ -12,5 +14,6 @@ import hx.service.manage.dao.repo.jpa.common.AbstractJpaRepo;
  */
 public interface CoursePushRepo extends AbstractJpaRepo<CoursePush, String> {
 
-    
+    @Query(" from CoursePush where courseId = ?1")
+    List<CoursePush> listByCourseId(String courseId);
 }

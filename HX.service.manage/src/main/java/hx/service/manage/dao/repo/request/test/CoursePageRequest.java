@@ -1,8 +1,6 @@
 package hx.service.manage.dao.repo.request.test;
 
-import hx.service.manage.dao.dict.PapersType;
 import hx.service.manage.dao.entity.test.course.Course;
-import hx.service.manage.dao.entity.test.papers.Papers;
 import hx.service.manage.dao.repo.request.common.HqlBuilder;
 import hx.service.manage.dao.repo.request.common.JpaPageableDataRequest;
 
@@ -23,6 +21,7 @@ public class CoursePageRequest extends JpaPageableDataRequest<Course> {
     @Override
     public HqlBuilder toSelectHql() {
         HqlBuilder hql = new HqlBuilder("from " + clazz.getName() + " where 1=1");
+        hql.append(" and hasDelete = 0");
         hql.append(" and name = :name", name);
         return hql;
     }

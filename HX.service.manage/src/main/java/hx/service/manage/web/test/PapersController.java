@@ -50,7 +50,7 @@ public class PapersController extends MyBaseController {
     }
 
     @PostMapping("/view")
-    public String view(@RequestBody PapersIdRequest request){
+    public String view(@RequestBody PapersViewRequest request){
         return manager.view(request);
     }
 

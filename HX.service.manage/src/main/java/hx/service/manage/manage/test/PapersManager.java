@@ -21,7 +21,7 @@ public interface PapersManager {
 
     String importPapers(PapersImportReqeust request);
 
-    String view(PapersIdRequest request);
+    String view(PapersViewRequest request);
 
     String push(PapersPushRequest request);
 

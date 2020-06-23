@@ -6,10 +6,13 @@ import hx.service.manage.dao.repo.jpa.acl.SystemInfoRepo;
 import hx.service.manage.manage.MyMecachedPrefix;
 import hx.service.manage.manage.tools.JsonTools;
 import net.spy.memcached.MemcachedClient;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 
 /**
@@ -25,7 +28,7 @@ public abstract class AbstractManager extends CommonAbstract {
     @Autowired
     private MemcachedClient memcachedClient;
 
-    protected void addSysLog(String info, String token) {
+    protected void addSysLog(String info, String token, String eigenValue) {
         String userStr = (String)memcachedClient.get(MyMecachedPrefix.loginTokenPrefix + token);
         User user = null;
         try {
@@ -38,7 +41,33 @@ public abstract class AbstractManager extends CommonAbstract {
         systemInfo.setInsertTime(LocalDateTime.now());
         systemInfo.setUserId(user.getId());
         systemInfo.setInfo(info);
+        systemInfo.setEigenValue(eigenValue);
         systemInfoRepo.persist(systemInfo);
+    }
+
+    protected String inputStreamToBase64Str(InputStream fis) throws IOException {
+        byte[] data = null;
+        try {
+            ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+            byte[] buff = new byte[100];
+            int rc = 0;
+            while ((rc = fis.read(buff, 0, 100)) > 0) {
+                swapStream.write(buff, 0, rc);
+            }
+            data = swapStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    logger.error("", e);
+                    throw e;
+                }
+            }
+        }
+        return new String(Base64.encodeBase64(data));
     }
 
     public static void closeQuietly(Closeable closeable){
