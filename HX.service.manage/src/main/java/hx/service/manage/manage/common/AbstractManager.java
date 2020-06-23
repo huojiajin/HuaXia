@@ -45,22 +45,22 @@ public abstract class AbstractManager extends CommonAbstract {
         systemInfoRepo.persist(systemInfo);
     }
 
-    protected String inputStreamToBase64Str(InputStream fis) throws IOException {
+    protected String inputStreamToBase64Str(InputStream is) throws IOException {
         byte[] data = null;
         try {
             ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
             byte[] buff = new byte[100];
             int rc = 0;
-            while ((rc = fis.read(buff, 0, 100)) > 0) {
+            while ((rc = is.read(buff, 0, 100)) > 0) {
                 swapStream.write(buff, 0, rc);
             }
             data = swapStream.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (fis != null) {
+            if (is != null) {
                 try {
-                    fis.close();
+                    is.close();
                 } catch (IOException e) {
                     logger.error("", e);
                     throw e;

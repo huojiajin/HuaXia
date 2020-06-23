@@ -414,6 +414,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
                     cell.setCellValue("答案");
                     setCellStyle(cell, workbook, true, false);
                     colInterval += 2;
+                    index++;
                 }
             }
             //序号
