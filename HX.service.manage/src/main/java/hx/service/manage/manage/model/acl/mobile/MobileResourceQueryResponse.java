@@ -1,6 +1,6 @@
 package hx.service.manage.manage.model.acl.mobile;
 
-import hx.service.manage.manage.model.CommonRequest;
+import hx.base.core.dao.entity.common.BaseEntity;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * @Date 2020/6/20 14:48
  * @Version 1.0
  **/
-public class MobileResourceQueryResponse extends CommonRequest {
+public class MobileResourceQueryResponse extends BaseEntity {
 
     private List<Integer> resourceCodeList;//资源代码集合
 

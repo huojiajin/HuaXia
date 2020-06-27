@@ -1,6 +1,6 @@
 package hx.service.mobile.web;
 
-import hx.service.manage.web.MyBaseController;
+import hx.base.core.manage.common.CommonAbstract;
 import hx.service.mobile.manage.login.LoginManager;
 import hx.service.mobile.manage.model.login.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RequestMapping("/login")
-public class WelcomeController extends MyBaseController {
+public class WelcomeController extends CommonAbstract {
 
     @Autowired
     private LoginManager manager;

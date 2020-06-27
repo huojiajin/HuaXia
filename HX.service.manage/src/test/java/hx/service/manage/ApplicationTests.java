@@ -1,7 +1,7 @@
 package hx.service.manage;
 
-import hx.service.manage.dao.repo.request.common.Pagination;
-import hx.service.manage.manage.tools.JsonTools;
+import hx.base.core.dao.repo.request.common.Pagination;
+import hx.base.core.manage.tools.JsonTools;
 
 import java.io.IOException;
 import java.util.*;

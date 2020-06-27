@@ -1,10 +1,10 @@
 package hx.service.manage.manage.acl;
 
-import hx.service.manage.dao.entity.acl.User;
+import hx.base.core.dao.entity.acl.User;
 import hx.service.manage.manage.model.CommonPageRequest;
 import hx.service.manage.manage.model.acl.user.UserAddRequest;
-import hx.service.manage.manage.model.acl.user.UserIdRequest;
 import hx.service.manage.manage.model.acl.user.UserEditRequest;
+import hx.service.manage.manage.model.acl.user.UserIdRequest;
 
 /**
  * @name: UserManager

@@ -1,6 +1,6 @@
 package hx.service.manage.manage.model.acl.mobile;
 
-import hx.service.manage.manage.model.CommonRequest;
+import hx.base.core.dao.entity.common.BaseEntity;
 
 /**
  * @ClassName MobileResourceRankResponse
@@ -9,7 +9,7 @@ import hx.service.manage.manage.model.CommonRequest;
  * @Date 2020/6/20 14:42
  * @Version 1.0
  **/
-public class MobileResourceRankResponse extends CommonRequest {
+public class MobileResourceRankResponse extends BaseEntity {
 
     private String rankCode;//职级代码
     private String rankName;//职级名称

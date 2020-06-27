@@ -1,10 +1,9 @@
 package hx.service.mobile.manage;
 
-import hx.service.manage.dao.dict.ErrorType;
-import hx.service.manage.manage.MyMecachedPrefix;
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.CommonResponse;
-import hx.service.manage.manage.tools.JsonTools;
+import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.manage.model.CommonResponse;
+import hx.base.core.manage.tools.JsonTools;
+import hx.service.mobile.manage.model.common.MobileCommonRequest;
 import net.spy.memcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +38,7 @@ public class AclHandlerInterceptor extends HandlerInterceptorAdapter {
             if (!urlSplitArr[1].equals("login")) {//除登陆操作之外
                 String requestData = getOpenApiRequestData(request);
                 logger.info("request:{}", requestData);
-                CommonRequest commonRequest = JsonTools.json2Object(requestData, CommonRequest.class);
+                MobileCommonRequest commonRequest = JsonTools.json2Object(requestData, MobileCommonRequest.class);
                 String userKey = MyMecachedPrefix.mobileLoginTokenPrefix + commonRequest.getToken();
                 Object userObject = memcachedClient.get(userKey);
                 if (userObject == null) {

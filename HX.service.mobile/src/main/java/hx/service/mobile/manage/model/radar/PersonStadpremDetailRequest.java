@@ -1,6 +1,6 @@
 package hx.service.mobile.manage.model.radar;
 
-import hx.service.manage.manage.model.CommonRequest;
+import hx.service.mobile.manage.model.common.MobileCommonRequest;
 
 /**
  * @ClassName PersonStadpremDetailRequest
@@ -9,7 +9,7 @@ import hx.service.manage.manage.model.CommonRequest;
  * @Date 2020/6/27 9:50
  * @Version 1.0
  **/
-public class PersonStadpremDetailRequest extends CommonRequest {
+public class PersonStadpremDetailRequest extends MobileCommonRequest {
 
     private int month;//月份
     private String agentCode;//员工编码

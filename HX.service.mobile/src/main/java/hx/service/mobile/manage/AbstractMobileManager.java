@@ -1,12 +1,12 @@
 package hx.service.mobile.manage;
 
-import hx.service.manage.manage.MyMecachedPrefix;
-import hx.service.manage.manage.common.AbstractManager;
-import hx.service.manage.manage.tools.JsonTools;
-import hx.service.manage.manage.tools.httpclient.HttpClientHelper;
+import hx.base.core.manage.common.CommonAbstract;
+import hx.base.core.manage.tools.JsonTools;
+import hx.base.core.manage.tools.httpclient.HttpClientHelper;
 import hx.service.mobile.manage.model.common.AccessTokenModel;
 import hx.service.mobile.manage.model.common.HXCommonResponse;
 import hx.service.mobile.manage.model.login.MobileUserModel;
+import net.spy.memcached.MemcachedClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.StatusLine;
 import org.apache.http.client.config.RequestConfig;
@@ -18,6 +18,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ import java.util.Map;
  * @Date 2020/6/26 13:52
  * @Version 1.0
  **/
-public abstract class AbstractMobileManager extends AbstractManager {
+public abstract class AbstractMobileManager extends CommonAbstract {
 
     @Value("${serialNo}")
     private String serialNo;
@@ -43,6 +44,8 @@ public abstract class AbstractMobileManager extends AbstractManager {
     protected String secretKey;
     @Value("${url}")
     protected String url;
+    @Autowired
+    protected MemcachedClient memcachedClient;
 
     /**
      * @Name post

@@ -21,5 +21,13 @@ public interface LoginManager {
      **/
     String loginInfo();
 
+    /**
+     * @Name login
+     * @Author HuoJiaJin
+     * @Description 登录
+     * @Date 2020/6/27
+     * @Param [request]
+     * @return java.lang.String
+     **/
     String login(LoginRequest request);
 }

@@ -1,8 +1,8 @@
 package hx.service.manage.web;
 
-import hx.service.manage.dao.entity.acl.SystemInfo;
-import hx.service.manage.dao.repo.jpa.acl.SystemInfoRepo;
-import hx.service.manage.manage.common.CommonAbstract;
+import hx.base.core.dao.entity.acl.SystemInfo;
+import hx.base.core.dao.repo.jpa.acl.SystemInfoRepo;
+import hx.base.core.manage.common.CommonAbstract;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;

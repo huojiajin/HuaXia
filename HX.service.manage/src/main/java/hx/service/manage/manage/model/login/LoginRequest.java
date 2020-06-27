@@ -1,6 +1,6 @@
 package hx.service.manage.manage.model.login;
 
-import hx.service.manage.dao.entity.common.BaseEntity;
+import hx.base.core.dao.entity.common.BaseEntity;
 
 /**
  * @name: LoginRequest

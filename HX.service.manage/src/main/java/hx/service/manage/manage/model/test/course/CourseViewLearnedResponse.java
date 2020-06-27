@@ -1,6 +1,6 @@
 package hx.service.manage.manage.model.test.course;
 
-import hx.service.manage.manage.model.CommonResponse;
+import hx.base.core.dao.entity.common.BaseEntity;
 
 /**
  * @ClassName CourseViewLearnedResponse
@@ -9,7 +9,7 @@ import hx.service.manage.manage.model.CommonResponse;
  * @Date 2020/6/22 23:36
  * @Version 1.0
  **/
-public class CourseViewLearnedResponse extends CommonResponse {
+public class CourseViewLearnedResponse extends BaseEntity {
 
     private String learnedFile;//已学人员名单
 

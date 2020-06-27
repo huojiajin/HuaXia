@@ -1,6 +1,5 @@
 package hx.service.manage.manage.model.test.papers;
 
-import hx.service.manage.dao.dict.PapersType;
 import hx.service.manage.manage.model.CommonPageRequest;
 
 /**

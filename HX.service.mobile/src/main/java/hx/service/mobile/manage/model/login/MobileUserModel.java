@@ -1,6 +1,6 @@
 package hx.service.mobile.manage.model.login;
 
-import hx.service.manage.dao.entity.common.BaseEntity;
+import hx.base.core.dao.entity.common.BaseEntity;
 
 /**
  * @ClassName MobileUserModel

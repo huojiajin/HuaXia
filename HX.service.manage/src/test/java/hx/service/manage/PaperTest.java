@@ -1,11 +1,11 @@
 package hx.service.manage;
 
 import com.google.common.collect.Lists;
+import hx.base.core.manage.model.CommonResponse;
+import hx.base.core.manage.tools.JsonTools;
+import hx.base.core.manage.tools.httpclient.HttpClientHelper;
 import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.CommonResponse;
 import hx.service.manage.manage.model.test.papers.*;
-import hx.service.manage.manage.tools.JsonTools;
-import hx.service.manage.manage.tools.httpclient.HttpClientHelper;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Base64Utils;

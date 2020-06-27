@@ -1,6 +1,6 @@
 package hx.service.mobile.config;
 
-import hx.service.manage.manage.common.CommonAbstract;
+import hx.base.core.manage.common.CommonAbstract;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

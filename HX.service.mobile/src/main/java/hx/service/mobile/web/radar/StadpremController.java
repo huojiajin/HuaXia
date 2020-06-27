@@ -1,6 +1,6 @@
 package hx.service.mobile.web.radar;
 
-import hx.service.manage.web.MyBaseController;
+import hx.base.core.manage.common.CommonAbstract;
 import hx.service.mobile.manage.model.radar.GroupStadpremRequest;
 import hx.service.mobile.manage.model.radar.PersonStadpremDetailRequest;
 import hx.service.mobile.manage.model.radar.PersonStadpremRequest;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RequestMapping("/index/radar/stadprem")
-public class StadpremController extends MyBaseController {
+public class StadpremController extends CommonAbstract {
 
     @Autowired
     private StadpremManager manager;

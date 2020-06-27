@@ -11,6 +11,14 @@ import hx.service.mobile.manage.model.radar.*;
  **/
 public interface RadarManager {
 
+    /**
+     * @Name radar
+     * @Author HuoJiaJin
+     * @Description 主管经营雷达图
+     * @Date 2020/6/27
+     * @Param [request]
+     * @return java.lang.String
+     **/
     String radar(RadarRequest request);
 
 }

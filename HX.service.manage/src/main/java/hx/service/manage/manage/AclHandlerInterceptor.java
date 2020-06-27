@@ -1,13 +1,13 @@
 package hx.service.manage.manage;
 
-import hx.service.manage.dao.dict.ErrorType;
-import hx.service.manage.dao.entity.acl.RoleResource;
-import hx.service.manage.dao.entity.acl.User;
-import hx.service.manage.dao.repo.jpa.acl.RoleResourceRepo;
+import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.entity.acl.RoleResource;
+import hx.base.core.dao.entity.acl.User;
+import hx.base.core.dao.repo.jpa.acl.RoleResourceRepo;
+import hx.base.core.manage.model.CommonResponse;
+import hx.base.core.manage.tools.CollectionTools;
+import hx.base.core.manage.tools.JsonTools;
 import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.CommonResponse;
-import hx.service.manage.manage.tools.CollectionTools;
-import hx.service.manage.manage.tools.JsonTools;
 import net.spy.memcached.MemcachedClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 /**
  * @name: AclHandlerInterceptor
- * @description: 自定义拦截器
+ * @description: 自定义拦截器G
  * @author: huojiajin
  * @time: 2020/5/27 16:25
  */

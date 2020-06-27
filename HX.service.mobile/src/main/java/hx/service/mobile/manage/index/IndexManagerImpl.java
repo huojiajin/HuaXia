@@ -1,13 +1,13 @@
 package hx.service.mobile.manage.index;
 
-import hx.service.manage.dao.dict.ErrorType;
-import hx.service.manage.dao.dict.PositionsClass;
-import hx.service.manage.dao.dict.PositionsType;
-import hx.service.manage.dao.entity.Incubation;
-import hx.service.manage.dao.entity.MarketingManpower;
-import hx.service.manage.dao.repo.jpa.IncubationRepo;
-import hx.service.manage.dao.repo.jpa.MarketingManpowerRepo;
-import hx.service.manage.manage.model.CommonResponse;
+import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.dict.PositionsClass;
+import hx.base.core.dao.dict.PositionsType;
+import hx.base.core.dao.entity.Incubation;
+import hx.base.core.dao.entity.MarketingManpower;
+import hx.base.core.dao.repo.jpa.IncubationRepo;
+import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
+import hx.base.core.manage.model.CommonResponse;
 import hx.service.mobile.manage.AbstractMobileManager;
 import hx.service.mobile.manage.model.common.MobileCommonRequest;
 import hx.service.mobile.manage.model.login.MobileUserModel;

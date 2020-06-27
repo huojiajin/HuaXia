@@ -1,6 +1,6 @@
 package hx.service.mobile.web;
 
-import hx.service.manage.web.MyBaseController;
+import hx.base.core.manage.common.CommonAbstract;
 import hx.service.mobile.manage.index.IndexManager;
 import hx.service.mobile.manage.model.common.MobileCommonRequest;
 import hx.service.mobile.manage.model.radar.GroupListReqeust;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RequestMapping("/index")
-public class IndexController extends MyBaseController {
+public class IndexController extends CommonAbstract {
 
     @Autowired
     private IndexManager manager;

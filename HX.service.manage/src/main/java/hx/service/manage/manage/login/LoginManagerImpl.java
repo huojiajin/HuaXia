@@ -1,19 +1,19 @@
 package hx.service.manage.manage.login;
 
-import hx.service.manage.dao.dict.ErrorType;
-import hx.service.manage.dao.entity.acl.RoleResource;
-import hx.service.manage.dao.entity.acl.User;
-import hx.service.manage.dao.repo.jpa.acl.RoleResourceRepo;
+import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.entity.acl.RoleResource;
+import hx.base.core.dao.entity.acl.User;
+import hx.base.core.dao.repo.jpa.acl.RoleResourceRepo;
+import hx.base.core.manage.common.CommonAbstract;
+import hx.base.core.manage.model.CommonResponse;
+import hx.base.core.manage.tools.SecurityUtil;
 import hx.service.manage.manage.MyMecachedPrefix;
 import hx.service.manage.manage.VerifyImage;
 import hx.service.manage.manage.acl.UserManager;
-import hx.service.manage.manage.common.CommonAbstract;
-import hx.service.manage.manage.model.CommonResponse;
 import hx.service.manage.manage.model.login.LoginRequest;
 import hx.service.manage.manage.model.login.LoginResponse;
 import hx.service.manage.manage.model.login.ResourceModel;
 import hx.service.manage.manage.model.login.VerifyResponse;
-import hx.service.manage.manage.tools.SecurityUtil;
 import net.spy.memcached.MemcachedClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

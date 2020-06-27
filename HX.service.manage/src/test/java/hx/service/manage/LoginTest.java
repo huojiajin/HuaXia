@@ -1,13 +1,13 @@
 package hx.service.manage;
 
-import hx.service.manage.dao.repo.request.common.Pagination;
+import hx.base.core.dao.repo.request.common.Pagination;
+import hx.base.core.manage.model.CommonResponse;
+import hx.base.core.manage.tools.JsonTools;
+import hx.base.core.manage.tools.httpclient.HttpClientHelper;
 import hx.service.manage.manage.model.CommonPageRequest;
-import hx.service.manage.manage.model.CommonResponse;
 import hx.service.manage.manage.model.login.LoginRequest;
 import hx.service.manage.manage.model.login.LoginResponse;
 import hx.service.manage.manage.model.login.VerifyResponse;
-import hx.service.manage.manage.tools.JsonTools;
-import hx.service.manage.manage.tools.httpclient.HttpClientHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Base64Utils;
 

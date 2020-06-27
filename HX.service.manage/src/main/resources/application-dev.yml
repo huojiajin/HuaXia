@@ -1,9 +1,9 @@
 server:
-  context-path: manage
   port: 80
   servlet:
     encoding:
       force-request: true
+    context-path: /manage
 
 # 显示Sql
 #hibernate:
