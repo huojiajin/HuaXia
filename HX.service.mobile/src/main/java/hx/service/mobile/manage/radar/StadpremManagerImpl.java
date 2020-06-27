@@ -5,7 +5,7 @@ import hx.base.core.dao.repo.jpa.BusinessRepo;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.MyTimeTools;
 import hx.service.mobile.manage.AbstractMobileManager;
-import hx.service.mobile.manage.model.radar.*;
+import hx.service.mobile.manage.model.radar.stadprem.*;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
         List<Integer> quarter = MyTimeTools.getQuarter(now.getMonthValue());
         boolean isSection = hasText(sectionCode);
         String deptCode = isSection ? sectionCode : request.getGroupCode();
-        data.setType(isSection ? "0" : "1");
+        data.setType(isSection ? 0 : 1);
         for (Integer month : quarter) {
             SectionStadpremModel model = new SectionStadpremModel();
             model.setMonth(month);

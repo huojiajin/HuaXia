@@ -1,15 +1,15 @@
-package hx.service.mobile.manage.model.radar;
+package hx.service.mobile.manage.model.radar.attend;
 
 import hx.service.mobile.manage.model.common.MobileCommonRequest;
 
 /**
- * @ClassName SectionStadpremRequest
- * @Description 部标保详情
+ * @ClassName SectionAttendRequest
+ * @Description 部出勤人力Request
  * @Author HuoJiaJin
- * @Date 2020/6/27 5:39
+ * @Date 2020/6/27 2:07
  * @Version 1.0
  **/
-public class SectionStadpremRequest extends MobileCommonRequest {
+public class SectionAttendRequest extends MobileCommonRequest {
 
     private String sectionCode;//部代码
     private String groupCode;//组代码

@@ -1,5 +1,6 @@
 package hx.service.mobile.manage.radar;
 
+import hx.service.mobile.manage.model.common.MobileCommonRequest;
 import hx.service.mobile.manage.model.radar.*;
 
 /**
@@ -21,4 +22,5 @@ public interface RadarManager {
      **/
     String radar(RadarRequest request);
 
+    String getOneselfStar(MobileCommonRequest request);
 }

@@ -195,7 +195,16 @@ public abstract class AbstractMobileManager extends CommonAbstract {
         Object userObj = memcachedClient.get(MyMecachedPrefix.mobileLoginTokenPrefix + token);
         if (userObj == null){
             logger.error("======用户未登录，token:{}", token);
+            return null;
         }
-        return (MobileUserModel)userObj;
+        String userStr = (String) userObj;
+        MobileUserModel user = null;
+        try {
+            user = JsonTools.json2Object(userStr, MobileUserModel.class);
+        } catch (IOException e) {
+            logger.error("", e);
+            return null;
+        }
+        return user;
     }
 }

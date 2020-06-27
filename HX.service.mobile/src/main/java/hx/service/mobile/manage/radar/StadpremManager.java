@@ -1,9 +1,9 @@
 package hx.service.mobile.manage.radar;
 
-import hx.service.mobile.manage.model.radar.GroupStadpremRequest;
-import hx.service.mobile.manage.model.radar.PersonStadpremDetailRequest;
-import hx.service.mobile.manage.model.radar.PersonStadpremRequest;
-import hx.service.mobile.manage.model.radar.SectionStadpremRequest;
+import hx.service.mobile.manage.model.radar.stadprem.GroupStadpremRequest;
+import hx.service.mobile.manage.model.radar.stadprem.PersonStadpremDetailRequest;
+import hx.service.mobile.manage.model.radar.stadprem.PersonStadpremRequest;
+import hx.service.mobile.manage.model.radar.stadprem.SectionStadpremRequest;
 
 /**
  * @ClassName StadpremManager

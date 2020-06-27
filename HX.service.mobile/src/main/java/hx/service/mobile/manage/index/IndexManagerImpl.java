@@ -10,8 +10,8 @@ import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
 import hx.base.core.manage.model.CommonResponse;
 import hx.service.mobile.manage.AbstractMobileManager;
 import hx.service.mobile.manage.model.common.MobileCommonRequest;
+import hx.service.mobile.manage.model.index.*;
 import hx.service.mobile.manage.model.login.MobileUserModel;
-import hx.service.mobile.manage.model.radar.*;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +40,7 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
     public String getSectionList(MobileCommonRequest request){
         CommonResponse response = new CommonResponse();
         MobileUserModel user = getUser(request.getToken());
+        if (user == null) return response.setError(ErrorType.CONVERT);
         SectionListResponse data = new SectionListResponse();
         PositionsType positionsType;
         try {
@@ -102,6 +103,7 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
     public String getGroupList(GroupListReqeust request){
         CommonResponse response = new CommonResponse();
         MobileUserModel user = getUser(request.getToken());
+        if (user == null) return response.setError(ErrorType.CONVERT);
         GroupListResponse data = new GroupListResponse();
         PositionsType positionsType;
         try {

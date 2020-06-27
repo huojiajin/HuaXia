@@ -1,4 +1,4 @@
-package hx.service.mobile.manage.model.radar;
+package hx.service.mobile.manage.model.radar.stadprem;
 
 import hx.base.core.dao.entity.common.BaseEntity;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class SectionStadpremResponse extends BaseEntity {
 
     private List<SectionStadpremModel> result;
-    private String type;//类别
+    private int type;//类别
 
     public List<SectionStadpremModel> getResult() {
         return result;
@@ -24,11 +24,11 @@ public class SectionStadpremResponse extends BaseEntity {
         this.result = result;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 }

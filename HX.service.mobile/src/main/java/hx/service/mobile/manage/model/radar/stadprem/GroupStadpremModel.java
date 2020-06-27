@@ -1,4 +1,4 @@
-package hx.service.mobile.manage.model.radar;
+package hx.service.mobile.manage.model.radar.stadprem;
 
 import hx.base.core.dao.entity.common.BaseEntity;
 

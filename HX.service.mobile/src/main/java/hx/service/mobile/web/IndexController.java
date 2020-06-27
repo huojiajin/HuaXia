@@ -3,7 +3,7 @@ package hx.service.mobile.web;
 import hx.base.core.manage.common.CommonAbstract;
 import hx.service.mobile.manage.index.IndexManager;
 import hx.service.mobile.manage.model.common.MobileCommonRequest;
-import hx.service.mobile.manage.model.radar.GroupListReqeust;
+import hx.service.mobile.manage.model.index.GroupListReqeust;
 import hx.service.mobile.manage.model.radar.RadarRequest;
 import hx.service.mobile.manage.radar.RadarManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +41,10 @@ public class IndexController extends CommonAbstract {
     @PostMapping("/radar")
     public String radar(@RequestBody RadarRequest request){
         return radarManager.radar(request);
+    }
+
+    @PostMapping("/radar/oneself")
+    public String radarOneself(@RequestBody MobileCommonRequest request){
+        return radarManager.getOneselfStar(request);
     }
 }

@@ -1,10 +1,10 @@
 package hx.service.mobile.web.radar;
 
 import hx.base.core.manage.common.CommonAbstract;
-import hx.service.mobile.manage.model.radar.GroupStadpremRequest;
-import hx.service.mobile.manage.model.radar.PersonStadpremDetailRequest;
-import hx.service.mobile.manage.model.radar.PersonStadpremRequest;
-import hx.service.mobile.manage.model.radar.SectionStadpremRequest;
+import hx.service.mobile.manage.model.radar.stadprem.GroupStadpremRequest;
+import hx.service.mobile.manage.model.radar.stadprem.PersonStadpremDetailRequest;
+import hx.service.mobile.manage.model.radar.stadprem.PersonStadpremRequest;
+import hx.service.mobile.manage.model.radar.stadprem.SectionStadpremRequest;
 import hx.service.mobile.manage.radar.StadpremManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

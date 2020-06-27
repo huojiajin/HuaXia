@@ -1,8 +1,6 @@
 package hx.service.mobile.manage.radar;
 
-import hx.base.core.dao.dict.RadarStandardType;
-import hx.base.core.dao.dict.RateType;
-import hx.base.core.dao.dict.SectionType;
+import hx.base.core.dao.dict.*;
 import hx.base.core.dao.entity.Attendance;
 import hx.base.core.dao.entity.ContinueRate;
 import hx.base.core.dao.entity.MarketingManpower;
@@ -11,10 +9,15 @@ import hx.base.core.dao.entity.radar.RadarStandard;
 import hx.base.core.dao.repo.jpa.*;
 import hx.base.core.dao.repo.jpa.radar.RadarStandardRepo;
 import hx.base.core.manage.model.CommonResponse;
+import hx.base.core.manage.tools.MyTimeTools;
 import hx.service.mobile.manage.AbstractMobileManager;
+import hx.service.mobile.manage.model.common.MobileCommonRequest;
 import hx.service.mobile.manage.model.login.MobileUserModel;
 import hx.service.mobile.manage.model.radar.RadarRequest;
 import hx.service.mobile.manage.model.radar.RadarResponse;
+import hx.service.mobile.manage.model.radar.StadpremMonthModel;
+import hx.service.mobile.manage.model.radar.StarOneselfResponse;
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +57,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         CommonResponse response = new CommonResponse();
         RadarResponse data = new RadarResponse();
         MobileUserModel user = getUser(request.getToken());
+        if (user == null) return response.setError(ErrorType.CONVERT);
         if (request.getGroupCode().equals("0")){//查询部相关
             handle(data, user, true, request.getSectionCode());
         }else {
@@ -175,5 +179,47 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
             return type = typeCode > 0 ? RateType.fromCode(typeCode) : RateType.LAGGINGBEHIND;
         }
         return type;
+    }
+
+    @Override
+    public String getOneselfStar(MobileCommonRequest request){
+        CommonResponse response = new CommonResponse();
+        StarOneselfResponse data = new StarOneselfResponse();
+        MobileUserModel user = getUser(request.getToken());
+        if (user == null) return response.setError(ErrorType.CONVERT);
+        data.setName(user.getName());
+        data.setStar(Integer.valueOf(user.getFhagent_grade().substring(2)));
+        PositionsType positionsType;
+        //获取类型
+        try {
+            PositionsClass positionsClass = PositionsClass. valueOf(user.getPosition_code());
+            positionsType = PositionsType.fromClass(positionsClass);
+        } catch (InterruptedException e) {
+            logger.error("", e);
+            return response.setError(ErrorType.CONVERT);
+        }
+        boolean isSection = positionsType == PositionsType.BM || positionsType == PositionsType.AS;
+        data.setStar(isSection ? 0 : 1);
+        //处理季度标保
+        LocalDate now = LocalDate.now();
+        int monthValue = now.getMonthValue();
+        List<Integer> quarter = MyTimeTools.getQuarter(monthValue);
+        List<StadpremMonthModel> stadpremList = Lists.newArrayList();
+        for (Integer month : quarter) {
+            StadpremMonthModel model = new StadpremMonthModel();
+            model.setMonth(month);
+            LocalDate startDate = now.withMonth(month).withDayOfMonth(1);
+            LocalDate endDate = startDate.plusMonths(1);
+            double stadprem = isSection ? businessRepo.sumByDeptCode3(user.getEmployee_part_com(), startDate, endDate)
+                    : businessRepo.sumByDeptCode4(user.getEmployee_group_com(), startDate, endDate);
+            BigDecimal stadpremNumBd = new BigDecimal(String.valueOf(stadprem));
+            stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 0, RoundingMode.HALF_UP);
+            int stadpremInt = stadpremNumBd.intValue();
+            model.setStadprem(String.valueOf(stadpremInt));
+            stadpremList.add(model);
+        }
+        data.setStadpremList(stadpremList);
+        response.setData(data);
+        return response.toJson();
     }
 }
