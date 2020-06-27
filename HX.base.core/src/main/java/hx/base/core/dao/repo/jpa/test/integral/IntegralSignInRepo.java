@@ -17,4 +17,5 @@ public interface IntegralSignInRepo  extends AbstractJpaRepo<IntegralSignIn, Str
 
     @Query(" from IntegralSignIn where signInDate = ?1 and agentCode = ?2")
     IntegralSignIn findBySignInDate(LocalDate signInDate, String agentCode);
+
 }

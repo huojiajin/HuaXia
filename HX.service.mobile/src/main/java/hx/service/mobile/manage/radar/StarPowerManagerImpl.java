@@ -106,6 +106,7 @@ public class StarPowerManagerImpl extends AbstractMobileManager implements StarP
                     stadModel.setMonth(month);
                     if (month <= monthValue){
                         Double sum = businessRepo.sumByAgentCode(manpower.getAgentCode(), startDate, endDate);
+                        if (sum == null) sum = 0d;
                         stadModel.setStadprem(sum.toString());
                     }
                     stadpremList.add(stadModel);
@@ -132,6 +133,7 @@ public class StarPowerManagerImpl extends AbstractMobileManager implements StarP
                         stadModel.setMonth(month);
                         if (month <= monthValue){
                             Double sum = businessRepo.sumByAgentCode(manpower.getAgentCode(), startDate, endDate);
+                            if (sum == null) sum = 0d;
                             stadModel.setStadprem(sum.toString());
                         }
                         stadpremList.add(stadModel);
@@ -151,7 +153,8 @@ public class StarPowerManagerImpl extends AbstractMobileManager implements StarP
             if (month > monthValue) break;
             if (!hasReach) break;
             if (month < monthValue){
-                double sum = businessRepo.sumByAgentCode(agentCode, startDate, endDate);
+                Double sum = businessRepo.sumByAgentCode(agentCode, startDate, endDate);
+                if (sum == null) sum = 0d;
                 if (sum < 10000){
                     hasReach = false;
                 }

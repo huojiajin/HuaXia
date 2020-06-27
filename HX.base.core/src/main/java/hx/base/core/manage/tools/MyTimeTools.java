@@ -2,8 +2,11 @@ package hx.base.core.manage.tools;
 
 import org.apache.commons.compress.utils.Lists;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -53,5 +56,19 @@ public class MyTimeTools {
             quarter.add(12);
         }
         return quarter;
+    }
+
+    public static List<LocalDate> getWeek(LocalDate now){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+            calendar.add(Calendar.DAY_OF_WEEK, -1);
+        }
+        List<LocalDate> week = Lists.newArrayList();
+        for (int i = 0; i < 7; i++) {
+            week.add(LocalDate.parse(df.format(calendar.getTime())));
+            calendar.add(Calendar.DATE, 1);
+        }
+        return week;
     }
 }

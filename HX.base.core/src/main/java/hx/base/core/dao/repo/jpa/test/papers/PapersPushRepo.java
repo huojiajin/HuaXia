@@ -17,4 +17,7 @@ public interface PapersPushRepo extends AbstractJpaRepo<PapersPush, String> {
 
     @Query(" from PapersPush where papersId = ?1 and answerType = 'YDT'")
     List<PapersPush> listByPapersId(String papersId);
+
+    @Query(" from PapersPush where agentCode = ?1")
+    List<PapersPush> listByAgentCode(String papersId);
 }

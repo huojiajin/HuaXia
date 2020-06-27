@@ -23,6 +23,7 @@ public class Papers extends AbstractInsertTimeEntity {
     private LocalDateTime endTime;//截止时间
     private int answerTime;//答题时长
     private PapersStatus status = PapersStatus.WDR;//状态
+    private int subjectNum;//题数
     private boolean hasDelete;//是否删除
 
     @Column(name = "name")
@@ -70,6 +71,15 @@ public class Papers extends AbstractInsertTimeEntity {
 
     public void setStatus(PapersStatus status) {
         this.status = status;
+    }
+
+    @Column(name = "subject_num")
+    public int getSubjectNum() {
+        return subjectNum;
+    }
+
+    public void setSubjectNum(int subjectNum) {
+        this.subjectNum = subjectNum;
     }
 
     @Column(name = "has_delete")

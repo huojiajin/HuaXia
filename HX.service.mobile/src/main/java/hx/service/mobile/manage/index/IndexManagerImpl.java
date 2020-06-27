@@ -40,7 +40,7 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
     public String getSectionList(MobileCommonRequest request){
         CommonResponse response = new CommonResponse();
         MobileUserModel user = getUser(request.getToken());
-        if (user == null) return response.setError(ErrorType.CONVERT);
+        if (user == null) return response.setError(ErrorType.NOLOGIN);
         SectionListResponse data = new SectionListResponse();
         PositionsType positionsType;
         try {
@@ -103,7 +103,7 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
     public String getGroupList(GroupListReqeust request){
         CommonResponse response = new CommonResponse();
         MobileUserModel user = getUser(request.getToken());
-        if (user == null) return response.setError(ErrorType.CONVERT);
+        if (user == null) return response.setError(ErrorType.NOLOGIN);
         GroupListResponse data = new GroupListResponse();
         PositionsType positionsType;
         try {

@@ -17,13 +17,13 @@ import java.util.List;
 public interface BusinessRepo extends AbstractJpaRepo<Business, String> {
 
     @Query("select sum(writtenStadPrem) from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3")
-    double sumByDeptCode3(String deptCode3, LocalDate issueDateStart, LocalDate issueDateEnd);
+    Double sumByDeptCode3(String deptCode3, LocalDate issueDateStart, LocalDate issueDateEnd);
 
     @Query("select sum(writtenStadPrem) from Business where deptCode4 = ?1 and issueDate >= ?2 and issueDate < ?3")
-    double sumByDeptCode4(String deptCode4, LocalDate issueDateStart, LocalDate issueDateEnd);
+    Double sumByDeptCode4(String deptCode4, LocalDate issueDateStart, LocalDate issueDateEnd);
 
     @Query("select sum(writtenStadPrem) from Business where agentCode = ?1 and issueDate >= ?2 and issueDate < ?3")
-    double sumByAgentCode(String agentCode, LocalDate issueDateStart, LocalDate issueDateEnd);
+    Double sumByAgentCode(String agentCode, LocalDate issueDateStart, LocalDate issueDateEnd);
 
     @Query("from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3")
     List<Business> listByDeptCode3(String deptCode3, LocalDate issueDateStart, LocalDate issueDateEnd);

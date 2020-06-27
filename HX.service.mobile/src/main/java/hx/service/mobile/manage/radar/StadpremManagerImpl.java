@@ -47,8 +47,9 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
             SectionStadpremModel model = new SectionStadpremModel();
             model.setMonth(month);
             if (month <= now.getMonthValue()) {
-                double stadprem = isSection ? businessRepo.sumByDeptCode3(deptCode, startDate, endDate)
+                Double stadprem = isSection ? businessRepo.sumByDeptCode3(deptCode, startDate, endDate)
                         : businessRepo.sumByDeptCode4(deptCode, startDate, endDate);
+                if (stadprem == null) stadprem = 0d;
                 BigDecimal stadpremNumBd = new BigDecimal(String.valueOf(stadprem));
                 stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 0, RoundingMode.HALF_UP);
                 int stadpremInt = stadpremNumBd.intValue();

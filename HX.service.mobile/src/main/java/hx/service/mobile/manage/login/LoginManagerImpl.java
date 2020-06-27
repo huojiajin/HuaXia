@@ -86,26 +86,32 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
     @Override
     public String login(LoginRequest request){
         CommonResponse response = new CommonResponse();
-        Map<String, String> params = Maps.newHashMap();
-        params.put("token", request.getToken());
-        MobileUserModel mobileUser;
-        try {
-            String responseStr = hxDoGet(url + "/api/v2/uc/user/query", params);
-            HXCommonResponse<MobileUserModel> commonResponse = JsonTools.json2Object(responseStr, HXCommonResponse.class, MobileUserModel.class);
-            if (!commonResponse.getCode().equals("0")){
-                logger.error("======请求华夏API报错：{}-{}", commonResponse.getCode(), commonResponse.getMessage());
-                response.setSuccess(false);
-                response.setMessage(commonResponse.getMessage());
-                response.setErrCode(7000);
-                return response.toJson();
-            }else {
-                mobileUser = commonResponse.getData();
+        MobileUserModel mobileUser = getUser(request.getToken());
+        if (mobileUser == null) {
+            Map<String, String> params = Maps.newHashMap();
+            params.put("token", request.getToken());
+            try {
+                String responseStr = hxDoGet(url + "/api/v2/uc/user/query", params);
+                HXCommonResponse<MobileUserModel> commonResponse = JsonTools.json2Object(responseStr, HXCommonResponse.class, MobileUserModel.class);
+                if (!commonResponse.getCode().equals("0")) {
+                    logger.error("======请求华夏API报错：{}-{}", commonResponse.getCode(), commonResponse.getMessage());
+                    response.setSuccess(false);
+                    response.setMessage(commonResponse.getMessage());
+                    response.setErrCode(7000);
+                    return response.toJson();
+                } else {
+                    mobileUser = commonResponse.getData();
+                }
+            } catch (IOException e) {
+                return response.setError(ErrorType.CONVERT);
             }
-        } catch (IOException e) {
-            return response.setError(ErrorType.CONVERT);
-        }
-        if (mobileUser.getBranch_type().equals("99")) {
-            return response.setError(ErrorType.NOEMPLAYEE);
+            if (mobileUser.getBranch_type().equals("99")) {
+                return response.setError(ErrorType.NOEMPLAYEE);
+            }
+            //保存登录信息
+            memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + mobileUser.getToken(), 30*60 ,mobileUser.toJson());
+        }else{
+            memcachedClient.touch(MyMecachedPrefix.mobileLoginTokenPrefix + mobileUser.getToken(), 30*60);
         }
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setEmployeeNum(mobileUser.getEmployee_code());
@@ -123,10 +129,6 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
         }else if (mobileUser.getEmployee_type().equals("0")){//TODO 当员工为内勤时
 
         }
-
-        //保存登录信息
-        memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + mobileUser.getToken(), 30*60 ,mobileUser.toJson());
-
         response.setData(loginResponse);
         return response.toJson();
     }
@@ -138,7 +140,7 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
         String month = MyTimeTools.timeToStr(LocalDateTime.now(), "yyyy-MM");
         //获取积分
         Integral integral = integralRepo.findByAgentCode(month, mobileUser.getEmployee_code());
-        loginResponse.setIntegral(integral.getAllNum());
+        loginResponse.setIntegral(integral == null ? 0 : integral.getAllNum());
         PositionsClass positionsClass = PositionsClass.valueOf(mobileUser.getPosition_code());
         PositionsType positionsType = PositionsType.fromClass(positionsClass);
         List<MobileRoleResource> resourceList = resourceRepo.listByClass(positionsType);

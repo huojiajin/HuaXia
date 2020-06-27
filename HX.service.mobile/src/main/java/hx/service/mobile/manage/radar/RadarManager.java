@@ -22,5 +22,13 @@ public interface RadarManager {
      **/
     String radar(RadarRequest request);
 
+    /**
+     * @Name getOneselfStar
+     * @Author HuoJiaJin
+     * @Description 个人星级
+     * @Date 2020/6/27
+     * @Param [request]
+     * @return java.lang.String
+     **/
     String getOneselfStar(MobileCommonRequest request);
 }

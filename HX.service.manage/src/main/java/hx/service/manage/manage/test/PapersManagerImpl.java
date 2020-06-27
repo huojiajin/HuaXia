@@ -216,7 +216,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
     private void persist(String papersId, List<PapersSubject> subjectList, List<PapersOption> optionList){
         subjectRepo.persistAll(subjectList);
         optionRepo.persistAll(optionList);
-        papersRepo.updateStatus(papersId, PapersStatus.YDR);
+        papersRepo.updateYDR(papersId, subjectList.size());
     }
 
     private PoiExcelInfo getExcelInfo(PapersImportReqeust request) {

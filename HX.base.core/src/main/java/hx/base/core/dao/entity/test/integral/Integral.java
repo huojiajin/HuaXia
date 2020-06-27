@@ -16,7 +16,8 @@ import javax.persistence.Table;
  **/
 @Entity
 @Table(name = "hx_integral", indexes = {
-        @Index(columnList = "month", name = "hx_integral_index")
+        @Index(columnList = "month", name = "hx_integral_index"),
+        @Index(columnList = "agent_code", name = "hx_integral_index1"),
 })
 public class Integral extends AbstractInsertTimeEntity {
 

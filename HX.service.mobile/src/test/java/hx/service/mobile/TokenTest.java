@@ -35,4 +35,11 @@ public class TokenTest extends MobileApplicationTests{
         memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + token, 60*60, model.toJson());
         echo(token);
     }
+
+
+    public static void main(String[] args) {
+        for (int i = 0; i < 50; i++) {
+            echo(UUID.randomUUID().toString().replace("-", ""));
+        }
+    }
 }

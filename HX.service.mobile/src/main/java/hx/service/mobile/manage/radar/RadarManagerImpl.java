@@ -57,7 +57,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         CommonResponse response = new CommonResponse();
         RadarResponse data = new RadarResponse();
         MobileUserModel user = getUser(request.getToken());
-        if (user == null) return response.setError(ErrorType.CONVERT);
+        if (user == null) return response.setError(ErrorType.NOLOGIN);
         if (request.getGroupCode().equals("0")){//查询部相关
             handle(data, user, true, request.getSectionCode());
         }else {
@@ -84,16 +84,19 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         LocalDate endDate = now.withDayOfMonth(1).plusMonths(1);
         boolean hasReduce = false;
         //处理月均标保
-        double stadpremNum = isSection ? businessRepo.sumByDeptCode3(deptCode, startDate, endDate) :
+        Double stadpremNum = isSection ? businessRepo.sumByDeptCode3(deptCode, startDate, endDate) :
                 businessRepo.sumByDeptCode4(deptCode, startDate, endDate);
+        if (stadpremNum == null) stadpremNum = 0d;
         Map<RateType, RadarStandard> stadpremStandards = standardMap.get(RadarStandardType.STADPREM);
         int scopMin = 0;
         for (Map.Entry<RateType, RadarStandard> map : stadpremStandards.entrySet()) {
             int min = map.getValue().getMin();
-            if (scopMin < min && stadpremNum > min * 10000){
-                rateType = map.getKey();
+            if (stadpremNum >= min * 10000){
+                if (scopMin <= min) {
+                    rateType = map.getKey();
+                    scopMin = min;
+                }
             }
-            scopMin = scopMin < min ? min : scopMin;
         }
         BigDecimal stadpremNumBd = new BigDecimal(String.valueOf(stadpremNum));
         stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 0, RoundingMode.HALF_UP);
@@ -145,35 +148,38 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
 
         //最后拼装数据
         data.setGrade(rateType.getValue() + SectionType.SECTION.getName());
+
+        //下一个等级
+        RateType newRateType = RateType.fromCode(rateType.getCode() + 1);
         //月均标保
-        RadarStandard newStadStandard = standardMap.get(RadarStandardType.STADPREM).get(rateType);
+        RadarStandard newStadStandard = standardMap.get(RadarStandardType.STADPREM).get(newRateType);
         data.setStadpremMax(newStadStandard.getMin());
         data.setStadpremGap(stadpremNumInt - newStadStandard.getMin());
 
         //个人星级
-        RadarStandard newPsStandard = standardMap.get(RadarStandardType.PERSONSTAR).get(rateType);
+        RadarStandard newPsStandard = standardMap.get(RadarStandardType.PERSONSTAR).get(newRateType);
         data.setPersonStarMax(newPsStandard.getMin());
         data.setPersonStarGap(personStar - newPsStandard.getMin());
 
         //团队星级人力
-        RadarStandard newSpStandard = standardMap.get(RadarStandardType.STARPOWER).get(rateType);
+        RadarStandard newSpStandard = standardMap.get(RadarStandardType.STARPOWER).get(newRateType);
         data.setStarPowerMax(newSpStandard.getMin());
         data.setStarPowerGap(starPower.intValue() - newSpStandard.getMin());
 
         //继续率
-        RadarStandard newRateStandard = standardMap.get(RadarStandardType.RATE).get(rateType);
+        RadarStandard newRateStandard = standardMap.get(RadarStandardType.RATE).get(newRateType);
         data.setRateMax(newRateStandard.getMin());
         data.setRateGap(allRate - newRateStandard.getMin());
 
         //出勤人力
-        RadarStandard newAttendStandard = standardMap.get(RadarStandardType.ATTENDPOWER).get(rateType);
+        RadarStandard newAttendStandard = standardMap.get(RadarStandardType.ATTENDPOWER).get(newRateType);
         data.setAttendPowerMax(newAttendStandard.getMin());
         data.setAttendPowerGap(attendanceNum - newAttendStandard.getMin());
     }
 
     private RateType getRateType(RateType type, int num, RadarStandard standard, boolean hasReduce) {
         if (hasReduce) return type;
-        if (standard.getMin() > num){
+        if (standard.getMin() >= num){
             int typeCode = type.getCode() - 1;
             hasReduce = true;
             return type = typeCode > 0 ? RateType.fromCode(typeCode) : RateType.LAGGINGBEHIND;
@@ -186,7 +192,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         CommonResponse response = new CommonResponse();
         StarOneselfResponse data = new StarOneselfResponse();
         MobileUserModel user = getUser(request.getToken());
-        if (user == null) return response.setError(ErrorType.CONVERT);
+        if (user == null) return response.setError(ErrorType.NOLOGIN);
         data.setName(user.getName());
         data.setStar(Integer.valueOf(user.getFhagent_grade().substring(2)));
         PositionsType positionsType;
@@ -210,8 +216,9 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
             model.setMonth(month);
             LocalDate startDate = now.withMonth(month).withDayOfMonth(1);
             LocalDate endDate = startDate.plusMonths(1);
-            double stadprem = isSection ? businessRepo.sumByDeptCode3(user.getEmployee_part_com(), startDate, endDate)
+            Double stadprem = isSection ? businessRepo.sumByDeptCode3(user.getEmployee_part_com(), startDate, endDate)
                     : businessRepo.sumByDeptCode4(user.getEmployee_group_com(), startDate, endDate);
+            if (stadprem == null) stadprem = 0d;
             BigDecimal stadpremNumBd = new BigDecimal(String.valueOf(stadprem));
             stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 0, RoundingMode.HALF_UP);
             int stadpremInt = stadpremNumBd.intValue();
