@@ -1,6 +1,9 @@
 package hx.service.manage.manage.test;
 
-import hx.service.manage.dao.dict.*;
+import hx.service.manage.dao.dict.CourseStatus;
+import hx.service.manage.dao.dict.CourseType;
+import hx.service.manage.dao.dict.ErrorType;
+import hx.service.manage.dao.dict.PositionsClass;
 import hx.service.manage.dao.entity.MarketingManpower;
 import hx.service.manage.dao.entity.test.course.Course;
 import hx.service.manage.dao.entity.test.course.CoursePush;
@@ -16,6 +19,7 @@ import hx.service.manage.manage.poi.ExcelTemplateHelper;
 import hx.service.manage.manage.poi.WorkbookWithDataHandler;
 import hx.service.manage.manage.tools.FileTools;
 import hx.service.manage.manage.tools.JsonTools;
+import hx.service.manage.manage.tools.MyTimeTools;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.ss.usermodel.*;
@@ -28,7 +32,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -65,8 +68,7 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
         CourseQueryModel model = new CourseQueryModel();
         model.setId(course.getId());
         model.setName(course.getName());
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        model.setCreateTime(df.format(course.getInsertTime()));
+        model.setCreateTime(MyTimeTools.timeToStr(course.getInsertTime()));
         model.setType(course.getType().getCode());
         model.setStatus(course.getStatus().getCode());
         model.setUseStatus(course.isHasDelete() ? 1 : 0);
@@ -234,8 +236,7 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
             setCellStyle(cell, workbook, false);
             //学习时间
             cell = ExcelTemplateHelper.getCell(sheet, 3 + index, 3);
-            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            cell.setCellValue(df.format(push.getLearnTime()));
+            cell.setCellValue(MyTimeTools.timeToStr(push.getLearnTime()));
             setCellStyle(cell, workbook, false);
 
             index++;

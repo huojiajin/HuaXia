@@ -1,6 +1,7 @@
 package hx.service.manage.dao.dict;
 
 import com.google.common.collect.Lists;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -48,4 +49,18 @@ public enum PositionsType {
     }
 
     public abstract List<PositionsClass> getPositionsClass();
+
+    public static PositionsType fromClass(PositionsClass positionsClass) throws InterruptedException {
+        for (PositionsType type : PositionsType.values()) {
+            List<PositionsClass> classes = type.getPositionsClass();
+            if (!CollectionUtils.isEmpty(classes)){
+                for (PositionsClass oriClass : classes) {
+                    if (oriClass == positionsClass){
+                        return type;
+                    }
+                }
+            }
+        }
+        throw new InterruptedException("职级" + positionsClass.getValue() + "不存在分类");
+    }
 }

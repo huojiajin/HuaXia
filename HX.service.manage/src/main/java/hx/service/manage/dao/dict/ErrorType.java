@@ -26,6 +26,10 @@ public enum ErrorType {
     NOOPTION(70012, "选项小于两个"){},
     SCORE(70013, "所有题目分值相加不等于100"){},
     NOCOURSE(70014, "学习资料不存在"){},
+
+    //移动端
+    //登录
+    NOEMPLAYEE(70015, "客户无法访问本系统"){},
     ;
 
     private final int errCode;

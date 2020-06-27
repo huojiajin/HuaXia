@@ -2,10 +2,7 @@ package hx.service.manage.dao.entity;
 
 import hx.service.manage.dao.entity.common.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 /**
@@ -15,7 +12,10 @@ import java.time.LocalDate;
  * @time: 2020/6/17 14:52
  */
 @Entity
-@Table(name = "LTATTENDANCE")
+@Table(name = "LTATTENDANCE", indexes = {
+        @Index(columnList = "STAFFCODE", name = "LTATTENDANCE_INDEX"),
+        @Index(columnList = "ATTENDATE", name = "LTATTENDANCE_INDEX1"),
+})
 public class Attendance extends BaseEntity {
 
     private String attendanceNo;//序列号

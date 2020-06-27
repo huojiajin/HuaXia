@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @time: 2020/5/28 14:59
  */
 @RestController
-@RequestMapping("/manage/user")
+@RequestMapping("/user")
 public class UserController extends BaseEntity {
 
     @Autowired

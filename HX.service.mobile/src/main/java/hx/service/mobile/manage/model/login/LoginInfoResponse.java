@@ -1,4 +1,4 @@
-package hx.service.mobile.manage.model;
+package hx.service.mobile.manage.model.login;
 
 import hx.service.manage.dao.entity.common.BaseEntity;
 
@@ -16,8 +16,15 @@ public class LoginInfoResponse extends BaseEntity {
     private String timestamp;//时间戳
     private String sign_type = "md5";//加密方式，默认md5
     private String sign;//签名戳，生成规则：app_id+data+nonce+secret_key+sign_type+time_stamp拼接的字符串进行md5加密
+    private LoginInfoDataModel data;//业务数据
 
+    public LoginInfoDataModel getData() {
+        return data;
+    }
 
+    public void setData(LoginInfoDataModel data) {
+        this.data = data;
+    }
 
     public String getApp_id() {
         return app_id;

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @time: 2020/5/27 15:01
  */
 @RestController
-@RequestMapping("/manage/login")
+@RequestMapping("/login")
 public class WelcomeController extends MyBaseController {
 
     @Autowired

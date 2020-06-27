@@ -17,4 +17,7 @@ public interface IntegralRepo extends AbstractJpaRepo<Integral, String> {
 
     @Query(" from Integral where month = ?1 order by agentCode")
     List<Integral> listByMonth(String month);
+
+    @Query(" from Integral where month = ?1 and agentCode = ?2")
+    Integral findByAgentCode(String month, String agentCode);
 }

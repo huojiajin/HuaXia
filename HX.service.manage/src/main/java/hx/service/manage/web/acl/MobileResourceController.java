@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @time: 2020/6/18 16:14
  */
 @RestController
-@RequestMapping("/manage/mobile/resource")
+@RequestMapping("/mobile/resource")
 public class MobileResourceController extends MyBaseController {
 
     @Autowired

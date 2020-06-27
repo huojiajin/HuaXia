@@ -2,10 +2,7 @@ package hx.service.manage.dao.entity;
 
 import hx.service.manage.dao.entity.common.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 /**
@@ -15,7 +12,9 @@ import java.time.LocalDate;
  * @time: 2020/6/17 16:40
  */
 @Entity
-@Table(name = "lafhagent")
+@Table(name = "lafhagent", indexes = {
+        @Index(columnList = "AGENTCODE", name = "lafhagent_index")
+})
 public class StarRating extends BaseEntity {
     private String agentCode;//人员编码
     private String manageCom;//管理机构编码

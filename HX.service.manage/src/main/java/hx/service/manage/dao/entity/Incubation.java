@@ -13,7 +13,9 @@ import java.time.LocalDate;
  * @time: 2020/6/17 17:18
  */
 @Entity
-@Table(name = "LARearRelation")
+@Table(name = "LARearRelation", indexes = {
+        @Index(columnList = "REARAGENTCODE", name = "LARearRelation_index")
+})
 @IdClass(IncubationId.class)
 public class Incubation extends BaseEntity {
 

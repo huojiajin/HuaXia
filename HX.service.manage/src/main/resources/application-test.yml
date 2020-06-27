@@ -1,4 +1,5 @@
 server:
+  context-path: manage
   port: 80
   servlet:
     encoding:

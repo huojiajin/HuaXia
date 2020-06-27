@@ -13,7 +13,12 @@ import java.time.LocalDate;
  * @time: 2020/6/17 16:47
  */
 @Entity
-@Table(name = "FACT_YX_PREPREM_LIST")
+@Table(name = "FACT_YX_PREPREM_LIST", indexes = {
+        @Index(columnList = "AGENTCODE", name = "FACT_YX_PREPREM_LIST_INDEX"),
+        @Index(columnList = "ISSUE_DATE", name = "FACT_YX_PREPREM_LIST_INDEX1"),
+        @Index(columnList = "DEPTCODE3", name = "FACT_YX_PREPREM_LIST_INDEX2"),
+        @Index(columnList = "DEPTCODE4", name = "FACT_YX_PREPREM_LIST_INDEX3")
+})
 @IdClass(BusinessId.class)
 public class Business extends BaseEntity {
 

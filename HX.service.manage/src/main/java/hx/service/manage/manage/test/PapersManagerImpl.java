@@ -18,6 +18,7 @@ import hx.service.manage.manage.poi.PoiExcelInfo;
 import hx.service.manage.manage.poi.WorkbookWithDataHandler;
 import hx.service.manage.manage.tools.FileTools;
 import hx.service.manage.manage.tools.JsonTools;
+import hx.service.manage.manage.tools.MyTimeTools;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.ss.usermodel.*;
@@ -32,7 +33,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -90,8 +90,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         model.setName(papers.getName());
         model.setType(papers.getType().getCode());
         model.setAnswerTime(papers.getAnswerTime());
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        model.setEndTime(df.format(papers.getEndTime()));
+        model.setEndTime(MyTimeTools.timeToStr(papers.getEndTime()));
         if (LocalDateTime.now().isAfter(papers.getEndTime())){
             papersRepo.updateStatus(papers.getId(), PapersStatus.YJZ);
             model.setStatus(PapersStatus.YJZ.getCode());
@@ -107,8 +106,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         Papers papers = new Papers();
         papers.setName(request.getName());
         papers.setAnswerTime(request.getAnswerTime());
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        papers.setEndTime(LocalDateTime.parse(request.getEndTime(), df));
+        papers.setEndTime(MyTimeTools.strToTime(request.getEndTime()));
         try {
             papers.setType(PapersType.fromCode(request.getType()));
         } catch (InterruptedException e) {

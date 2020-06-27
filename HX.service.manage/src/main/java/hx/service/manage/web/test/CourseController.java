@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version 1.0
  **/
 @RestController
-@RequestMapping("/manage/test/course")
+@RequestMapping("/test/course")
 public class CourseController extends MyBaseController {
 
     @Autowired

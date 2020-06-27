@@ -13,7 +13,10 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "D_AGENT_PROVINCE", indexes = {
-        @Index(columnList = "AGENTGRADE", name = "D_AGENT_PROVINCE_INDEX")
+        @Index(columnList = "AGENTGRADE", name = "D_AGENT_PROVINCE_INDEX"),
+        @Index(columnList = "AGENTCODE", name = "D_AGENT_PROVINCE_INDEX1"),
+        @Index(columnList = "DEPTCODE3", name = "D_AGENT_PROVINCE_INDEX2"),
+        @Index(columnList = "DEPTCODE4", name = "D_AGENT_PROVINCE_INDEX3")
 })
 public class MarketingManpower extends BaseEntity {
 

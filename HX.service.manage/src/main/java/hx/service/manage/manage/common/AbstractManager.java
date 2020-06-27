@@ -26,7 +26,7 @@ public abstract class AbstractManager extends CommonAbstract {
     @Autowired
     private SystemInfoRepo systemInfoRepo;
     @Autowired
-    private MemcachedClient memcachedClient;
+    protected MemcachedClient memcachedClient;
 
     protected void addSysLog(String info, String token, String eigenValue) {
         String userStr = (String)memcachedClient.get(MyMecachedPrefix.loginTokenPrefix + token);

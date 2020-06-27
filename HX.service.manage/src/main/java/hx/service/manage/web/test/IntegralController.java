@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version 1.0
  **/
 @RestController
-@RequestMapping("/manage/test/integral")
+@RequestMapping("/test/integral")
 public class IntegralController extends MyBaseController {
 
     @Autowired

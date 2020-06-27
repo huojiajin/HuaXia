@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  * @time: 2020/5/27 10:46
  */
 @RestController
-@RequestMapping("/manage/role")
+@RequestMapping("/role")
 public class RoleController extends MyBaseController {
 
     @Autowired

@@ -17,4 +17,13 @@ public interface MarketingManpowerRepo extends AbstractJpaRepo<MarketingManpower
 
     @Query(" from MarketingManpower where agentGrade = ?1")
     List<MarketingManpower> listByAgentGrade(String agentGrade);
+
+    @Query(" from MarketingManpower where agentCode in (?1)")
+    List<MarketingManpower> listByAgentCodes(List<String> agentCodes);
+
+    @Query(" from MarketingManpower where deptCode3 = ?1")
+    List<MarketingManpower> listByDeptCode3(String deptCode3);
+
+    @Query(" from MarketingManpower where deptCode4 = ?1")
+    List<MarketingManpower> listByDeptCode4(String deptCode4);
 }
