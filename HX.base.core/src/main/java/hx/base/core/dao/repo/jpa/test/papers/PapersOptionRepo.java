@@ -17,4 +17,7 @@ public interface PapersOptionRepo extends AbstractJpaRepo<PapersOption, String> 
 
     @Query(" from PapersOption where subjectId = ?1 order by list")
     List<PapersOption> listBySubjectId(String subjectId);
+
+    @Query(" from PapersOption where subjectId in (?1) order by list")
+    List<PapersOption> listBySubjectIds(List<String> subjectIds);
 }

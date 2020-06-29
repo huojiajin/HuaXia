@@ -14,6 +14,7 @@ import hx.service.manage.manage.model.CommonPageRequest;
 import hx.service.manage.manage.model.acl.user.UserAddRequest;
 import hx.service.manage.manage.model.acl.user.UserEditRequest;
 import hx.service.manage.manage.model.acl.user.UserIdRequest;
+import hx.service.manage.manage.model.acl.user.UserModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,8 +48,19 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
         UserPageRequest pageRequest = new UserPageRequest();
         BeanUtils.copyProperties(request, pageRequest);
         Pagination page = userRepo.page(pageRequest);
+        page.convertResult(this::convert);
         response.setData(page);
         return response.toJson();
+    }
+
+    private UserModel convert(User user){
+        UserModel model = new UserModel();
+        BeanUtils.copyProperties(user, model);
+        Optional<Role> op = roleRepo.findById(user.getRoleId());
+        if (op.isPresent()){
+            model.setRoleName(op.get().getName());
+        }
+        return model;
     }
 
     @Override
@@ -73,11 +85,15 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
     }
 
     @Override
-    public void update(UserEditRequest editRequest){
+    public String update(UserEditRequest editRequest){
+        CommonResponse response = new CommonResponse();
         User user = userRepo.findById(editRequest.getId()).get();
         BeanUtils.copyProperties(editRequest, user);
         user.setUpdateTime(LocalDateTime.now());
+        addSysLog("修改用户" + editRequest.getName(), editRequest.getToken(), user.getId());
+        response.setMessage("修改用户成功");
         userRepo.save(user);
+        return response.toJson();
     }
 
     @Override

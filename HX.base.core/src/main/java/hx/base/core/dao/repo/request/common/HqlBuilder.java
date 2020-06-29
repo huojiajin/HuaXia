@@ -1,6 +1,7 @@
 package hx.base.core.dao.repo.request.common;
 
 import hx.base.core.manage.common.CommonAbstract;
+import org.springframework.util.Assert;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -40,6 +41,7 @@ public class HqlBuilder extends CommonAbstract
 
 	public HqlBuilder append(String clause, Object value)
 	{
+		Assert.notNull(value, "");
 		if (!needAppend(value)) return this;
 		hql.append(clause);
 		Matcher matcher = pattern.matcher(clause);

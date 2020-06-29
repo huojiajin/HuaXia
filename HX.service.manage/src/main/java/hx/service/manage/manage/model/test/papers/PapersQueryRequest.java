@@ -12,7 +12,7 @@ import hx.service.manage.manage.model.CommonPageRequest;
 public class PapersQueryRequest extends CommonPageRequest {
 
     private String name;//名称
-    private int type;//类别
+    private Integer type;//类别
 
     public String getName() {
         return name;
@@ -22,11 +22,11 @@ public class PapersQueryRequest extends CommonPageRequest {
         this.name = name;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 }

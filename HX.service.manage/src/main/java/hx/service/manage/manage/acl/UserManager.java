@@ -26,7 +26,7 @@ public interface UserManager {
 
     String add(UserAddRequest addRequest);
 
-    void update(UserEditRequest editRequest);
+    String update(UserEditRequest editRequest);
 
     String stop(UserIdRequest deleteRequest);
 

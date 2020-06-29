@@ -36,8 +36,6 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
         SectionStadpremResponse data = new SectionStadpremResponse();
         String sectionCode = request.getSectionCode();
         LocalDate now = LocalDate.now();
-        LocalDate startDate = now.withDayOfMonth(1);
-        LocalDate endDate = startDate.plusMonths(1);
         List<SectionStadpremModel> result = Lists.newArrayList();
         List<Integer> quarter = MyTimeTools.getQuarter(now.getMonthValue());
         boolean isSection = hasText(sectionCode);
@@ -47,13 +45,14 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
             SectionStadpremModel model = new SectionStadpremModel();
             model.setMonth(month);
             if (month <= now.getMonthValue()) {
+                LocalDate startDate = now.withMonth(month).withDayOfMonth(1);
+                LocalDate endDate = startDate.plusMonths(1);
                 Double stadprem = isSection ? businessRepo.sumByDeptCode3(deptCode, startDate, endDate)
                         : businessRepo.sumByDeptCode4(deptCode, startDate, endDate);
                 if (stadprem == null) stadprem = 0d;
                 BigDecimal stadpremNumBd = new BigDecimal(String.valueOf(stadprem));
-                stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 0, RoundingMode.HALF_UP);
-                int stadpremInt = stadpremNumBd.intValue();
-                model.setStadprem(String.valueOf(stadpremInt));
+                stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 2, RoundingMode.HALF_UP);
+                model.setStadprem(String.valueOf(stadpremNumBd.doubleValue()));
             }
             result.add(model);
         }
@@ -82,9 +81,8 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
             model.setName(groupArr[1]);
             double stadprem = map.getValue().stream().mapToDouble(Business::getWrittenStadPrem).sum();
             BigDecimal stadpremNumBd = new BigDecimal(String.valueOf(stadprem));
-            stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 0, RoundingMode.HALF_UP);
-            int stadpremInt = stadpremNumBd.intValue();
-            model.setStadprem(String.valueOf(stadpremInt));
+            stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 2, RoundingMode.HALF_UP);
+            model.setStadprem(String.valueOf(stadpremNumBd.doubleValue()));
             result.add(model);
         }
         data.setResult(result);
@@ -99,7 +97,7 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
         LocalDate now = LocalDate.now();
         LocalDate startDate = now.withMonth(request.getMonth()).withDayOfMonth(1);
         LocalDate endDate = startDate.plusMonths(1);
-        List<Business> businessList = businessRepo.listByDeptCode3(request.getGroupCode(), startDate, endDate);
+        List<Business> businessList = businessRepo.listByDeptCode4(request.getGroupCode(), startDate, endDate);
         List<PersonStadpremModel> result = Lists.newArrayList();
         Map<String, List<Business>> businessMap = businessList.stream()
                 .collect(Collectors.groupingBy(b -> b.getAgentCode() + "|" + b.getAgentName()));

@@ -14,7 +14,7 @@ import java.util.List;
 public class PaperDetailSubjectModel extends BaseEntity {
 
     private String id;//题目ID
-    private String index;//序号
+    private Integer index;//序号
     private String stem;//题干
     private int type;//题目类型 1单选 2多选
     private List<PaperDetailOptionModel> optionList;//选项List
@@ -27,11 +27,11 @@ public class PaperDetailSubjectModel extends BaseEntity {
         this.id = id;
     }
 
-    public String getIndex() {
+    public Integer getIndex() {
         return index;
     }
 
-    public void setIndex(String index) {
+    public void setIndex(Integer index) {
         this.index = index;
     }
 

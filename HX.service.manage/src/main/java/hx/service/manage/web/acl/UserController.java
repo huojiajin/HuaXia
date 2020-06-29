@@ -38,10 +38,7 @@ public class UserController extends BaseEntity {
 
     @PostMapping("/edit")
     public String edit(@RequestBody UserEditRequest editRequest){
-        userManager.update(editRequest);
-        CommonResponse response = new CommonResponse();
-        response.setMessage("修改用户成功");
-        return response.toJson();
+        return userManager.update(editRequest);
     }
 
     @PostMapping("/stop")
