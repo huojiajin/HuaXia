@@ -32,7 +32,7 @@ public class TokenTest extends MobileApplicationTests{
         model.setEmployee_part_com_name("天创部");
         model.setEmployee_group_com("861102010601001");
         model.setEmployee_group_com_name("天创部直辖组");
-        memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + token, 60*60, model.toJson());
+        memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + token, 7 * 24 * 60*60, model.toJson());
         echo(token);
     }
 

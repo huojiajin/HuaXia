@@ -50,8 +50,8 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
             logger.error("", e);
             return response.setError(ErrorType.CONVERT);
         }
-        List<SectionModel> sectionList = Lists.newArrayList();
         if (positionsType == PositionsType.BM || positionsType == PositionsType.AS){
+            List<SectionModel> sectionList = Lists.newArrayList();
             SectionModel section = new SectionModel(user.getEmployee_part_com(), user.getEmployee_part_com_name());
             sectionList.add(section);
             //查找育成人员
@@ -93,8 +93,8 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
             if (hasRearGroup){
                 sectionList.add(new SectionModel("0", "育成组"));
             }
+            data.setSectionList(sectionList);
         }
-        data.setSectionList(sectionList);
         response.setData(data);
         return response.toJson();
     }
@@ -114,13 +114,14 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
             return response.setError(ErrorType.CONVERT);
         }
         List<GroupModel> groupList = Lists.newArrayList();
-        if (!request.getSectionCode().equals("0")) {//若部名称不为育成组
-            GroupModel defaultModel = new GroupModel("0", "全部");
-            groupList.add(defaultModel);
-            if (positionsType == PositionsType.BC) {
-                GroupModel group = new GroupModel(user.getEmployee_group_com(), user.getEmployee_group_com_name());
-                groupList.add(group);
-            } else if (positionsType == PositionsType.BM || positionsType == PositionsType.AS) {
+        String sectionCode = request.getSectionCode();
+        if (!hasText(sectionCode)){
+            GroupModel group = new GroupModel(user.getEmployee_group_com(), user.getEmployee_group_com_name());
+            groupList.add(group);
+        }else {
+            if (!sectionCode.equals("0")) {//若部名称不为育成组
+                GroupModel defaultModel = new GroupModel("0", "全部");
+                groupList.add(defaultModel);
                 //查找本部下所有组
                 List<MarketingManpower> manpowers = manpowerRepo.listByDeptCode3(user.getEmployee_part_com());
                 Map<String, List<MarketingManpower>> groupMap = manpowers.stream()
@@ -130,28 +131,28 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
                     GroupModel group = new GroupModel(groupArr[0], groupArr[1]);
                     groupList.add(group);
                 }
+            } else {
+                //查找育成人员
+                List<Incubation> incubationList = incubationRepo.listByRearAgentCode(user.getEmployee_code());
+                List<String> agentCodes = incubationList.stream().map(Incubation::getAgentCode).collect(Collectors.toList());
+                List<MarketingManpower> manpowers = manpowerRepo.listByAgentCodes(agentCodes);
+                //筛选育成组
+                List<MarketingManpower> rearList = manpowers.parallelStream().filter(m -> m.getOutworkDate() == null
+                        || m.getOutworkDate().isAfter(LocalDate.now())).filter(m -> {
+                    PositionsClass positionsClass = PositionsClass.valueOf(m.getAgentGrade());
+                    try {
+                        PositionsType type = PositionsType.fromClass(positionsClass);
+                        return type == PositionsType.BC;
+                    } catch (InterruptedException e) {
+                        logger.error("", e);
+                        return false;
+                    }
+                }).collect(Collectors.toList());
+                rearList.forEach(m -> {
+                    GroupModel rearGroup = new GroupModel(m.getDeptCode4(), m.getDeptName4());
+                    groupList.add(rearGroup);
+                });
             }
-        }else{
-            //查找育成人员
-            List<Incubation> incubationList = incubationRepo.listByRearAgentCode(user.getEmployee_code());
-            List<String> agentCodes = incubationList.stream().map(Incubation::getAgentCode).collect(Collectors.toList());
-            List<MarketingManpower> manpowers = manpowerRepo.listByAgentCodes(agentCodes);
-            //筛选育成组
-            List<MarketingManpower> rearList = manpowers.parallelStream().filter(m -> m.getOutworkDate() == null
-                    || m.getOutworkDate().isAfter(LocalDate.now())).filter(m -> {
-                PositionsClass positionsClass = PositionsClass.valueOf(m.getAgentGrade());
-                try {
-                    PositionsType type = PositionsType.fromClass(positionsClass);
-                    return type == PositionsType.BC;
-                } catch (InterruptedException e) {
-                    logger.error("", e);
-                    return false;
-                }
-            }).collect(Collectors.toList());
-            rearList.forEach(m -> {
-                GroupModel rearGroup = new GroupModel(m.getDeptCode4(), m.getDeptName4());
-                groupList.add(rearGroup);
-            });
         }
         data.setGroupList(groupList);
         response.setData(data);

@@ -30,6 +30,8 @@ public enum ErrorType {
     //移动端
     //登录
     NOEMPLAYEE(70015, "客户无法访问本系统"){},
+    //基本法测试
+    HASEXPIRE(70016, "该试卷状态错误，无法作答"){},
     ;
 
     private final int errCode;

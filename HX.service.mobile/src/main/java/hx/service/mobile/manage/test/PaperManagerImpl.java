@@ -1,6 +1,7 @@
 package hx.service.mobile.manage.test;
 
 import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.dict.PapersStatus;
 import hx.base.core.dao.entity.test.papers.Papers;
 import hx.base.core.dao.entity.test.papers.PapersPush;
 import hx.base.core.dao.repo.jpa.test.papers.PapersPushRepo;
@@ -9,15 +10,14 @@ import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.MyTimeTools;
 import hx.service.mobile.manage.AbstractMobileManager;
 import hx.service.mobile.manage.model.login.MobileUserModel;
-import hx.service.mobile.manage.model.test.paper.PaperListModel;
-import hx.service.mobile.manage.model.test.paper.PaperListRequest;
-import hx.service.mobile.manage.model.test.paper.PaperListResponse;
+import hx.service.mobile.manage.model.test.paper.*;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -61,6 +61,24 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
         }
         data.setResult(result);
         response.setData(data);
+        return response.toJson();
+    }
+
+    @Override
+    public String detail(PaperDetailRequest request){
+        CommonResponse response = new CommonResponse();
+        PaperDetailResponse data = new PaperDetailResponse();
+        Optional<Papers> op = papersRepo.findById(request.getPaperId());
+        if (op.isEmpty()){
+            return response.setError(ErrorType.NOPAPERS);
+        }
+        Papers papers = op.get();
+        if (papers.getStatus() != PapersStatus.YTS){
+            return response.setError(ErrorType.HASEXPIRE);
+        }
+
+
+
         return response.toJson();
     }
 }

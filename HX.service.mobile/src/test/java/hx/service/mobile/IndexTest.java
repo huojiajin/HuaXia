@@ -22,7 +22,7 @@ public class IndexTest extends ApplicationTests{
         String url = "http://123.56.154.176:81/mobile/index/sectionlist";
 //        String url = "http://localhost:81/mobile/index/sectionlist";
         MobileCommonRequest request = new MobileCommonRequest();
-        request.setToken("25e5fe10ea244e6d80d67aa3614b1fdd");
+        request.setToken("501ba6dd06a44b4fa1370cead95e99a8");
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
     }
@@ -43,7 +43,7 @@ public class IndexTest extends ApplicationTests{
 //        String url = "http://123.56.154.176:81/mobile/index/radar";
         String url = "http://localhost:81/mobile/index/radar";
         RadarRequest request = new RadarRequest();
-        request.setToken("25e5fe10ea244e6d80d67aa3614b1fdd");
+        request.setToken("501ba6dd06a44b4fa1370cead95e99a8");
         request.setSectionCode("861102010601");
         request.setGroupCode("0");
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
