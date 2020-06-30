@@ -1,7 +1,6 @@
 package hx.service.mobile.manage.test;
 
-import hx.service.mobile.manage.model.test.paper.PaperDetailRequest;
-import hx.service.mobile.manage.model.test.paper.PaperListRequest;
+import hx.service.mobile.manage.model.test.paper.*;
 
 /**
  * @ClassName PaperManager
@@ -23,4 +22,10 @@ public interface PaperManager {
     String list(PaperListRequest request);
 
     String detail(PaperDetailRequest request);
+
+    String submit(PaperSubmitRequest request);
+
+    String getCompletedList(PaperCompletedListRequest request);
+
+    String getCompletedDetail(PaperCompletedDetailRequest request);
 }

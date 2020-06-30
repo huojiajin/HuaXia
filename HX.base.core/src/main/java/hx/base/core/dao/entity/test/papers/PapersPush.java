@@ -4,6 +4,7 @@ import hx.base.core.dao.dict.PapersAnswerType;
 import hx.base.core.dao.entity.common.AbstractInsertTimeEntity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * @ClassName PapersPush
@@ -24,6 +25,8 @@ public class PapersPush extends AbstractInsertTimeEntity {
     private String staffName;//员工姓名
     private PapersAnswerType answerType = PapersAnswerType.WDT;//答题状态
     private Integer score;//得分
+    private Integer integral;//所得积分
+    private LocalDateTime completeTime;//答题时间
 
     @Column(name = "papers_id")
     public String getPapersId() {
@@ -69,5 +72,23 @@ public class PapersPush extends AbstractInsertTimeEntity {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    @Column(name = "integral")
+    public Integer getIntegral() {
+        return integral;
+    }
+
+    public void setIntegral(Integer integral) {
+        this.integral = integral;
+    }
+
+    @Column(name = "complete_time")
+    public LocalDateTime getCompleteTime() {
+        return completeTime;
+    }
+
+    public void setCompleteTime(LocalDateTime completeTime) {
+        this.completeTime = completeTime;
     }
 }

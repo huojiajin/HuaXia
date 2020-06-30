@@ -28,6 +28,11 @@ public interface IntegralRepo extends AbstractJpaRepo<Integral, String> {
     @Query("update Integral set signInNum  = signInNum + ?1 , allNum = allNum + ?1 where month = ?1 and agentCode = ?2")
     int updateSignIn(String month, String agentCode, int integral);
 
+    @Modifying
+    @Transactional
+    @Query("update Integral set testNum  = testNum + ?1 , allNum = allNum + ?1 where month = ?1 and agentCode = ?2")
+    int updatePaper(String month, String agentCode, int integral);
+
     @Query(" from Integral where month = ?1 order by allNum desc")
     List<Integral> listRank(String month);
 }

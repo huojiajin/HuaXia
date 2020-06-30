@@ -1,6 +1,7 @@
 package hx.base.core.dao.repo.jpa.test.papers;
 
 import hx.base.core.dao.dict.PapersStatus;
+import hx.base.core.dao.dict.PapersType;
 import hx.base.core.dao.entity.test.papers.Papers;
 import hx.base.core.dao.repo.jpa.common.AbstractJpaRepo;
 import org.springframework.data.jpa.repository.Modifying;
@@ -35,4 +36,7 @@ public interface PapersRepo extends AbstractJpaRepo<Papers, String> {
     @Transactional
     @Query("update Papers set subjectNum = ?2, status = 'YDR' where id = ?1")
     int updateYDR(String id, int subjectNum);
+
+    @Query("from Papers where id in (?1) and type in (?2) and hasDelete = false")
+    List<Papers> listComplete(List<String> ids, List<PapersType> types);
 }
