@@ -3,8 +3,10 @@ package hx.service.mobile.manage.test;
 import hx.base.core.dao.dict.ErrorType;
 import hx.base.core.dao.dict.PapersStatus;
 import hx.base.core.dao.dict.PapersType;
+import hx.base.core.dao.entity.test.integral.IntegralTest;
 import hx.base.core.dao.entity.test.papers.*;
 import hx.base.core.dao.repo.jpa.test.integral.IntegralRepo;
+import hx.base.core.dao.repo.jpa.test.integral.IntegralTestRepo;
 import hx.base.core.dao.repo.jpa.test.papers.*;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.MyTimeTools;
@@ -44,6 +46,8 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
     private PapersPushAnswerRepo pushAnswerRepo;
     @Autowired
     private IntegralRepo integralRepo;
+    @Autowired
+    private IntegralTestRepo integralTestRepo;
 
     @Override
     public String list(PaperListRequest request){
@@ -154,8 +158,15 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
             integral = 15;
         }
 
+        //拼装考试积分表实体
+        IntegralTest integralTest = new IntegralTest();
+        integralTest.setAgentCode(user.getEmployee_code());
+        integralTest.setPaperId(request.getPaperId());
+        integralTest.setIntegral(integral);
+        integralTest.setInsertTime(LocalDateTime.now());
+
         //保存相关信息
-        updateAnswer(pushAnswerList, score, integral, user.getEmployee_code(), request.getPaperId());
+        updateAnswer(pushAnswerList, integralTest, score, integral, user.getEmployee_code(), request.getPaperId());
 
         //拼装返回信息
         data.setScore(score);
@@ -165,13 +176,14 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
     }
 
     @Transactional
-    private void updateAnswer(List<PapersPushAnswer> pushAnswerList, int score, int integral,
+    private void updateAnswer(List<PapersPushAnswer> pushAnswerList, IntegralTest integralTest, int score, int integral,
                               String agentCode, String papersId){
         pushAnswerRepo.persistAll(pushAnswerList);
         LocalDateTime now = LocalDateTime.now();
         pushRepo.UpdateAnswer(agentCode, papersId, score, integral, now);
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM");
         integralRepo.updatePaper(df.format(now), agentCode, integral);
+        integralTestRepo.persist(integralTest);
     }
 
     @Override

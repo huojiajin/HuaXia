@@ -27,8 +27,8 @@ public class LoginTest extends ApplicationTests{
 
     @Test
     void verify() throws URISyntaxException, IOException {
-//        String url = "http://localhost/manage/login/verify";
-        String url = "http://123.56.154.176/manage/login/verify";
+        String url = "http://localhost/manage/login/verify";
+//        String url = "http://123.56.154.176/manage/login/verify";
 
         String responseStr = HttpClientHelper.httpGet(new URI(url), "UTF-8");
         CommonResponse<VerifyResponse> response = JsonTools.json2Object(responseStr, CommonResponse.class, VerifyResponse.class);
@@ -53,8 +53,8 @@ public class LoginTest extends ApplicationTests{
         LoginRequest request = new LoginRequest();
         request.setLoginName("000000001");
         request.setPassword("123456");
-        request.setVerifyId("37fdca5b596b44abbf5804e3cebc4611");
-        request.setVerifyCode("ew4h");
+        request.setVerifyId("dc47b7dda7ac47db9c67d9b2d5cd7cb3");
+        request.setVerifyCode("4mgd");
         String url = "http://123.56.154.176/manage/login/login";
 //        String url = "http://localhost/manage/login/login";
 

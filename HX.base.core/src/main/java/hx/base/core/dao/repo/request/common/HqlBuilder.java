@@ -41,7 +41,6 @@ public class HqlBuilder extends CommonAbstract
 
 	public HqlBuilder append(String clause, Object value)
 	{
-		Assert.notNull(value, "");
 		if (!needAppend(value)) return this;
 		hql.append(clause);
 		Matcher matcher = pattern.matcher(clause);

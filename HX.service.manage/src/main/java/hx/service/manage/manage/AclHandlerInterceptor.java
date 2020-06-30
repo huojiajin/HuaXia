@@ -45,7 +45,7 @@ public class AclHandlerInterceptor extends HandlerInterceptorAdapter {
             String[] urlSplitArr = requestURI.substring(1).split("/");
             if (!urlSplitArr[1].equals("login") && !urlSplitArr[1].equals("error")) {//除登陆操作之外
                 String requestData = getOpenApiRequestData(request);
-                logger.info("request:{}", requestData);
+                if (requestData.length() < 500) logger.info("request:{}", requestData);
                 CommonRequest commonRequest = JsonTools.json2Object(requestData, CommonRequest.class);
                 String userKey = MyMecachedPrefix.loginTokenPrefix + commonRequest.getToken();
                 Object userObject = memcachedClient.get(userKey);

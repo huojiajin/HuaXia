@@ -27,7 +27,7 @@ public class PaperController extends CommonAbstract {
         return manager.list(request);
     }
 
-    @PostMapping("/list")
+    @PostMapping("/detail")
     public String getDetail(@RequestBody PaperDetailRequest request){
         return manager.detail(request);
     }

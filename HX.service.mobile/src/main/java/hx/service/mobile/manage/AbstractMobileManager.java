@@ -7,6 +7,7 @@ import hx.service.mobile.manage.model.common.AccessTokenModel;
 import hx.service.mobile.manage.model.common.HXCommonResponse;
 import hx.service.mobile.manage.model.login.MobileUserModel;
 import net.spy.memcached.MemcachedClient;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.StatusLine;
 import org.apache.http.client.config.RequestConfig;
@@ -21,7 +22,9 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -206,5 +209,30 @@ public abstract class AbstractMobileManager extends CommonAbstract {
             return null;
         }
         return user;
+    }
+
+    protected String inputStreamToBase64Str(InputStream is) throws IOException {
+        byte[] data = null;
+        try {
+            ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+            byte[] buff = new byte[100];
+            int rc = 0;
+            while ((rc = is.read(buff, 0, 100)) > 0) {
+                swapStream.write(buff, 0, rc);
+            }
+            data = swapStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    logger.error("", e);
+                    throw e;
+                }
+            }
+        }
+        return new String(Base64.encodeBase64(data));
     }
 }

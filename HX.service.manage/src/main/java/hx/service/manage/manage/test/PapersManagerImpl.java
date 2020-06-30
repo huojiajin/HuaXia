@@ -70,7 +70,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         CommonResponse response = new CommonResponse();
         PapersPageRequest pageRequest = new PapersPageRequest();
         pageRequest.setName(request.getName());
-        if (null == request.getType() && request.getType() != 0) {
+        if (null != request.getType() && request.getType() != 0) {
             try {
                 pageRequest.setType(PapersType.fromCode(request.getType()));
             } catch (InterruptedException e) {

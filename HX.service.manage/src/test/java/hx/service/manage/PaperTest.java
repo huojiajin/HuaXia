@@ -20,7 +20,7 @@ import java.io.*;
  */
 public class PaperTest extends ApplicationTests{
 
-    private static final String token = "e7958c76d0414546b4ac7c3a4ba8cae9";
+    private static final String token = "7391612fad364e879ddd482a7e3fdea0";
 
     @Test
     void query() throws IOException {

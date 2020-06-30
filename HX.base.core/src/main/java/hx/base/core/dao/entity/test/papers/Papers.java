@@ -21,9 +21,9 @@ public class Papers extends AbstractInsertTimeEntity {
     private String name;//试卷名称
     private PapersType type;//试卷类型
     private LocalDateTime endTime;//截止时间
-    private int answerTime;//答题时长
+    private Integer answerTime;//答题时长
     private PapersStatus status = PapersStatus.WDR;//状态
-    private int subjectNum;//题数
+    private Integer subjectNum;//题数
     private boolean hasDelete;//是否删除
 
     @Column(name = "name")
@@ -55,11 +55,11 @@ public class Papers extends AbstractInsertTimeEntity {
     }
 
     @Column(name = "answer_time")
-    public int getAnswerTime() {
+    public Integer getAnswerTime() {
         return answerTime;
     }
 
-    public void setAnswerTime(int answerTime) {
+    public void setAnswerTime(Integer answerTime) {
         this.answerTime = answerTime;
     }
 
@@ -74,11 +74,11 @@ public class Papers extends AbstractInsertTimeEntity {
     }
 
     @Column(name = "subject_num")
-    public int getSubjectNum() {
+    public Integer getSubjectNum() {
         return subjectNum;
     }
 
-    public void setSubjectNum(int subjectNum) {
+    public void setSubjectNum(Integer subjectNum) {
         this.subjectNum = subjectNum;
     }
 

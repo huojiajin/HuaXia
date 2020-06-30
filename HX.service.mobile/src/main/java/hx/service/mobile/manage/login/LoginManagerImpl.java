@@ -109,9 +109,9 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
                 return response.setError(ErrorType.NOEMPLAYEE);
             }
             //保存登录信息
-            memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + mobileUser.getToken(), 24*60*60 ,mobileUser.toJson());
+            memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + mobileUser.getToken(), 7*24*60*60 ,mobileUser.toJson());
         }else{
-            memcachedClient.touch(MyMecachedPrefix.mobileLoginTokenPrefix + mobileUser.getToken(), 24*60*60);
+            memcachedClient.touch(MyMecachedPrefix.mobileLoginTokenPrefix + mobileUser.getToken(), 7*24*60*60);
         }
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setEmployeeNum(mobileUser.getEmployee_code());

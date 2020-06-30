@@ -17,7 +17,7 @@ public class PapersPageRequest extends JpaPageableDataRequest<Papers> {
     private PapersType type;//试卷类型
 
     public PapersPageRequest() {
-        this.orderBy = "insertTime";
+        this.orderBy = "updateTime";
     }
 
     @Override
