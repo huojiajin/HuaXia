@@ -17,6 +17,8 @@ import java.util.UUID;
  **/
 public class TokenTest extends MobileApplicationTests{
 
+
+
     @Autowired
     private MemcachedClient memcachedClient;
 
@@ -41,4 +43,6 @@ public class TokenTest extends MobileApplicationTests{
             echo(UUID.randomUUID().toString().replace("-", ""));
         }
     }
+
+
 }

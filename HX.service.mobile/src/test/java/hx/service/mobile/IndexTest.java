@@ -17,12 +17,14 @@ import java.io.IOException;
  **/
 public class IndexTest extends ApplicationTests{
 
+    private static final String token = "162e578c24a14e72a2401e29b5c2b2ab";
+
     @Test
     public void getSectionList() throws IOException {
         String url = "http://123.56.154.176:81/mobile/index/sectionlist";
 //        String url = "http://localhost:81/mobile/index/sectionlist";
         MobileCommonRequest request = new MobileCommonRequest();
-        request.setToken("f9dd36c1380b438dbcd97d50bef29564");
+        request.setToken(token);
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
     }
@@ -32,7 +34,7 @@ public class IndexTest extends ApplicationTests{
         String url = "http://123.56.154.176:81/mobile/index/grouplist";
 //        String url = "http://localhost:81/mobile/index/grouplist";
         GroupListReqeust request = new GroupListReqeust();
-        request.setToken("f9dd36c1380b438dbcd97d50bef29564");
+        request.setToken(token);
         request.setSectionCode("861102010601");
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
@@ -43,9 +45,9 @@ public class IndexTest extends ApplicationTests{
 //        String url = "http://123.56.154.176:81/mobile/index/radar";
         String url = "http://localhost:81/mobile/index/radar";
         RadarRequest request = new RadarRequest();
-        request.setToken("501ba6dd06a44b4fa1370cead95e99a8");
+        request.setToken(token);
         request.setSectionCode("861102010601");
-        request.setGroupCode("0");
+        request.setGroupCode("861102010601044");
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
     }

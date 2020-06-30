@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -143,7 +142,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         BigDecimal writtenPremSumBd = new BigDecimal(writtenPremSum.toString());
         BigDecimal paidPremSumBd = new BigDecimal(paidPremSum.toString());
         BigDecimal allRateBd;
-        if (paidPremSumBd.equals(BigDecimal.ZERO)) {
+        if (writtenPremSumBd.compareTo(BigDecimal.ZERO) == 0) {
             allRateBd = BigDecimal.ZERO;
         }else {
             allRateBd = paidPremSumBd.divide(writtenPremSumBd, 2, RoundingMode.HALF_UP)
@@ -171,7 +170,6 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         data.setAttendPowerNum(attendanceNum);
         RadarStandard attendStandard = standardMap.get(RadarStandardType.ATTENDPOWER).get(rateType);
         rateType = getRateType(rateType, attendanceNum, attendStandard, hasReduce);
-        rateType = getRateType(rateType, attendanceNum, attendStandard, hasReduce);
 
         //最后拼装数据
         data.setGrade(rateType.getValue() + SectionType.SECTION.getName());
@@ -182,12 +180,17 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM");
         String month = df.format(now);
         RadarGrade lastRadarGrade;
+        RateType lastRateType;
         if (isSection){//获取部评级
             lastRadarGrade = radarGradeRepo.findByCode(deptCode, month, SectionType.SECTION);
         }else {//获取组评级
             lastRadarGrade = radarGradeRepo.findByCode(deptCode, month, SectionType.GROUP);
         }
-        RateType lastRateType = lastRadarGrade.getRateType();
+        if (lastRadarGrade != null) {
+            lastRateType = lastRadarGrade.getRateType();
+        }else {
+            lastRateType = RateType.LAGGINGBEHIND;
+        }
 
         //月均标保
         RadarStandard newStadStandard = standardMap.get(RadarStandardType.STADPREM).get(newRateType);
@@ -222,7 +225,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         RadarStandard lastAttendStandard = standardMap.get(RadarStandardType.ATTENDPOWER).get(lastRateType);
         data.setAttendPowerMax(newAttendStandard.getMin());
         data.setAttendPowerGap(attendanceNum - newAttendStandard.getMin());
-        data.setAttendPowerGap(attendanceNum - lastAttendStandard.getMin());
+        data.setAttendPowerLastGap(attendanceNum - lastAttendStandard.getMin());
 
         return data;
     }

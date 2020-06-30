@@ -151,17 +151,16 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
         }else {
             loginResponse.setType(2);
         }
-        //获取组评级
-        if (positionsType == PositionsType.BC){
+        //获取部、组评级
+        if (positionsType != PositionsType.FZG){
+            if (positionsType != PositionsType.BC) {
+                String sectionCode = mobileUser.getEmployee_part_com();
+                RadarGrade radarGrade = radarGradeRepo.findByCode(sectionCode, month, SectionType.SECTION);
+                loginResponse.setSectionRateGrade(radarGrade.getRateType().getValue() + SectionType.SECTION.getName());
+            }
             String groupCode = mobileUser.getEmployee_group_com();
             RadarGrade radarGrade = radarGradeRepo.findByCode(groupCode, month, SectionType.GROUP);
             loginResponse.setGroupRateGrade(radarGrade.getRateType().getValue() + SectionType.GROUP.getName());
-        }
-        //获取部评级
-        if (positionsType == PositionsType.BM || positionsType == PositionsType.AS){
-            String sectionCode = mobileUser.getEmployee_part_com();
-            RadarGrade radarGrade = radarGradeRepo.findByCode(sectionCode, month, SectionType.SECTION);
-            loginResponse.setGroupRateGrade(radarGrade.getRateType().getValue() + SectionType.SECTION.getName());
         }
         //当天是否已签到
         IntegralSignIn signIn = signInRepo.findBySignInDate(LocalDate.now(), mobileUser.getEmployee_code());

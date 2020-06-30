@@ -17,4 +17,7 @@ public interface StarRatingRepo extends AbstractJpaRepo<StarRating, String> {
 
     @Query(" from StarRating where agentCode in (?1)")
     List<StarRating> listByAgentCodes(List<String> agentCodes);
+
+    @Query(" from StarRating where agentCode = ?1")
+    StarRating findByAgentCode(String agentCode);
 }
