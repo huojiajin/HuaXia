@@ -1,5 +1,6 @@
 package hx.service.mobile.manage.model.radar.stadprem;
 
+import hx.service.mobile.manage.model.common.MobileCommonPageRequest;
 import hx.service.mobile.manage.model.common.MobileCommonRequest;
 
 /**
@@ -9,10 +10,11 @@ import hx.service.mobile.manage.model.common.MobileCommonRequest;
  * @Date 2020/6/27 9:33
  * @Version 1.0
  **/
-public class PersonStadpremRequest extends MobileCommonRequest {
+public class PersonStadpremRequest extends MobileCommonPageRequest {
 
     private int month;//月份
     private String groupCode;//组代码
+
 
     public int getMonth() {
         return month;

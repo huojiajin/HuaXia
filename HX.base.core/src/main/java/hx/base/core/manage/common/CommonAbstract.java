@@ -1,5 +1,7 @@
 package hx.base.core.manage.common;
 
+import hx.base.core.manage.tools.MyFormattingTuple;
+import hx.base.core.manage.tools.MyMessageFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -62,4 +64,19 @@ public abstract class CommonAbstract
 		}
 	}
 
+	/**
+	 * 将使用{}占位符的字符串转成日志所需要的字符串
+	 *
+	 * @param log
+	 *            日志信息
+	 * @param args
+	 *            占位符参数（依次替换占位符,比实际占位符多则取前占位符个数个，少则后面的占位符不替换）
+	 * @return 使用占位符替换后的字符串
+	 */
+	public static String toLogString(String log, Object... args)
+	{
+		if (!hasText(log) || args == null) return log;
+		MyFormattingTuple ft = MyMessageFormatter.format(log, args);
+		return ft.getMessage();
+	}
 }

@@ -68,8 +68,16 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
             model.setName(papers.getName());
             model.setEndTime(MyTimeTools.timeToStr(papers.getEndTime()));
             model.setNum(papers.getSubjectNum());
-            PapersPush push = pushMap.get(id);
-            model.setAnswerType(push.getAnswerType().getCode());
+            //判断是否已截止
+            if (papers.getEndTime().isBefore(LocalDateTime.now())){
+                if (papers.getStatus() != PapersStatus.YJZ){
+                    papersRepo.updateStatus(id, PapersStatus.YJZ);
+                }
+                model.setAnswerType(3);
+            }else {
+                PapersPush push = pushMap.get(id);
+                model.setAnswerType(push.getAnswerType().getCode());
+            }
             result.add(model);
         }
         data.setResult(result);
@@ -118,6 +126,7 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
             }).collect(Collectors.toList());
             model.setOptionList(optionModelList);
             subjectModelList.add(model);
+            subjectIndex++;
         }
         data.setSubjectList(subjectModelList);
         response.setData(data);

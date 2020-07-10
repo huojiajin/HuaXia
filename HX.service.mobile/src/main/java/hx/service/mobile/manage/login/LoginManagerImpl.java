@@ -1,5 +1,6 @@
 package hx.service.mobile.manage.login;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.google.common.collect.Maps;
 import hx.base.core.dao.dict.ErrorType;
 import hx.base.core.dao.dict.PositionsClass;
@@ -26,8 +27,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -71,16 +74,27 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
         infoResponse.setTimestamp(timestamp);
         LoginInfoDataModel data = new LoginInfoDataModel();
         data.setRedirect_url(redirectUrl);
-        infoResponse.setData(data);
+        //存放有序处理的dataJson
+        infoResponse.setData(getDataJson(data));
         setSign(infoResponse);
         response.setData(infoResponse);
         return response.toJson();
     }
 
     private void setSign(LoginInfoResponse info){
-        String encryptStr = appId + info.getData().toJson() + info.getNonce() + secretKey + info.getSign_type() + info.getTimestamp();
-        String sign = SecurityUtil.encryptByMD5(encryptStr);
+        String encryptStr = appId + info.getData() + info.getNonce() + secretKey + info.getSign_type() + info.getTimestamp();
+        byte[] hashBytes = SecurityUtil.hash(encryptStr.getBytes(), SecurityUtil.HashType.MD5);
+        String sign = new BigInteger(1, hashBytes).toString(16);
         info.setSign(sign);
+    }
+
+    private String getDataJson(LoginInfoDataModel data){
+        Map<String,String> map = new LinkedHashMap<>();
+        map.put("redirect_url",data.getRedirect_url());
+        map.put("user_type",data.getUser_type());
+        map.put("first_regist",data.getFirst_regist());
+        map.put("attach",data.getAttach());
+        return JSONUtils.toJSONString(map);
     }
 
     @Override

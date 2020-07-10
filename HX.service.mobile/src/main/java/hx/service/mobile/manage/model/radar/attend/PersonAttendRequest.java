@@ -1,5 +1,6 @@
 package hx.service.mobile.manage.model.radar.attend;
 
+import hx.service.mobile.manage.model.common.MobileCommonPageRequest;
 import hx.service.mobile.manage.model.common.MobileCommonRequest;
 
 /**
@@ -9,7 +10,7 @@ import hx.service.mobile.manage.model.common.MobileCommonRequest;
  * @Date 2020/6/27 17:54
  * @Version 1.0
  **/
-public class PersonAttendRequest extends MobileCommonRequest {
+public class PersonAttendRequest extends MobileCommonPageRequest {
 
     private int month;//月份
     private String groupCode;//组代码

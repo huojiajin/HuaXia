@@ -34,6 +34,6 @@ public enum PapersSubjectType {
                 return type;
             }
         }
-        throw new InterruptedException("无此类型" + code);
+        throw new InterruptedException("此类型不存在" + code);
     }
 }

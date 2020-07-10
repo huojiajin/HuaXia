@@ -37,6 +37,6 @@ public enum CourseType {
                 return type;
             }
         }
-        throw new InterruptedException("无此状态:" + code);
+        throw new InterruptedException("此类型不存在" + code);
     }
 }

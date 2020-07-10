@@ -33,7 +33,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -158,6 +160,10 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
         }
         List<CoursePush> pushList = Lists.newArrayList();
         List<String> rankCodeList = request.getRankCodeList();
+        //查询已推送数据
+        List<CoursePush> pushedList = coursePushRepo.listByCourseId(request.getCourseId());
+        Map<String, CoursePush> pushedMap = pushedList.stream()
+                .collect(Collectors.toMap(CoursePush::getAgentCode, Function.identity()));
         for (String rankCode : rankCodeList) {
             try {
                 PositionsClass.valueOf(rankCode);
@@ -167,6 +173,7 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
             }
             List<MarketingManpower> manpowers = manpowerRepo.listByAgentGrade(rankCode);
             for (MarketingManpower manpower : manpowers) {
+                if(null != pushedMap.get(manpower.getAgentCode())) continue;
                 CoursePush entity = new CoursePush();
                 entity.setAgentCode(manpower.getAgentCode());
                 entity.setStaffName(manpower.getName());

@@ -50,11 +50,9 @@ public class RadarGradeConfig extends MobileApplicationTests{
     private RadarGradeRepo radarGradeRepo;
 
     @Test
-    public void setRadarGrade(){
+    public void setRadarGrade() throws InterruptedException {
         LocalDate now = LocalDate.now();
         List<MarketingManpower> manpowerList = manpowerRepo.findAll();
-        //过滤离职人员
-        manpowerList = manpowerList.stream().filter(m -> m.getOutworkDate() == null || m.getOutworkDate().isAfter(now)).collect(Collectors.toList());
         //根据部代码区分人员
         Map<String, List<MarketingManpower>> manPowerMaps = manpowerList.parallelStream()
                 .collect(Collectors.groupingBy(MarketingManpower::getDeptCode3));
@@ -110,7 +108,7 @@ public class RadarGradeConfig extends MobileApplicationTests{
         radarGradeRepo.persistAll(radarGradeList);
     }
 
-    private RadarGrade handle(boolean isSection, String deptCode, MarketingManpower manage){
+    private RadarGrade handle(boolean isSection, String deptCode, MarketingManpower manage) throws InterruptedException {
         System.out.println("======" + (isSection ? "部" : "组") + "详细信息");
         List<RadarStandard> standards = standardRepo.findAll();
         RateType rateType = null;
@@ -226,7 +224,7 @@ public class RadarGradeConfig extends MobileApplicationTests{
         return radarGrade;
     }
 
-    private RateType getRateType(RateType type, double num, RadarStandard standard, boolean hasReduce) {
+    private RateType getRateType(RateType type, double num, RadarStandard standard, boolean hasReduce) throws InterruptedException {
         if (hasReduce) return type;
         if (standard.getMin() >= num){
             int typeCode = type.getCode() - 1;

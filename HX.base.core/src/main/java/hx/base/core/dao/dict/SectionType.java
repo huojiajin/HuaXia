@@ -9,8 +9,8 @@ package hx.base.core.dao.dict;
  **/
 public enum SectionType {
 
-    SECTION("部", "区域总", 1){},
-    GROUP("组", "组经理", 2){},
+    SECTION("部", "区域总", 0){},
+    GROUP("组", "组经理", 1){},
     ;
 
     SectionType(String value, String name, int code) {
@@ -33,5 +33,14 @@ public enum SectionType {
 
     public int getCode() {
         return code;
+    }
+
+    public static SectionType fromCode(int code) throws InterruptedException {
+        for (SectionType type : SectionType.values()) {
+            if (type.getCode() == code){
+                return type;
+            }
+        }
+        throw new InterruptedException("此类型不存在" + code);
     }
 }

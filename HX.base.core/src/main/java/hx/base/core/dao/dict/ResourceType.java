@@ -79,13 +79,13 @@ public enum ResourceType {
         return typeList;
     }
 
-    public static ResourceType fromCode(int code){
+    public static ResourceType fromCode(int code) throws InterruptedException {
         ResourceType[] typsArr = ResourceType.values();
         for (ResourceType type : typsArr) {
             if (type.getCode() == code){
                 return type;
             }
         }
-        return null;
+        throw new InterruptedException("此类型不存在" + code);
     }
 }

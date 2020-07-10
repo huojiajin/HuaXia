@@ -63,16 +63,21 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         RadarResponse data;
         MobileUserModel user = getUser(request.getToken());
         if (user == null) return response.setError(ErrorType.NOLOGIN);
-        if (request.getGroupCode().equals("0")){//查询部相关
-            data = handle(user, true, request.getSectionCode());
-        }else {
-            data = handle(user, false, request.getGroupCode());
+        try {
+            if (request.getGroupCode().equals("0")){//查询部相关
+                data = handle(user, true, request.getSectionCode());
+            }else {
+                data = handle(user, false, request.getGroupCode());
+            }
+        } catch (Exception e) {
+            logger.error("", e);
+            return response.setError(ErrorType.CONVERT);
         }
         response.setData(data);
         return response.toJson();
     }
 
-    private RadarResponse handle(MobileUserModel user, boolean isSection, String deptCode) {
+    private RadarResponse handle(MobileUserModel user, boolean isSection, String deptCode) throws InterruptedException {
         RadarResponse data = new RadarResponse();
         List<RadarStandard> standards = standardRepo.findAll();
         RateType rateType = null;
@@ -230,7 +235,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         return data;
     }
 
-    private RateType getRateType(RateType type, double num, RadarStandard standard, boolean hasReduce) {
+    private RateType getRateType(RateType type, double num, RadarStandard standard, boolean hasReduce) throws InterruptedException {
         if (hasReduce) return type;
         if (standard.getMin() >= num){
             int typeCode = type.getCode() - 1;

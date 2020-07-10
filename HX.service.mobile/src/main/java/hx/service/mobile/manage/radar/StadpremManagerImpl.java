@@ -1,13 +1,20 @@
 package hx.service.mobile.manage.radar;
 
 import hx.base.core.dao.entity.Business;
+import hx.base.core.dao.entity.MarketingManpower;
 import hx.base.core.dao.repo.jpa.BusinessRepo;
+import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
+import hx.base.core.dao.repo.request.MarketingManpowerPageRequest;
+import hx.base.core.dao.repo.request.common.Pagination;
+import hx.base.core.dao.repo.request.test.BusinessPageRequest;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.MyTimeTools;
 import hx.service.mobile.manage.AbstractMobileManager;
 import hx.service.mobile.manage.model.radar.stadprem.*;
 import org.apache.commons.compress.utils.Lists;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -29,6 +36,8 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
 
     @Autowired
     private BusinessRepo businessRepo;
+    @Autowired
+    private MarketingManpowerRepo manpowerRepo;
 
     @Override
     public String getSectionStadprem(SectionStadpremRequest request){
@@ -100,14 +109,20 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
         List<Business> businessList = businessRepo.listByDeptCode4(request.getGroupCode(), startDate, endDate);
         List<PersonStadpremModel> result = Lists.newArrayList();
         Map<String, List<Business>> businessMap = businessList.stream()
-                .collect(Collectors.groupingBy(b -> b.getAgentCode() + "|" + b.getAgentName()));
-        for (Map.Entry<String, List<Business>> map : businessMap.entrySet()) {
+                .collect(Collectors.groupingBy(Business::getAgentCode));
+        MarketingManpowerPageRequest pageRequest = new MarketingManpowerPageRequest();
+        BeanUtils.copyProperties(request,pageRequest);
+        pageRequest.setDeptCode4(request.getGroupCode());
+        Pagination page = manpowerRepo.page(pageRequest);
+        BeanUtils.copyProperties(page, data);
+        for (MarketingManpower manpower : page.getResult(MarketingManpower.class)) {
             PersonStadpremModel model = new PersonStadpremModel();
-            model.setAgentCode(map.getKey().split("\\|")[0]);
-            model.setName(map.getKey().split("\\|")[1]);
-            Double preStadprem = map.getValue().parallelStream().mapToDouble(Business::getPreStadPrem).sum();
+            String agentCode = manpower.getAgentCode();
+            model.setAgentCode(agentCode);
+            model.setName(manpower.getName());
+            Double preStadprem = businessMap.get(agentCode).parallelStream().mapToDouble(Business::getPreStadPrem).sum();
             model.setPreStadprem(preStadprem.toString());
-            Double stadPrem = map.getValue().parallelStream().mapToDouble(Business::getWrittenStadPrem).sum();
+            Double stadPrem = businessMap.get(agentCode).parallelStream().mapToDouble(Business::getWrittenStadPrem).sum();
             model.setStadprem(stadPrem.toString());
             model.setType(stadPrem > 5000 ? 1 : 0);
             result.add(model);
@@ -124,9 +139,14 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
         LocalDate now = LocalDate.now();
         LocalDate startDate = now.withMonth(request.getMonth()).withDayOfMonth(1);
         LocalDate endDate = startDate.plusMonths(1);
-        List<Business> businessList = businessRepo.listByAgentCode(request.getAgentCode(), startDate, endDate);
+        BusinessPageRequest pageRequest = new BusinessPageRequest();
+        BeanUtils.copyProperties(request, pageRequest);
+        pageRequest.setIssueDateStart(startDate);
+        pageRequest.setIssueDateEnd(endDate);
+        Pagination page = businessRepo.page(pageRequest);
+        BeanUtils.copyProperties(page, data);
         List<PersonStadpremDetailModel> result = Lists.newArrayList();
-        for (Business business : businessList) {
+        for (Business business : page.getResult(Business.class)) {
             PersonStadpremDetailModel model = new PersonStadpremDetailModel();
             model.setPolicyNo(business.getPolicyNo());
             model.setCustomerName(business.getApplicantName());

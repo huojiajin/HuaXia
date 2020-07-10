@@ -73,13 +73,13 @@ public enum MobileResourceType {
         return typeList;
     }
 
-    private static MobileResourceType fromCode(int code){
+    private static MobileResourceType fromCode(int code) throws InterruptedException {
         MobileResourceType[] typsArr = MobileResourceType.values();
         for (MobileResourceType type : typsArr) {
             if (type.getCode() == code){
                 return type;
             }
         }
-        return null;
+        throw new InterruptedException("此类型不存在" + code);
     }
 }

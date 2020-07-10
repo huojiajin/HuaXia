@@ -2,6 +2,7 @@ package hx.service.manage.manage.test;
 
 import hx.base.core.dao.dict.*;
 import hx.base.core.dao.entity.MarketingManpower;
+import hx.base.core.dao.entity.test.course.CoursePush;
 import hx.base.core.dao.entity.test.papers.*;
 import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
 import hx.base.core.dao.repo.jpa.test.papers.*;
@@ -312,6 +313,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         BeanUtils.copyProperties(request, pageRequest);
         pageRequest.setPapersId(request.getId());
         Pagination page = subjectRepo.page(pageRequest);
+        BeanUtils.copyProperties(page, viewResponse);
         for (PapersSubject subject : page.getResult(PapersSubject.class)) {
             PapersViewModel model = new PapersViewModel();
             model.setIndex(subject.getList());
@@ -333,6 +335,10 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         CommonResponse response = new CommonResponse();
         List<PapersPush> pushList = Lists.newArrayList();
         List<String> rankCodeList = request.getRankCodeList();
+        //查询已推送数据
+        List<PapersPush> pushedList = pushRepo.listByPapersId(request.getPaperId());
+        Map<String, PapersPush> pushedMap = pushedList.stream()
+                .collect(Collectors.toMap(PapersPush::getAgentCode, Function.identity()));
         for (String rankCode : rankCodeList) {
             try {
                 PositionsClass.valueOf(rankCode);
@@ -342,6 +348,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
             }
             List<MarketingManpower> manpowers = manpowerRepo.listByAgentGrade(rankCode);
             for (MarketingManpower manpower : manpowers) {
+                if(null != pushedMap.get(manpower.getAgentCode())) continue;
                 PapersPush entity = new PapersPush();
                 entity.setAgentCode(manpower.getAgentCode());
                 entity.setStaffName(manpower.getName());

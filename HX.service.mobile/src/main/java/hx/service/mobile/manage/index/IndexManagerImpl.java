@@ -58,11 +58,8 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
             List<Incubation> incubationList = incubationRepo.listByRearAgentCode(user.getEmployee_code());
             List<String> agentCodes = incubationList.stream().map(Incubation::getAgentCode).collect(Collectors.toList());
             List<MarketingManpower> manpowers = manpowerRepo.listByAgentCodes(agentCodes);
-
             //筛选育成部
-            List<MarketingManpower> rearList = manpowers.parallelStream().filter(m -> m.getOutworkDate() == null
-                    || m.getOutworkDate().isAfter(LocalDate.now())).collect(Collectors.toList());
-            rearList = rearList.stream().filter(m -> {
+            List<MarketingManpower> rearList = manpowers.stream().filter(m -> {
                 PositionsClass positionsClass = PositionsClass.valueOf(m.getAgentGrade());
                 try {
                     PositionsType type = PositionsType.fromClass(positionsClass);
@@ -137,8 +134,7 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
                 List<String> agentCodes = incubationList.stream().map(Incubation::getAgentCode).collect(Collectors.toList());
                 List<MarketingManpower> manpowers = manpowerRepo.listByAgentCodes(agentCodes);
                 //筛选育成组
-                List<MarketingManpower> rearList = manpowers.parallelStream().filter(m -> m.getOutworkDate() == null
-                        || m.getOutworkDate().isAfter(LocalDate.now())).filter(m -> {
+                List<MarketingManpower> rearList = manpowers.parallelStream().filter(m -> {
                     PositionsClass positionsClass = PositionsClass.valueOf(m.getAgentGrade());
                     try {
                         PositionsType type = PositionsType.fromClass(positionsClass);

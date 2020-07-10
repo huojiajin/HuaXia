@@ -22,7 +22,7 @@ public class PapersSubjectPageRequest extends JpaPageableDataRequest<PapersSubje
     @Override
     public HqlBuilder toSelectHql() {
         HqlBuilder hql = new HqlBuilder(" from " + clazz.getName() + " where 1=1");
-        hql.append(" papersId = :papersId", papersId);
+        hql.append(" and papersId = :papersId", papersId);
         return hql;
     }
 

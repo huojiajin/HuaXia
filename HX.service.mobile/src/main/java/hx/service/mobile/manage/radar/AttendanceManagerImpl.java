@@ -4,11 +4,14 @@ import hx.base.core.dao.entity.Attendance;
 import hx.base.core.dao.entity.MarketingManpower;
 import hx.base.core.dao.repo.jpa.AttendanceRepo;
 import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
+import hx.base.core.dao.repo.request.MarketingManpowerPageRequest;
+import hx.base.core.dao.repo.request.common.Pagination;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.MyTimeTools;
 import hx.service.mobile.manage.AbstractMobileManager;
 import hx.service.mobile.manage.model.radar.attend.*;
 import org.apache.commons.compress.utils.Lists;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -108,9 +111,12 @@ public class AttendanceManagerImpl extends AbstractMobileManager implements Atte
         PersonAttendResponse data = new PersonAttendResponse();
         LocalDate startDate = LocalDate.now().withMonth(request.getMonth()).withDayOfMonth(1);
         LocalDate endDate = startDate.plusMonths(1);
-        List<MarketingManpower> manpowerList = manpowerRepo.listByDeptCode4(request.getGroupCode());
+        MarketingManpowerPageRequest pageRequest = new MarketingManpowerPageRequest();
+        pageRequest.setDeptCode4(request.getGroupCode());
+        Pagination pagn = manpowerRepo.page(pageRequest);
+        BeanUtils.copyProperties(pagn, data);
         List<PersonAttendModel> result = Lists.newArrayList();
-        for (MarketingManpower manpower : manpowerList) {
+        for (MarketingManpower manpower : pagn.getResult(MarketingManpower.class)) {
             PersonAttendModel model = new PersonAttendModel();
             model.setName(manpower.getName());
             model.setEntryTime(manpower.getEmployDate().toString());

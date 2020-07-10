@@ -42,32 +42,49 @@ public class SignInManagerImpl extends AbstractMobileManager implements SignInMa
     public String signIn(MobileCommonRequest request){
         CommonResponse response = new CommonResponse();
         SignInResponse data = new SignInResponse();
+        LocalDate now = LocalDate.now();
         MobileUserModel user = getUser(request.getToken());
         if (user == null) return response.setError(ErrorType.NOLOGIN);
-        IntegralSignIn signIn = new IntegralSignIn();
         String agentCode = user.getEmployee_code();
+        IntegralSignIn todaySignIn = signInRepo.findBySignInDate(now, agentCode);
+        if (todaySignIn != null){
+            return response.setError(ErrorType.HASSIGNUP);
+        }
+        IntegralSignIn signIn = new IntegralSignIn();
         signIn.setAgentCode(agentCode);
-        LocalDate now = LocalDate.now();
         signIn.setSignInDate(now);
         List<LocalDate> week = MyTimeTools.getWeek(now);
         boolean isSeries = false;
         String weekSign = "";
+        String weekIntegral = "";
         for (LocalDate date : week) {
             IntegralSignIn signInDate = signInRepo.findBySignInDate(date, agentCode);
             if (signInDate == null){
-                weekSign += "0|";
+                if (date.isEqual(now)){
+                    weekSign += "1|";
+                    IntegralSignIn yesSign = signInRepo.findBySignInDate(date.minusDays(1), agentCode);
+                    if (yesSign != null){
+                        isSeries = true;
+                        weekIntegral += "10|";
+                    }else{
+                        weekIntegral += "5|";
+                    }
+                }else {
+                    weekSign += "0|";
+                    weekIntegral += "0|";
+                }
             }else {
+                weekIntegral += signInDate.getIntegral() + "|";
                 weekSign += "1|";
-            }
-            if (now.minusDays(1).isEqual(date)){
-                isSeries = true;
             }
         }
         int integral = isSeries ? 10 : 5;
         signIn.setIntegral(integral);
+        //保存相关数据
         updateIntegral(signIn, user);
         data.setIntegral(integral);
         data.setWeekSign(weekSign);
+        data.setWeekIntegral(weekIntegral);
         response.setData(data);
         return response.toJson();
     }

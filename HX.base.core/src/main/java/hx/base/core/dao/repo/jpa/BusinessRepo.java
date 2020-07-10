@@ -33,4 +33,10 @@ public interface BusinessRepo extends AbstractJpaRepo<Business, String> {
 
     @Query("from Business where agentCode = ?1 and issueDate >= ?2 and issueDate < ?3")
     List<Business> listByAgentCode(String agentCode, LocalDate issueDateStart, LocalDate issueDateEnd);
+
+    @Query("select agentCode, sum(writtenStadPrem) from Business where deptCode4 = ?1 and issueDate >= ?2 and issueDate < ?3 group by agentCode")
+    List<Object[]> listSumByGroup(String groupCode, LocalDate issueDateStart, LocalDate issueDateEnd);
+
+    @Query("select agentCode, sum(writtenStadPrem) from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3 group by agentCode")
+    List<Object[]> listSumBySection(String sectionCode, LocalDate issueDateStart, LocalDate issueDateEnd);
 }

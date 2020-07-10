@@ -111,6 +111,7 @@ public class StarPowerManagerImpl extends AbstractMobileManager implements StarP
                     }
                     stadpremList.add(stadModel);
                 }
+                model.setStadpremList(stadpremList);
                 result.add(model);
             }
         }else {//查找预四星人员

@@ -13,7 +13,7 @@ public class LoginInfoDataModel extends BaseEntity {
 
     private String redirect_url;//登录成功后要重定向的业务链接地址，商户提供
     private String user_type = "1";//登陆类型。1代表业务员登陆，2代表用户登录，其他登陆类型待开放
-    private String first_regist;//是否首次注册，Y-是，N-否（为空则默认为N）
+    private String first_regist = "N";//是否首次注册，Y-是，N-否（为空则默认为N）
     private String attach;
 
     public String getRedirect_url() {

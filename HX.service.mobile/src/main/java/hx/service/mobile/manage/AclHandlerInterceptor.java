@@ -44,7 +44,7 @@ public class AclHandlerInterceptor extends HandlerInterceptorAdapter {
                 if (userObject == null) {
                     return errorResponse(response, ErrorType.NOLOGIN);
                 }
-                memcachedClient.touch(userKey, 30 * 60);
+                memcachedClient.touch(userKey, 7 * 24 * 60 * 60);
             }
         } catch (Exception e) {
             logger.error("", e);

@@ -31,12 +31,12 @@ public enum RateType {
         return code;
     }
 
-    public static RateType fromCode(int code){
+    public static RateType fromCode(int code) throws InterruptedException {
         for (RateType type : RateType.values()) {
             if (type.getCode() == code){
                 return type;
             }
         }
-        return null;
+        throw new InterruptedException("此类型不存在" + code);
     }
 }

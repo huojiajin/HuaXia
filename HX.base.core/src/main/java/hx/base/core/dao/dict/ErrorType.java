@@ -31,9 +31,10 @@ public enum ErrorType {
     //登录
     NOEMPLAYEE(70015, "客户无法访问本系统"){},
     //基本法测试
-    HASEXPIRE(70016, "该试卷状态错误，无法作答"){},
+    HASEXPIRE(70016, "该试卷无法作答"){},
     HASSTOP(70017, "该资料已停止使用，无法学习"){},
     HASLEARNED(70018, "已学习过该资料，不获得积分"){},
+    HASSIGNUP(70019, "不可重复签到"){},
     ;
 
     private final int errCode;

@@ -25,7 +25,7 @@ public interface IntegralRepo extends AbstractJpaRepo<Integral, String> {
 
     @Modifying
     @Transactional
-    @Query("update Integral set signInNum  = signInNum + ?1 , allNum = allNum + ?1 where month = ?1 and agentCode = ?2")
+    @Query("update Integral set signInNum  = signInNum + ?3 , allNum = allNum + ?3 where month = ?1 and agentCode = ?2")
     int updateSignIn(String month, String agentCode, int integral);
 
     @Modifying

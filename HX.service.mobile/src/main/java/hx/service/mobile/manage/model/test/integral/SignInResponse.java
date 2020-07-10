@@ -13,6 +13,7 @@ public class SignInResponse extends BaseEntity {
 
     private int integral;//积分
     private String weekSign;//周签到情况
+    private String weekIntegral;//周获取积分情况
 
     public int getIntegral() {
         return integral;
@@ -28,5 +29,13 @@ public class SignInResponse extends BaseEntity {
 
     public void setWeekSign(String weekSign) {
         this.weekSign = weekSign;
+    }
+
+    public String getWeekIntegral() {
+        return weekIntegral;
+    }
+
+    public void setWeekIntegral(String weekIntegral) {
+        this.weekIntegral = weekIntegral;
     }
 }

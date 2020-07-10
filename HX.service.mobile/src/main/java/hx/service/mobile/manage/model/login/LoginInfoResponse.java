@@ -16,15 +16,7 @@ public class LoginInfoResponse extends BaseEntity {
     private String timestamp;//时间戳
     private String sign_type = "md5";//加密方式，默认md5
     private String sign;//签名戳，生成规则：app_id+data+nonce+secret_key+sign_type+time_stamp拼接的字符串进行md5加密
-    private LoginInfoDataModel data;//业务数据
-
-    public LoginInfoDataModel getData() {
-        return data;
-    }
-
-    public void setData(LoginInfoDataModel data) {
-        this.data = data;
-    }
+    private String data;//业务数据Json，需要按顺序解析
 
     public String getApp_id() {
         return app_id;
@@ -64,5 +56,13 @@ public class LoginInfoResponse extends BaseEntity {
 
     public void setSign(String sign) {
         this.sign = sign;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }
