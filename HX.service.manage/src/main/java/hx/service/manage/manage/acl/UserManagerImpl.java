@@ -8,17 +8,17 @@ import hx.base.core.dao.repo.jpa.acl.UserRepo;
 import hx.base.core.dao.repo.request.acl.UserPageRequest;
 import hx.base.core.dao.repo.request.common.Pagination;
 import hx.base.core.manage.model.CommonResponse;
+import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.SecurityUtil;
 import hx.service.manage.manage.AbstractManager;
+import hx.service.manage.manage.MyMecachedPrefix;
 import hx.service.manage.manage.model.CommonPageRequest;
-import hx.service.manage.manage.model.acl.user.UserAddRequest;
-import hx.service.manage.manage.model.acl.user.UserEditRequest;
-import hx.service.manage.manage.model.acl.user.UserIdRequest;
-import hx.service.manage.manage.model.acl.user.UserModel;
+import hx.service.manage.manage.model.acl.user.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -36,6 +36,7 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
     private UserRepo userRepo;
     @Autowired
     private RoleRepo roleRepo;
+
 
     @Override
     public User findByLoginName(String loginName){
@@ -74,7 +75,7 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
         BeanUtils.copyProperties(addRequest, user);
         user.setLoginName(user.getEmployeeNum());
         //密码加密
-        byte[] hashBytes = SecurityUtil.hash(addRequest.getEmployeeNum().getBytes(), SecurityUtil.HashType.SHA_1);
+        byte[] hashBytes = SecurityUtil.hash(addRequest.getEmployeeNum().getBytes(), SecurityUtil.HashType.MD5);
         String password = new BigInteger(1, hashBytes).toString(16);
         user.setPassword(password);
         user.setInsertTime(LocalDateTime.now());
@@ -125,5 +126,28 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
         response.setMessage("启用用户成功");
         return response.toJson();
 
+    }
+
+    @Override
+    public String passwordEdit(UserPasswordEditRequest request){
+        CommonResponse response = new CommonResponse();
+        User user = getUser(request.getToken());
+        if (user == null) return response.setError(ErrorType.NOLOGIN);
+        //校验密码
+        byte[] hashBytes = SecurityUtil.hash(request.getPassword().getBytes(), SecurityUtil.HashType.MD5);
+        String requestPassword = new BigInteger(1, hashBytes).toString(16);
+        if (!requestPassword.equals(user.getPassword())){
+            return response.setError(ErrorType.PASSWORD);
+        }
+
+        //新密码加密
+        byte[] newHashBytes = SecurityUtil.hash(request.getNewPassword().getBytes(), SecurityUtil.HashType.MD5);
+        String password = new BigInteger(1, newHashBytes).toString(16);
+        userRepo.updatePassword(user.getId(), password, LocalDateTime.now());
+
+        addSysLog("修改密码" + user.getName(), request.getToken(), user.getId());
+
+        response.setMessage("修改密码成功");
+        return response.toJson();
     }
 }

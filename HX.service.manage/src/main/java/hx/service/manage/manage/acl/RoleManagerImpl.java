@@ -117,7 +117,12 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
         for (Integer code : resourceRequest.getResourceCodeList()) {
             RoleResource roleResource = new RoleResource();
             roleResource.setRoleId(roleId);
-            roleResource.setResourceType(ResourceType.fromCode(code));
+            try {
+                roleResource.setResourceType(ResourceType.fromCode(code));
+            } catch (InterruptedException e) {
+                logger.error("", e);
+                return response.setError(ErrorType.CONVERT);
+            }
             roleResourceList.add(roleResource);
         }
         roleResourceRepo.deleteByRoleId(roleId);

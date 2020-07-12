@@ -1,6 +1,7 @@
 package hx.service.mobile.manage.model.login;
 
 import hx.base.core.dao.entity.common.BaseEntity;
+import hx.service.mobile.manage.model.common.MobileCommonPageRequest;
 
 /**
  * @ClassName LoginRequest
@@ -9,15 +10,6 @@ import hx.base.core.dao.entity.common.BaseEntity;
  * @Date 2020/6/26 13:47
  * @Version 1.0
  **/
-public class LoginRequest extends BaseEntity {
+public class LoginRequest extends MobileCommonPageRequest {
 
-    private String token;
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 }

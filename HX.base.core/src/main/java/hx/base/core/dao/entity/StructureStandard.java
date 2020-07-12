@@ -64,7 +64,7 @@ public class StructureStandard extends AbstractInsertTimeEntity {
         this.min = min;
     }
 
-    @Column(name = "inferiority", nullable = false)
+    @Column(name = "inferiority")
     public String getInferiority() {
         return inferiority;
     }
@@ -73,7 +73,7 @@ public class StructureStandard extends AbstractInsertTimeEntity {
         this.inferiority = inferiority;
     }
 
-    @Column(name = "advantage", nullable = false)
+    @Column(name = "advantage")
     public String getAdvantage() {
         return advantage;
     }
@@ -82,7 +82,7 @@ public class StructureStandard extends AbstractInsertTimeEntity {
         this.advantage = advantage;
     }
 
-    @Column(name = "advise", nullable = false)
+    @Column(name = "advise")
     public String getAdvise() {
         return advise;
     }

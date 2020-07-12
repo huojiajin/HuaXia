@@ -78,13 +78,18 @@ spring:
         login-password: 18513086652
 
   jpa:
+    #hibernate设置
+    hibernate:
+      naming:
+        physical-strategy: hx.service.manage.config.HXNamingStrategy
     properties:
-      #hibernate设置
-      #方言
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        #方言
+        #dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         # 自动建表方式
         hbm2ddl.auto: update
+        # 显示sql
+#        show_sql: true
 
 
 

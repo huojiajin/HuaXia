@@ -368,9 +368,15 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
             }
         }
         StructureStandard standard = maps.get(rateType);
-        advantage.add(standard.getAdvantage());
-        inferiority.add(standard.getInferiority());
-        advice.add(standard.getAdvise());
+        if (hasText(standard.getAdvantage())) {
+            advantage.add(standard.getAdvantage());
+        }
+        if (hasText(standard.getInferiority())) {
+            inferiority.add(standard.getInferiority());
+        }
+        if (hasText(standard.getAdvise())) {
+            advice.add(standard.getAdvise());
+        }
     }
 
     @Override

@@ -150,7 +150,8 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
 
     private void setOutWorker(MobileUserModel mobileUser, LoginResponse loginResponse) throws InterruptedException {
         loginResponse.setGrade(mobileUser.getPosition());
-        loginResponse.setStar(mobileUser.getFhagent_grade());
+        loginResponse.setStar(hasText(mobileUser.getFhagent_grade()) ?
+                mobileUser.getFhagent_grade().substring(2) : "0");
         String month = MyTimeTools.timeToStr(LocalDateTime.now(), "yyyy-MM");
         //获取积分
         Integral integral = integralRepo.findByAgentCode(month, mobileUser.getEmployee_code());

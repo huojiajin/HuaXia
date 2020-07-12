@@ -17,6 +17,7 @@ import java.util.List;
  */
 public interface UserRepo extends AbstractJpaRepo<User, String> {
 
+    @Query("from User where loginName = ?1 and status = 'NORMAL'")
     User findByLoginName(String loginName);
 
     @Query("from User where roleId = ?1")
@@ -26,4 +27,9 @@ public interface UserRepo extends AbstractJpaRepo<User, String> {
     @Transactional
     @Query("update User set status = ?2, updateTime = ?3 where id = ?1")
     int updateStop(String id, User.UserStatus status, LocalDateTime updateTime);
+
+    @Modifying
+    @Transactional
+    @Query("update User set password = ?2, updateTime = ?3 where id = ?1")
+    int updatePassword(String id, String password, LocalDateTime updateTime);
 }

@@ -14,6 +14,7 @@ public enum ErrorType {
     VERIFY(70002, "验证码不正确"){},
     LOGIN(70003, "用户名或密码错误"){},
     NOLOGIN(70004, "用户未登陆"){},
+    PASSWORD(71000, "密码错误"){},
     //系统管理
     USEREXISTS(70005, "用户已存在"){},
     NORESOURCE(70006, "无该菜单权限"){},

@@ -28,20 +28,25 @@ public abstract class AbstractManager extends CommonAbstract {
     protected MemcachedClient memcachedClient;
 
     protected void addSysLog(String info, String token, String eigenValue) {
-        String userStr = (String)memcachedClient.get(MyMecachedPrefix.loginTokenPrefix + token);
-        User user = null;
-        try {
-            user = JsonTools.json2Object(userStr, User.class);
-        } catch (IOException e) {
-            logger.error("", e);
-            return;
-        }
+        User user = getUser(token);
         SystemInfo systemInfo = new SystemInfo();
         systemInfo.setInsertTime(LocalDateTime.now());
         systemInfo.setUserId(user.getId());
         systemInfo.setInfo(info);
         systemInfo.setEigenValue(eigenValue);
         systemInfoRepo.persist(systemInfo);
+    }
+
+    protected User getUser(String token){
+        String userStr = (String)memcachedClient.get(MyMecachedPrefix.loginTokenPrefix + token);
+        User user = null;
+        try {
+            user = JsonTools.json2Object(userStr, User.class);
+        } catch (IOException e) {
+            logger.error("", e);
+            return null;
+        }
+        return user;
     }
 
     protected String inputStreamToBase64Str(InputStream is) throws IOException {

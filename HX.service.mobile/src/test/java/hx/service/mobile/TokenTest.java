@@ -48,9 +48,46 @@ public class TokenTest extends MobileApplicationTests{
         model.setEmployee_part_com_name("天创部");
         model.setEmployee_group_com("861102010601001");
         model.setEmployee_group_com_name("天创部直辖组");
+        model.setEmployee_date("2016-07-20");
         memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + token, 7*24*60*60, model.toJson());
         echo(token);
     }
+
+    @Test
+    public void setFZGTokenUser(){
+        String token = UUID.randomUUID().toString().replace("-", "");
+        MobileUserModel model = new MobileUserModel();
+        model.setName("谭振理");
+        model.setFhagent_grade(null);
+        model.setPosition_code("PBC");
+        model.setEmployee_code("110002172");
+        model.setEmployee_part_com("861102010611");
+        model.setEmployee_part_com_name("任慧锋部");
+        model.setEmployee_group_com("861102010611001");
+        model.setEmployee_group_com_name("任慧锋部直辖组");
+        model.setEmployee_date("2015-02-10");
+        memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + token, 7*24*60*60, model.toJson());
+        echo(token);
+    }
+
+    @Test
+    public void setGroupTokenUser(){
+        String token = UUID.randomUUID().toString().replace("-", "");
+        MobileUserModel model = new MobileUserModel();
+        model.setName("刘杰");
+        model.setFhagent_grade("FH10");
+        model.setPosition_code("BC");
+        model.setEmployee_code("110001798");
+        model.setEmployee_part_com("861102010602");
+        model.setEmployee_part_com_name("天佑部");
+        model.setEmployee_group_com("861102010602004");
+        model.setEmployee_group_com_name("天佑部刘杰组");
+        model.setEmployee_date("2014-09-01");
+        memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + token, 7*24*60*60, model.toJson());
+        echo(token);
+    }
+
+
 
     public static void main(String[] args) {
         for (int i = 0; i < 50; i++) {

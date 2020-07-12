@@ -4,9 +4,11 @@ import hx.base.core.dao.entity.common.BaseEntity;
 import hx.base.core.manage.model.CommonResponse;
 import hx.service.manage.manage.acl.UserManager;
 import hx.service.manage.manage.model.CommonPageRequest;
+import hx.service.manage.manage.model.CommonRequest;
 import hx.service.manage.manage.model.acl.user.UserAddRequest;
 import hx.service.manage.manage.model.acl.user.UserEditRequest;
 import hx.service.manage.manage.model.acl.user.UserIdRequest;
+import hx.service.manage.manage.model.acl.user.UserPasswordEditRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,5 +51,10 @@ public class UserController extends BaseEntity {
     @PostMapping("/start")
     public String start(@RequestBody UserIdRequest startRequest){
         return userManager.start(startRequest);
+    }
+
+    @PostMapping("/pwedit")
+    public String passwordEdit(@RequestBody UserPasswordEditRequest request){
+        return  userManager.passwordEdit(request);
     }
 }

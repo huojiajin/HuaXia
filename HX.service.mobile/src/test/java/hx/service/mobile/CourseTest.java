@@ -18,12 +18,12 @@ import java.io.IOException;
  **/
 public class CourseTest extends ApplicationTests{
 
-    private static final String token = "882fdfe7018d4f2ba092fabaee438b8a";
+    private static final String token = "0b274c829cac4dba8972ce886ad98b6d";
 
     @Test
     public void getList() throws IOException {
-//        String url = "http://123.56.154.176:81/mobile/test/course/list";
-        String url = "http://localhost:81/mobile/test/course/list";
+        String url = "http://123.56.154.176:81/mobile/test/course/list";
+//        String url = "http://localhost:81/mobile/test/course/list";
         CourseListRequest request = new CourseListRequest();
         request.setToken(token);
         request.setType(2);

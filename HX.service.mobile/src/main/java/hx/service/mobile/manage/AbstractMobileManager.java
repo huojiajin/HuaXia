@@ -119,7 +119,7 @@ public abstract class AbstractMobileManager extends CommonAbstract {
     }
 
     private String getToken() throws IOException {
-        Object accessTokenObj = memcachedClient.get("accessToken");
+        Object accessTokenObj = memcachedClient.get("mobile:accessToken");
         if (null == accessTokenObj){
             HXCommonResponse<AccessTokenModel> response;
             try {
@@ -131,7 +131,7 @@ public abstract class AbstractMobileManager extends CommonAbstract {
             }
             if (!response.getCode().equals("0")) throw new IOException(response.getMessage());
             String accessToken = response.getData().getAccess_token();
-            memcachedClient.set("accessToken", 60*60, accessToken);
+            memcachedClient.set("mobile:accessToken", 60*60, accessToken);
             return accessToken;
         }else {
             return (String)accessTokenObj;
@@ -177,6 +177,10 @@ public abstract class AbstractMobileManager extends CommonAbstract {
             if (response.getStatusLine().getStatusCode() == 200) {
                 resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
                 logger.info("请求成功，响应实体【{}】",resultString);
+            }else {
+                String errorMsg = EntityUtils.toString(response.getEntity(),"UTF-8").trim();
+                logger.error("失败HTTP状态码:【{}】失败信息【{}】",response.getStatusLine().getStatusCode(), errorMsg);
+                throw new Exception(errorMsg);
             }
         } catch (Exception e) {
             logger.error("Get请求发生异常",e);
