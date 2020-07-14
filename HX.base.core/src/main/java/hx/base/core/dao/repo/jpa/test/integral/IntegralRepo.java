@@ -30,12 +30,12 @@ public interface IntegralRepo extends AbstractJpaRepo<Integral, String> {
 
     @Modifying
     @Transactional
-    @Query("update Integral set testNum  = testNum + ?1 , allNum = allNum + ?1 where month = ?1 and agentCode = ?2")
+    @Query("update Integral set testNum  = testNum + ?3 , allNum = allNum + ?3 where month = ?1 and agentCode = ?2")
     int updatePaper(String month, String agentCode, int integral);
 
     @Modifying
     @Transactional
-    @Query("update Integral set courseNum  = courseNum + ?1 , allNum = allNum + ?1 where month = ?1 and agentCode = ?2")
+    @Query("update Integral set courseNum  = courseNum + ?3 , allNum = allNum + ?3 where month = ?1 and agentCode = ?2")
     int updateCourse(String month, String agentCode, int integral);
 
     @Query(" from Integral where month = ?1 order by allNum desc")

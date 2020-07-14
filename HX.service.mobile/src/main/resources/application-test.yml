@@ -84,7 +84,7 @@ spring:
         #方言
         #dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         # 自动建表方式
-        hbm2ddl.auto: update
+#        hbm2ddl.auto: update
         # 显示sql
 #        show_sql: true
 
@@ -94,6 +94,6 @@ url: https://open.ihxlife.com
 serialNo: 1189
 appId: 0ff81e14-35f9-4fdf-8c3c-6d5aa33eb64f
 secretKey: ES4g8P2HfWD7zhokfdQR8o1xScSHXrWB
-redirectUrl: https://unitywebgl-1252899150.cos.ap-shanghai.myqcloud.com/test_chinalife/index.html
+redirectUrl: http://localhost:8000
 
 MDRT: 642000

@@ -19,7 +19,7 @@ public class MarketingManpowerPageRequest extends JpaPageableDataRequest<Marketi
     @Override
     public HqlBuilder toSelectHql() {
         HqlBuilder hql = new HqlBuilder("from " + clazz.getName() + " where 1=1");
-        hql.append(" and outworkDate is not null");
+        hql.append(" and outworkDate is null");
         hql.append(" and deptCode3 = :deptCode3", deptCode3);
         hql.append(" and deptCode4 = :deptCode4", deptCode4);
         return hql;

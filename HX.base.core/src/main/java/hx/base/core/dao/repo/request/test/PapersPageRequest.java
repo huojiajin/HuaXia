@@ -24,7 +24,7 @@ public class PapersPageRequest extends JpaPageableDataRequest<Papers> {
     public HqlBuilder toSelectHql() {
         HqlBuilder hql = new HqlBuilder("from " + clazz.getName() + " where 1=1");
         hql.append(" and hasDelete = 0");
-        hql.append(" and name = :name", name);
+        hql.append(" and name like :name", like(name));
         hql.append(" and type = :type", type);
         return hql;
     }

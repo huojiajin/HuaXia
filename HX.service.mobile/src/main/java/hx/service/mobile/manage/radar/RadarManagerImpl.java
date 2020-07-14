@@ -115,7 +115,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         data.setStadpremNum(stadpremNumDouble);
 
         //处理个人星级
-        Integer personStar = Integer.valueOf(user.getFhagent_grade().substring(2));
+        Integer personStar = hasText(user.getFhagent_grade()) ? Integer.valueOf(user.getFhagent_grade().substring(2)) : 0;
         RadarStandard psStandard = standardMap.get(RadarStandardType.PERSONSTAR).get(rateType);
         if (rateType != getRateType(rateType, personStar, psStandard, hasReduce)){
             rateType = getRateType(rateType, personStar, psStandard, hasReduce);
@@ -251,7 +251,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         MobileUserModel user = getUser(request.getToken());
         if (user == null) return response.setError(ErrorType.NOLOGIN);
         data.setName(user.getName());
-        data.setStar(Integer.valueOf(user.getFhagent_grade().substring(2)));
+        data.setStar(hasText(user.getFhagent_grade()) ? Integer.valueOf(user.getFhagent_grade().substring(2)) : 0);
         PositionsType positionsType;
         //获取类型
         try {

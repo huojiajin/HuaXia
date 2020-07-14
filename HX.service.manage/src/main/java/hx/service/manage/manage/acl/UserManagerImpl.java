@@ -9,6 +9,7 @@ import hx.base.core.dao.repo.request.acl.UserPageRequest;
 import hx.base.core.dao.repo.request.common.Pagination;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.JsonTools;
+import hx.base.core.manage.tools.RegexValid;
 import hx.base.core.manage.tools.SecurityUtil;
 import hx.service.manage.manage.AbstractManager;
 import hx.service.manage.manage.MyMecachedPrefix;
@@ -71,6 +72,13 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
         if (existsUser != null){
             response.setError(ErrorType.USEREXISTS);
         }
+        if (!RegexValid.validMobile(addRequest.getMobile())){
+            return response.setError(ErrorType.VALID, "手机号格式不正确");
+        }
+        User oldUser = userRepo.findByLoginName(addRequest.getEmployeeNum());
+        if (oldUser != null) {
+            return response.setError(ErrorType.VALID, "工号已存在");
+        }
         User user = new User();
         BeanUtils.copyProperties(addRequest, user);
         user.setLoginName(user.getEmployeeNum());
@@ -88,6 +96,9 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
     @Override
     public String update(UserEditRequest editRequest){
         CommonResponse response = new CommonResponse();
+        if (!RegexValid.validMobile(editRequest.getMobile())){
+            return response.setError(ErrorType.VALID, "手机号格式不正确");
+        }
         User user = userRepo.findById(editRequest.getId()).get();
         BeanUtils.copyProperties(editRequest, user);
         user.setUpdateTime(LocalDateTime.now());

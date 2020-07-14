@@ -19,22 +19,22 @@ public interface MarketingManpowerRepo extends AbstractJpaRepo<MarketingManpower
     @Query(" from MarketingManpower where agentCode = ?1")
     MarketingManpower findByAgentCode(String agentCode);
 
-    @Query(" from MarketingManpower where agentGrade = ?1 and outworkDate is not null")
+    @Query(" from MarketingManpower where agentGrade = ?1 and outworkDate is null")
     List<MarketingManpower> listByAgentGrade(String agentGrade);
 
-    @Query(" from MarketingManpower where agentCode in (?1) and outworkDate is not null")
+    @Query(" from MarketingManpower where agentCode in (?1) and outworkDate is null")
     List<MarketingManpower> listByAgentCodes(List<String> agentCodes);
 
-    @Query(" from MarketingManpower where deptCode3 = ?1 and outworkDate is not null")
+    @Query(" from MarketingManpower where deptCode3 = ?1 and outworkDate is null")
     List<MarketingManpower> listByDeptCode3(String deptCode3);
 
-    @Query(" from MarketingManpower where deptCode4 = ?1 and outworkDate is not null")
+    @Query(" from MarketingManpower where deptCode4 = ?1 and outworkDate is null")
     List<MarketingManpower> listByDeptCode4(String deptCode4);
 
-    @Query("select count(agentCode) from MarketingManpower where deptCode3 = ?1 and outworkDate is not null")
+    @Query("select count(agentCode) from MarketingManpower where deptCode3 = ?1 and outworkDate is null")
     Integer countByDeptCode3(String deptCode3);
 
-    @Query("select count(agentCode) from MarketingManpower where deptCode4 = ?1 and outworkDate is not null")
+    @Query("select count(agentCode) from MarketingManpower where deptCode4 = ?1 and outworkDate is null")
     Integer countByDeptCode4(String deptCode4);
 
     @Query("select count(agentCode) from MarketingManpower where deptCode3 = ?1 and employDate >= ?2 and employDate < ?3")
@@ -43,9 +43,9 @@ public interface MarketingManpowerRepo extends AbstractJpaRepo<MarketingManpower
     @Query("select count(agentCode) from MarketingManpower where deptCode4 = ?1 and employDate >= ?2 and employDate < ?3")
     Integer groupMonthNew(String deptCode4, LocalDate employStartDate, LocalDate employEndDate);
 
-    @Query("from MarketingManpower where recommAgentCode = ?1 and outworkDate is not null")
+    @Query("from MarketingManpower where recommAgentCode = ?1 and outworkDate is null")
     List<MarketingManpower> listByRecomm(String recommAgentCode);
 
-    @Query("select count(agentCode) from MarketingManpower where recommAgentCode in (?1) and outworkDate is not null")
+    @Query("select count(agentCode) from MarketingManpower where recommAgentCode in (?1) and outworkDate is null")
     Integer countByRecommCodes(List<String> recommAgentCodes);
 }

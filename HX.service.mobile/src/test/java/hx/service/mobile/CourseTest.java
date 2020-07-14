@@ -1,12 +1,19 @@
 package hx.service.mobile;
 
+import hx.base.core.manage.model.CommonResponse;
+import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.httpclient.HttpClientHelper;
 import hx.service.mobile.manage.model.common.MobileCommonRequest;
 import hx.service.mobile.manage.model.index.GroupListReqeust;
 import hx.service.mobile.manage.model.radar.RadarRequest;
+import hx.service.mobile.manage.model.test.course.CourseDetailRequest;
+import hx.service.mobile.manage.model.test.course.CourseDetailResponse;
 import hx.service.mobile.manage.model.test.course.CourseListRequest;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.Base64Utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
@@ -31,4 +38,20 @@ public class CourseTest extends ApplicationTests{
         echo(responseStr);
     }
 
+    @Test
+    public void getDetail() throws IOException {
+//        String url = "http://123.56.154.176:81/mobile/test/course/detail";
+        String url = "http://localhost:81/mobile/test/course/detail";
+        CourseDetailRequest request = new CourseDetailRequest();
+        request.setToken(token);
+        request.setCourseId("0c92b2a423134d9ca1a8764ba5ad210d");
+        String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
+        CommonResponse<CourseDetailResponse> response = JsonTools.json2Object(responseStr, CommonResponse.class, CourseDetailResponse.class);
+
+        byte[] bytes = Base64Utils.decodeFromString(response.getData().getCourseFile());
+        String filePath = "C:\\Users\\霍佳进\\Desktop\\" + "测试.pdf";
+        FileOutputStream fileInputStream = new FileOutputStream(filePath);
+        fileInputStream.write(bytes);
+        fileInputStream.close();
+    }
 }

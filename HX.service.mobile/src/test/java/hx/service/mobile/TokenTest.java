@@ -37,6 +37,13 @@ public class TokenTest extends MobileApplicationTests{
     private PapersPushRepo papersPushRepo;
 
     @Test
+    public void setToken(){
+        setTokenUser();
+        setGroupTokenUser();
+        setFZGTokenUser();
+    }
+
+    @Test
     public void setTokenUser(){
         String token = UUID.randomUUID().toString().replace("-", "");
         MobileUserModel model = new MobileUserModel();
@@ -49,6 +56,7 @@ public class TokenTest extends MobileApplicationTests{
         model.setEmployee_group_com("861102010601001");
         model.setEmployee_group_com_name("天创部直辖组");
         model.setEmployee_date("2016-07-20");
+        model.setEmployee_type("1");
         memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + token, 7*24*60*60, model.toJson());
         echo(token);
     }
@@ -66,6 +74,7 @@ public class TokenTest extends MobileApplicationTests{
         model.setEmployee_group_com("861102010611001");
         model.setEmployee_group_com_name("任慧锋部直辖组");
         model.setEmployee_date("2015-02-10");
+        model.setEmployee_type("1");
         memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + token, 7*24*60*60, model.toJson());
         echo(token);
     }
@@ -83,6 +92,7 @@ public class TokenTest extends MobileApplicationTests{
         model.setEmployee_group_com("861102010602004");
         model.setEmployee_group_com_name("天佑部刘杰组");
         model.setEmployee_date("2014-09-01");
+        model.setEmployee_type("1");
         memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + token, 7*24*60*60, model.toJson());
         echo(token);
     }

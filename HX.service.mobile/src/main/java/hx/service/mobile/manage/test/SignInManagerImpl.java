@@ -1,8 +1,10 @@
 package hx.service.mobile.manage.test;
 
 import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.entity.acl.MobileUser;
 import hx.base.core.dao.entity.test.integral.Integral;
 import hx.base.core.dao.entity.test.integral.IntegralSignIn;
+import hx.base.core.dao.repo.jpa.acl.MobileUserRepo;
 import hx.base.core.dao.repo.jpa.test.integral.IntegralRepo;
 import hx.base.core.dao.repo.jpa.test.integral.IntegralSignInRepo;
 import hx.base.core.manage.model.CommonResponse;
@@ -36,6 +38,8 @@ public class SignInManagerImpl extends AbstractMobileManager implements SignInMa
     private IntegralSignInRepo signInRepo;
     @Autowired
     private IntegralRepo integralRepo;
+    @Autowired
+    private MobileUserRepo mobileUserRepo;
 
 
     @Override
@@ -125,13 +129,19 @@ public class SignInManagerImpl extends AbstractMobileManager implements SignInMa
         data.setIndex(index + 1);
         //获取排行榜
         List<IntegralRankModel> rankModelList = Lists.newArrayList();
-        for (int i = 0; i < 6; i++) {
-            Integral integral = integralList.get(i);
+        int i = 1;
+        for (Integral integral : integralList) {
+            if (i == 7) break;
             IntegralRankModel model = new IntegralRankModel();
             model.setName(integral.getName());
             model.setIntegral(integral.getAllNum());
-            model.setIndex(i + 1);
+            model.setIndex(i);
+            MobileUser mobileUser = mobileUserRepo.findByAgentCode(integral.getAgentCode());
+            if (mobileUser != null){
+                model.setAvatar(mobileUser.getAvatar());
+            }
             rankModelList.add(model);
+            i++;
         }
         data.setIntegralList(rankModelList);
         response.setData(data);

@@ -140,11 +140,14 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
         MobileUserModel user = getUser(request.getToken());
         if (user == null) return response.setError(ErrorType.NOLOGIN);
         PapersPush papersPush = pushRepo.findByPapersId(request.getPaperId(), user.getEmployee_code());
-
+        List<PapersPushAnswer> answers = pushAnswerRepo.listByPushId(papersPush.getId());
+        if (!isEmpty(answers)){
+            return response.setError(ErrorType.HASCOMPLETED);
+        }
         //获取题目答案
         List<PapersSubject> subjectList = subjectRepo.listByPapersId(request.getPaperId());
         Map<String, PapersSubject> subjectMap = subjectList.stream()
-                .collect(Collectors.toMap(PapersSubject::getSubject, Function.identity()));
+                .collect(Collectors.toMap(PapersSubject::getId, Function.identity()));
         //拼装答案实体
         int score = 0;
         List<PapersPushAnswer> pushAnswerList = Lists.newArrayList();
@@ -208,6 +211,7 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
         if (request.getType() != 5){
             try {
                 PapersType type = PapersType.fromCode(request.getType());
+                types.add(type);
             } catch (InterruptedException e) {
                 logger.error("", e);
                 return response.setError(ErrorType.CONVERT);
@@ -278,6 +282,7 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
                 PaperCompletedDetailOptionModel optionModel = new PaperCompletedDetailOptionModel();
                 int list = option.getList();
                 optionModel.setIndex(list);
+                optionModel.setOption(option.getContent());
                 //判断是否选择
                 boolean isSelect = false;
                 for (String answer : answerArr) {
@@ -299,6 +304,7 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
             }
             model.setOptionList(optionModelList);
             subjectModelList.add(model);
+            index++;
         }
         data.setSubjectList(subjectModelList);
         response.setData(data);

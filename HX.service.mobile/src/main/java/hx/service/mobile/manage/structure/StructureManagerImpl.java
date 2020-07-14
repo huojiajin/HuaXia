@@ -208,7 +208,8 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
         //主管绩优
         StarRating oneselfStar = starRatingRepo.findByAgentCode(user.getEmployee_code());
         Integer star = Integer.valueOf(oneselfStar.getFhagentGrade().substring(2));
-        Double stadprem = businessRepo.sumByAgentCode(user.getEmployee_code(), startDate, endDate);
+        Double stadprem = businessRepo.sumByAgentCode(user.getEmployee_code(), MDRTStartDate, MDRTEndDate);
+        stadprem = stadprem == null ? 0 : stadprem;
         boolean isMDRT = stadprem >= MDRT;
         situation.add(toLogString(StructureType.ZGJY.getSectionSituation(), star, isMDRT ? "已" : "未"));
         judgeRateType(standardMaps.get(StructureType.YXZS), star, advantage, inferiority, advice);
@@ -324,7 +325,8 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
         //主管绩优
         StarRating oneselfStar = starRatingRepo.findByAgentCode(user.getEmployee_code());
         Integer star = Integer.valueOf(oneselfStar.getFhagentGrade().substring(2));
-        Double stadprem = businessRepo.sumByAgentCode(user.getEmployee_code(), startDate, endDate);
+        Double stadprem = businessRepo.sumByAgentCode(user.getEmployee_code(), MDRTStartDate, MDRTEndDate);
+        stadprem = stadprem == null ? 0 : stadprem;
         boolean isMDRT = stadprem >= MDRT;
         situation.add(toLogString(StructureType.ZGJY.getGroupSituation(), star, isMDRT ? "已" : "未"));
         judgeRateType(standardMaps.get(StructureType.YXZS), star, advantage, inferiority, advice);
@@ -403,7 +405,9 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
             model.setAgentCode(manpower.getAgentCode());
             model.setGradeName(manpower.getAgentGradeName());
             BigDecimal stadprem = businessMap.get(manpower.getAgentCode());
-            model.setMdrt(stadprem.compareTo(new BigDecimal(5000)) > -1);
+            if (null != stadprem){
+                model.setMdrt(stadprem.compareTo(new BigDecimal(5000)) > -1);
+            }
             model.setRecommName(manpower.getRecommAgentName());
             model.setEmployeeDate(String.valueOf(manpower.getEmployDate()));
             result.add(model);
@@ -430,10 +434,12 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
         LocalDate endDate = startDate.plusMonths(1);
         //获取出勤天数
         List<Attendance> attendances = attendanceRepo.listByAgentCode(manpower.getAgentCode(), startDate, endDate);
-        data.setAttendNum(attendances.size());
+        data.setAttendNum(attendances == null ? 0 : attendances.size());
         //获取凤凰社星级
         StarRating starRating = starRatingRepo.findByAgentCode(manpower.getAgentCode());
-        data.setStar(Integer.valueOf(starRating.getFhagentGrade().substring(2)));
+        if (null != starRating) {
+            data.setStar(Integer.valueOf(starRating.getFhagentGrade().substring(2)));
+        }
         //当月承保标保
         Double sum = businessRepo.sumByAgentCode(manpower.getAgentCode(), startDate, endDate);
         data.setStadprem(sum);

@@ -7,10 +7,12 @@ import hx.base.core.dao.dict.PositionsClass;
 import hx.base.core.dao.dict.PositionsType;
 import hx.base.core.dao.dict.SectionType;
 import hx.base.core.dao.entity.acl.MobileRoleResource;
+import hx.base.core.dao.entity.acl.MobileUser;
 import hx.base.core.dao.entity.radar.RadarGrade;
 import hx.base.core.dao.entity.test.integral.Integral;
 import hx.base.core.dao.entity.test.integral.IntegralSignIn;
 import hx.base.core.dao.repo.jpa.acl.MobileRoleResourceRepo;
+import hx.base.core.dao.repo.jpa.acl.MobileUserRepo;
 import hx.base.core.dao.repo.jpa.radar.RadarGradeRepo;
 import hx.base.core.dao.repo.jpa.test.integral.IntegralRepo;
 import hx.base.core.dao.repo.jpa.test.integral.IntegralSignInRepo;
@@ -22,6 +24,7 @@ import hx.service.mobile.manage.AbstractMobileManager;
 import hx.service.mobile.manage.MyMecachedPrefix;
 import hx.service.mobile.manage.model.common.HXCommonResponse;
 import hx.service.mobile.manage.model.login.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -56,6 +59,8 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
     private IntegralSignInRepo signInRepo;
     @Autowired
     private RadarGradeRepo radarGradeRepo;
+    @Autowired
+    private MobileUserRepo mobileUserRepo;
 
     @Override
     public String loginInfo() {
@@ -116,6 +121,7 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
                 } else {
                     mobileUser = commonResponse.getData();
                 }
+
             } catch (IOException e) {
                 return response.setError(ErrorType.CONVERT);
             }
@@ -123,6 +129,8 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
                 return response.setError(ErrorType.NOEMPLAYEE);
             }
             //保存登录信息
+            mobileUser.setToken(request.getToken());
+            updateMobileUser(mobileUser);
             memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + mobileUser.getToken(), 7*24*60*60 ,mobileUser.toJson());
         }else{
             memcachedClient.touch(MyMecachedPrefix.mobileLoginTokenPrefix + mobileUser.getToken(), 7*24*60*60);
@@ -145,6 +153,16 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
         }
         response.setData(loginResponse);
         return response.toJson();
+    }
+
+    private void updateMobileUser(MobileUserModel model){
+        MobileUser entity = mobileUserRepo.findByAgentCode(model.getEmployee_code());
+        if (entity == null){
+            entity = new MobileUser();
+            entity.setAgentCode(model.getEmployee_code());
+        }
+        BeanUtils.copyProperties(model, entity);
+        mobileUserRepo.save(entity);
     }
 
 
@@ -171,11 +189,15 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
             if (positionsType != PositionsType.BC) {
                 String sectionCode = mobileUser.getEmployee_part_com();
                 RadarGrade radarGrade = radarGradeRepo.findByCode(sectionCode, month, SectionType.SECTION);
-                loginResponse.setSectionRateGrade(radarGrade.getRateType().getValue() + SectionType.SECTION.getName());
+                if (radarGrade != null) {
+                    loginResponse.setSectionRateGrade(radarGrade.getRateType().getValue() + SectionType.SECTION.getName());
+                }
             }
             String groupCode = mobileUser.getEmployee_group_com();
             RadarGrade radarGrade = radarGradeRepo.findByCode(groupCode, month, SectionType.GROUP);
-            loginResponse.setGroupRateGrade(radarGrade.getRateType().getValue() + SectionType.GROUP.getName());
+            if (radarGrade != null) {
+                loginResponse.setGroupRateGrade(radarGrade.getRateType().getValue() + SectionType.GROUP.getName());
+            }
         }
         //当天是否已签到
         IntegralSignIn signIn = signInRepo.findBySignInDate(LocalDate.now(), mobileUser.getEmployee_code());

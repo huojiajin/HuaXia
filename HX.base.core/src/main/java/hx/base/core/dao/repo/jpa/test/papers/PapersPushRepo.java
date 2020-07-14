@@ -19,6 +19,9 @@ import java.util.List;
 public interface PapersPushRepo extends AbstractJpaRepo<PapersPush, String> {
 
     @Query(" from PapersPush where papersId = ?1 and answerType = 'YDT'")
+    List<PapersPush> listByPapersIdYDT(String papersId);
+
+    @Query(" from PapersPush where papersId = ?1")
     List<PapersPush> listByPapersId(String papersId);
 
     @Query(" from PapersPush where agentCode = ?1")

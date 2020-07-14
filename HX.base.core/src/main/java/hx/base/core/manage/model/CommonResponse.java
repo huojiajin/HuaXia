@@ -54,4 +54,11 @@ public class CommonResponse<T extends BaseEntity> extends BaseEntity {
         this.message = errorType.getErrMsg();
         return this.toJson();
     }
+
+    public String setError(ErrorType errorType, String message){
+        this.success = false;
+        this.errCode = errorType.getErrCode();
+        this.message = errorType.getErrMsg() + ":" + message;
+        return this.toJson();
+    }
 }

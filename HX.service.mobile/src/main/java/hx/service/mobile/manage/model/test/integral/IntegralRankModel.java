@@ -14,6 +14,7 @@ public class IntegralRankModel extends BaseEntity {
     private String name;//姓名
     private int integral;//当前积分
     private int index;//排名
+    private String avatar;//头像
 
     public String getName() {
         return name;
@@ -37,5 +38,13 @@ public class IntegralRankModel extends BaseEntity {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

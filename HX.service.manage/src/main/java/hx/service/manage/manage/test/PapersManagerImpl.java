@@ -2,7 +2,6 @@ package hx.service.manage.manage.test;
 
 import hx.base.core.dao.dict.*;
 import hx.base.core.dao.entity.MarketingManpower;
-import hx.base.core.dao.entity.test.course.CoursePush;
 import hx.base.core.dao.entity.test.papers.*;
 import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
 import hx.base.core.dao.repo.jpa.test.papers.*;
@@ -272,6 +271,8 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
                 return String.valueOf(Double.valueOf(cell.getNumericCellValue()).intValue());
             case STRING:
                 return cell.getStringCellValue();
+            case BLANK:
+                throw new InterruptedException("必填单元格为空");
             default:
                 throw new InterruptedException("格式不正确");
         }
@@ -400,7 +401,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         Cell cell = ExcelTemplateHelper.getCell(sheet, 1, 0);
         cell.setCellValue("试卷名称：" + op.get().getName());
 
-        List<PapersPush> pushList = pushRepo.listByPapersId(data.getId());
+        List<PapersPush> pushList = pushRepo.listByPapersIdYDT(data.getId());
         List<PapersSubject> subjects = subjectRepo.listByPapersId(data.getId());
         List<String> pushIdList = pushList.stream().map(PapersPush::getId).collect(Collectors.toList());
         List<PapersPushAnswer> answerList = answerRepo.listByPushIds(pushIdList);

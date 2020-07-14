@@ -20,7 +20,7 @@ import java.io.*;
  */
 public class PaperTest extends ApplicationTests{
 
-    private static final String token = "7391612fad364e879ddd482a7e3fdea0";
+    private static final String token = "ef0fc2ee21cd43dd8b75f4ac57aa0116";
 
     @Test
     void query() throws IOException {
@@ -114,8 +114,9 @@ public class PaperTest extends ApplicationTests{
         PapersPushRequest request = new PapersPushRequest();
         request.setToken(token);
         request.setResourceCode(31);
-        request.setPaperId("c147499ef7a0466883e155a55dd91dd9");
-        request.setRankCodeList(Lists.newArrayList("AS"));
+        request.setPaperId("bc1f6adfff3e4316b0a6ac7d087f3025");
+        request.setRankCodeList(Lists.newArrayList("AS", "BC"));
+//        String url = "http://123.56.154.176/manage/test/paper/push";
         String url = "http://localhost/manage/test/paper/push";
         String s = HttpClientHelper.jsonPost(url, request.toJson());
         echo(s);

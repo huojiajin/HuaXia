@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface UserRepo extends AbstractJpaRepo<User, String> {
 
-    @Query("from User where loginName = ?1 and status = 'NORMAL'")
+    @Query("from User where loginName = ?1")
     User findByLoginName(String loginName);
 
     @Query("from User where roleId = ?1")

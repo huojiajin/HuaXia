@@ -9,10 +9,11 @@ package hx.base.core.dao.dict;
 public enum ErrorType {
 
     //通用
+    VALID(70000, "校验未通过"){},
     CONVERT(70001, "转换出错"){},
     //登录
     VERIFY(70002, "验证码不正确"){},
-    LOGIN(70003, "用户名或密码错误"){},
+    LOGIN(70003, "工号或密码错误"){},
     NOLOGIN(70004, "用户未登陆"){},
     PASSWORD(71000, "密码错误"){},
     //系统管理
@@ -36,6 +37,7 @@ public enum ErrorType {
     HASSTOP(70017, "该资料已停止使用，无法学习"){},
     HASLEARNED(70018, "已学习过该资料，不获得积分"){},
     HASSIGNUP(70019, "不可重复签到"){},
+    HASCOMPLETED(70020, "试卷已作答，不可重复提交"){}
     ;
 
     private final int errCode;

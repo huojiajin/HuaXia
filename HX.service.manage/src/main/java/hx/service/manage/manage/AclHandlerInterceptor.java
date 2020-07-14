@@ -54,23 +54,26 @@ public class AclHandlerInterceptor extends HandlerInterceptorAdapter {
                 }
                 String userJson = (String) userObject;
                 User user = JsonTools.json2Object(userJson, User.class);
-                //校验是否有权限访问
+                //校验是否有权限访问,如果为0，则为登陆用户都有的权限
                 String resourceKey = MyMecachedPrefix.loginResourcePrefix + user.getId();
                 Object resourceListObject = memcachedClient.get(resourceKey);
                 int resourceCode = commonRequest.getResourceCode();
                 if (resourceListObject == null) {
                     List<Integer> resourceCodeList = getResourceCode(user);
                     if (CollectionTools.isEmpty(resourceCodeList)) {
-                        return errorResponse(response, ErrorType.NORESOURCE);
-                    }
-                    memcachedClient.set(MyMecachedPrefix.loginResourcePrefix + user.getId(), 10 * 60, resourceCodeList);
-                    boolean contains = resourceCodeList.contains(resourceCode);
-                    if (!contains) {
-                        return errorResponse(response, ErrorType.NORESOURCE);
+                        if (resourceCode != 99) {
+                            return errorResponse(response, ErrorType.NORESOURCE);
+                        }
+                    }else {
+                        memcachedClient.set(MyMecachedPrefix.loginResourcePrefix + user.getId(), 10 * 60, resourceCodeList);
+                        boolean contains = resourceCodeList.contains(resourceCode) || resourceCode == 99;
+                        if (!contains) {
+                            return errorResponse(response, ErrorType.NORESOURCE);
+                        }
                     }
                 } else {
                     List<Integer> resourceCodeList = (List<Integer>) resourceListObject;
-                    boolean contains = resourceCodeList.contains(resourceCode);
+                    boolean contains = resourceCodeList.contains(resourceCode) || resourceCode == 99;
                     if (!contains) {
                         List<Integer> resourceCodeListNew = getResourceCode(user);
                         if (CollectionTools.isEmpty(resourceCodeList) || !resourceCodeListNew.contains(resourceCode)) {
@@ -81,6 +84,7 @@ public class AclHandlerInterceptor extends HandlerInterceptorAdapter {
                         memcachedClient.touch(resourceKey, 30 * 60);
                     }
                 }
+
                 memcachedClient.touch(userKey, 30 * 60);
             }
         } catch (Exception e) {
