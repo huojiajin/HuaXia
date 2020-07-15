@@ -54,6 +54,15 @@ public abstract class CommonAbstract
 		return CollectionUtils.isEmpty(map);
 	}
 
+	public static final boolean isNumeric(String str) {
+		for (int i = 0; i < str.length(); i++) {
+			if (!Character.isDigit(str.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public static void closeQuietly(Closeable closeable){
 		if(closeable != null) {
 			try {

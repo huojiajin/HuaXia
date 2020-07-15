@@ -72,6 +72,4 @@ public interface UserManager {
      * @return java.lang.String
      **/
     String start(UserIdRequest startRequest);
-
-    String passwordEdit(UserPasswordEditRequest request);
 }

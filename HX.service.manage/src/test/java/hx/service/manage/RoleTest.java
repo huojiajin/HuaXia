@@ -24,9 +24,9 @@ public class RoleTest extends ApplicationTests{
     public void roleQuery() throws IOException {
 
         CommonPageRequest request = new CommonPageRequest();
-        request.setPageNo(1);
-        request.setPageSize(16);
-        request.setToken("daae4849b6ed46fabb527f8448aa5b07");
+        request.setPageNo(2);
+        request.setPageSize(20);
+        request.setToken("5e9ad2689fe64e0a8dfab3f06370033d");
         request.setResourceCode(12);
         String url = "http://localhost/manage/role/query";
 //        String url = "http://123.56.154.176/manage/role/query";

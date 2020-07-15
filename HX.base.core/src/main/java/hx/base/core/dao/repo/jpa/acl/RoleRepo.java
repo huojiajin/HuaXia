@@ -18,4 +18,6 @@ public interface RoleRepo extends AbstractJpaRepo<Role, String> {
     @Transactional
     @Query("update Role set stop = 1 where id = ?1")
     int updateDelete(String id);
+
+    Role findByName(String name);
 }

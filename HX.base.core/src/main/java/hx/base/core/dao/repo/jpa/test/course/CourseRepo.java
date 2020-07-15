@@ -30,4 +30,7 @@ public interface CourseRepo extends AbstractJpaRepo<Course, String> {
 
     @Query("from Course where id in (?1) and type = ?2")
     List<Course> listByIds(List<String> ids, CourseType type);
+
+    @Query("from Course where name = ?1 and hasDelete = 0")
+    Course findByName(String name);
 }

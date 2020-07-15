@@ -57,7 +57,8 @@ public class TokenTest extends MobileApplicationTests{
         model.setEmployee_group_com_name("天创部直辖组");
         model.setEmployee_date("2016-07-20");
         model.setEmployee_type("1");
-        memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + token, 7*24*60*60, model.toJson());
+        model.setPosition("总监");
+        memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + "82bb3c229963450fbbce054bad092fc4", 7*24*60*60, model.toJson());
         echo(token);
     }
 
@@ -75,7 +76,8 @@ public class TokenTest extends MobileApplicationTests{
         model.setEmployee_group_com_name("任慧锋部直辖组");
         model.setEmployee_date("2015-02-10");
         model.setEmployee_type("1");
-        memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + token, 7*24*60*60, model.toJson());
+        model.setPosition("业务主任");
+        memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + "57484c042a27490490881b593896a176", 7*24*60*60, model.toJson());
         echo(token);
     }
 
@@ -93,7 +95,8 @@ public class TokenTest extends MobileApplicationTests{
         model.setEmployee_group_com_name("天佑部刘杰组");
         model.setEmployee_date("2014-09-01");
         model.setEmployee_type("1");
-        memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + token, 7*24*60*60, model.toJson());
+        model.setPosition("组经理");
+        memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + "7ea849e7f26348498a6bc6d8cd383b09", 7*24*60*60, model.toJson());
         echo(token);
     }
 

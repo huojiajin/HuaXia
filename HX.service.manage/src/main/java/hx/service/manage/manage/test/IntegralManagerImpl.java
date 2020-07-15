@@ -39,7 +39,11 @@ public class IntegralManagerImpl extends AbstractManager implements IntegralMana
     @Override
     public String query(IntegralQueryRequest request){
         CommonResponse response = new CommonResponse();
+        if (!hasText(request.getMonth())){
+            response.setError(ErrorType.VALID, "请选择月份");
+        }
         IntegralPageRequest pageRequest = new IntegralPageRequest();
+        BeanUtils.copyProperties(request, pageRequest);
         pageRequest.setMonth(request.getMonth());
         pageRequest.setAgentCode(request.getEmployeeNum());
         Pagination page = repo.page(pageRequest);

@@ -69,6 +69,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
 
         CommonResponse response = new CommonResponse();
         PapersPageRequest pageRequest = new PapersPageRequest();
+        BeanUtils.copyProperties(request, pageRequest);
         pageRequest.setName(request.getName());
         if (null != request.getType() && request.getType() != 0) {
             try {
@@ -92,7 +93,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         model.setAnswerTime(papers.getAnswerTime());
         model.setEndTime(MyTimeTools.timeToStr(papers.getEndTime()));
         if (LocalDateTime.now().isAfter(papers.getEndTime())){
-            papersRepo.updateStatus(papers.getId(), PapersStatus.YJZ);
+            papersRepo.updateStatus(papers.getId(), PapersStatus.YJZ, papers.getEndTime());
             model.setStatus(PapersStatus.YJZ.getCode());
         }else {
             model.setStatus(papers.getStatus().getCode());
@@ -103,6 +104,10 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
     @Override
     public String add(PapersAddRequest request) {
         CommonResponse response = new CommonResponse();
+        Papers byName = papersRepo.findByName(request.getName());
+        if (byName != null){
+            return response.setError(ErrorType.VALID, "该试卷已存在");
+        }
         Papers papers = new Papers();
         papers.setName(request.getName());
         papers.setAnswerTime(request.getAnswerTime());
@@ -113,6 +118,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
             logger.error("", e);
             return response.setError(ErrorType.CONVERT);
         }
+        papers.setUpdateTime(LocalDateTime.now());
         papers.setInsertTime(LocalDateTime.now());
         papersRepo.persist(papers);
         addSysLog("添加试卷" + request.getName(), request.getToken(), papers.getId());
@@ -129,10 +135,10 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         }
         if(op.get().getStatus() == PapersStatus.YTS || op.get().getStatus() == PapersStatus.YJZ){
             response.setError(ErrorType.NOPAPERS);
-            response.setMessage("试卷已推送，不可删除");
+            response.setMessage("试卷已推送或已截止，不可删除");
             return response.toJson();
         }
-        papersRepo.updateDelete(request.getId());
+        papersRepo.updateDelete(request.getId(), LocalDateTime.now());
         addSysLog("删除试卷" + op.get().getName(), request.getToken(), request.getId());
         response.setMessage("删除试卷成功");
         return response.toJson();
@@ -177,10 +183,12 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         }
         List<PapersSubject> subjectList = Lists.newArrayList();
         List<PapersOption> optionList = Lists.newArrayList();
+        int row = 1;
         for (PapersImportSubjectModel importModel : importModels) {
-            if (importModel == null) {
-                logger.error("未读到任何数据");
-                return response.setError(ErrorType.CONVERT);
+            if (!importModel.isSuccess()) {
+                logger.error("读取试卷失败，行数{}，错误信息：{}", row, importModel.getErrorMsg());
+                return response.setError(ErrorType.CONVERT,
+                        toLogString("第{}行读取失败：{}", row, importModel.getErrorMsg()));
             }
             PapersSubject subject = new PapersSubject();
             subject.setPapersId(request.getPaperId());
@@ -190,7 +198,9 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
             try {
                 subject.setType(PapersSubjectType.fromCode(importModel.getType()));
             } catch (InterruptedException e) {
-                return response.setError(ErrorType.CONVERT);
+                logger.error("读取试卷失败，行数{}，错误信息：{}", row, "题目类型不存在");
+                return response.setError(ErrorType.CONVERT,
+                        toLogString("第{}行读取失败：{}", row, "题目类型不存在"));
             }
             subject.setCorrectNum(importModel.getCorrectNum());
             subjectList.add(subject);
@@ -242,12 +252,10 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
             if (hasText(correctNumStr)){
                 model.setCorrectNum(correctNumStr);
             }else {
-                logger.error("第{}行答案序号不合法", row);
-                return null;
+                return model.setError(toLogString("第{}行答案序号不合法", row - 1));
             }
         } catch (InterruptedException e) {
-            logger.error("第{}行{}", row, e);
-            return null;
+            return model.setError(toLogString("第{}行{}", row - 1, e));
         }
         List<PapersImportOptionModel> optionModels = Lists.newArrayList();
         for (int i = 0; i < 7; i++) {
@@ -372,12 +380,17 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
     @Transactional
     private void persistPush(PapersPushRequest request, List<PapersPush> pushList) {
         pushRepo.persistAll(pushList);
-        papersRepo.updateStatus(request.getPaperId(), PapersStatus.YTS);
+        papersRepo.updateStatus(request.getPaperId(), PapersStatus.YTS, LocalDateTime.now());
     }
 
     @Override
     public String resultView(PapersIdRequest request){
         CommonResponse response = new CommonResponse();
+        List<PapersPush> pushes = pushRepo.listByPapersId(request.getId());
+        pushes = pushes.stream().filter(s -> s.getAnswerType() == PapersAnswerType.YDT).collect(Collectors.toList());
+        if (isEmpty(pushes)){
+            return response.setError(ErrorType.VALID, "目前暂无人答题");
+        }
         PapersResultResponse resultResponse = new PapersResultResponse();
         InputStream is = FileTools.getResourcesFileInputStream("template/papersAnswerTemplate.xlsx");
         try {

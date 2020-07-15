@@ -21,5 +21,13 @@ public interface SignInManager {
      **/
     String signIn(MobileCommonRequest request);
 
+    /**
+     * @Name integralRank
+     * @Author HuoJiaJin
+     * @Description 积分排行榜
+     * @Date 2020/7/15 14:45
+     * @Param [request]
+     * @return java.lang.String
+     **/
     String integralRank(MobileCommonRequest request);
 }

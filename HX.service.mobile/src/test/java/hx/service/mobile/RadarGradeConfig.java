@@ -53,6 +53,7 @@ public class RadarGradeConfig extends MobileApplicationTests{
     public void setRadarGrade() throws InterruptedException {
         LocalDate now = LocalDate.now();
         List<MarketingManpower> manpowerList = manpowerRepo.findAll();
+        manpowerList = manpowerList.stream().filter(m -> m.getOutworkDate() == null).collect(Collectors.toList());
         //根据部代码区分人员
         Map<String, List<MarketingManpower>> manPowerMaps = manpowerList.parallelStream()
                 .collect(Collectors.groupingBy(MarketingManpower::getDeptCode3));

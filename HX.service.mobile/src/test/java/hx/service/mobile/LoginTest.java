@@ -31,7 +31,7 @@ public class LoginTest extends ApplicationTests{
     public void login() throws IOException {
         String url = "http://localhost:81/mobile/login/login";
         LoginRequest request = new LoginRequest();
-        request.setToken("42755CF648BD81A473C7E97CB59AA689agent_no:11001248922b5f7d6cb513645bece8f00582dd5de1734800d180");
+        request.setToken("82bb3c229963450fbbce054bad092fc4");
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
     }

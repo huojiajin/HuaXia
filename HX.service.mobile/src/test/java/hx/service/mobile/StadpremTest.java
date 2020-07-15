@@ -24,7 +24,7 @@ public class StadpremTest extends ApplicationTests{
         SectionStadpremRequest request = new SectionStadpremRequest();
         request.setSectionCode("861102010601");
         request.setGroupCode("0");
-        request.setToken("f9dd36c1380b438dbcd97d50bef29564");
+        request.setToken("82bb3c229963450fbbce054bad092fc4");
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
     }

@@ -23,6 +23,7 @@ import hx.service.manage.manage.model.test.course.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +60,7 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
     public String query(CourseQueryRequest request){
         CommonResponse response = new CommonResponse();
         CoursePageRequest pageRequest = new CoursePageRequest();
+        BeanUtils.copyProperties(request, pageRequest);
         pageRequest.setName(request.getName());
         Pagination page = courseRepo.page(pageRequest);
         page.convertResult(this::convert);
@@ -80,6 +82,10 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
     @Override
     public String add(CourseAddRequest request){
         CommonResponse response = new CommonResponse();
+        Course byName = courseRepo.findByName(request.getName());
+        if (byName != null){
+            return response.setError(ErrorType.VALID, "该学习资料已存在");
+        }
         Course course = new Course();
         course.setName(request.getName());
         try {

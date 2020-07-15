@@ -61,7 +61,8 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
                 if (stadprem == null) stadprem = 0d;
                 BigDecimal stadpremNumBd = new BigDecimal(String.valueOf(stadprem));
                 stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 2, RoundingMode.HALF_UP);
-                model.setStadprem(String.valueOf(stadpremNumBd.doubleValue()));
+                model.setStadprem(stadpremNumBd.compareTo(new BigDecimal("0")) == 0 ? "0" :
+                        String.valueOf(stadpremNumBd.doubleValue()));
             }
             result.add(model);
         }
@@ -91,7 +92,8 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
             double stadprem = map.getValue().stream().mapToDouble(Business::getWrittenStadPrem).sum();
             BigDecimal stadpremNumBd = new BigDecimal(String.valueOf(stadprem));
             stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 2, RoundingMode.HALF_UP);
-            model.setStadprem(String.valueOf(stadpremNumBd.doubleValue()));
+            model.setStadprem(stadpremNumBd.compareTo(new BigDecimal("0")) == 0 ? "0" :
+                    String.valueOf(stadpremNumBd.doubleValue()));
             result.add(model);
         }
         data.setResult(result);

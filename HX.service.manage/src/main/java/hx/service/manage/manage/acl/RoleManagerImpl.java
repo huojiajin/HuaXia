@@ -66,11 +66,19 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
     @Override
     public String add(RoleAddRequest addRequest){
         CommonResponse response = new CommonResponse();
+        String name = addRequest.getName();
+        if (!hasText(name)){
+            return response.setError(ErrorType.VALID, "请填写角色名称");
+        }
+        Role oldRole = roleRepo.findByName(name);
+        if (oldRole != null){
+            return response.setError(ErrorType.VALID, "该角色已存在");
+        }
         Role role = new Role();
         BeanUtils.copyProperties(addRequest, role);
         role.setInsertTime(LocalDateTime.now());
         roleRepo.persist(role);
-        addSysLog("添加角色" + addRequest.getName(), addRequest.getToken(), role.getId());
+        addSysLog("添加角色" + name, addRequest.getToken(), role.getId());
         response.setMessage("添加角色成功");
         return response.toJson();
     }
@@ -79,6 +87,10 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
     public String update(RoleEditRequest editRequest){
         CommonResponse response = new CommonResponse();
         Role role = roleRepo.findById(editRequest.getId()).get();
+        Role byName = roleRepo.findByName(editRequest.getName());
+        if (byName != null && !byName.getId().equals(role.getId())){
+            return response.setError(ErrorType.VALID, "该角色已存在");
+        }
         BeanUtils.copyProperties(editRequest, role);
         role.setUpdateTime(LocalDateTime.now());
         roleRepo.save(role);

@@ -71,7 +71,7 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
             //判断是否已截止
             if (papers.getEndTime().isBefore(LocalDateTime.now())){
                 if (papers.getStatus() != PapersStatus.YJZ){
-                    papersRepo.updateStatus(id, PapersStatus.YJZ);
+                    papersRepo.updateStatus(id, PapersStatus.YJZ, papers.getEndTime());
                 }
                 model.setAnswerType(3);
             }else {

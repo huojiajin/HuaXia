@@ -15,6 +15,7 @@ import hx.service.manage.manage.AbstractManager;
 import hx.service.manage.manage.MyMecachedPrefix;
 import hx.service.manage.manage.model.CommonPageRequest;
 import hx.service.manage.manage.model.acl.user.*;
+import org.apache.poi.ss.formula.functions.Errortype;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,27 +69,38 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
     @Override
     public String add(UserAddRequest addRequest) {
         CommonResponse response = new CommonResponse();
-        User existsUser = findByLoginName(addRequest.getEmployeeNum());
+        String employeeNum = addRequest.getEmployeeNum();
+        if (!hasText(employeeNum) || !isNumeric(employeeNum)){
+            return response.setError(ErrorType.VALID, "工号必须为纯数字");
+        }
+        if (!hasText(addRequest.getName())){
+            return response.setError(ErrorType.VALID, "请填写用户名");
+        }
+        User existsUser = findByLoginName(employeeNum);
         if (existsUser != null){
             response.setError(ErrorType.USEREXISTS);
         }
         if (!RegexValid.validMobile(addRequest.getMobile())){
             return response.setError(ErrorType.VALID, "手机号格式不正确");
         }
-        User oldUser = userRepo.findByLoginName(addRequest.getEmployeeNum());
+        User oldUser = userRepo.findByLoginName(employeeNum);
         if (oldUser != null) {
             return response.setError(ErrorType.VALID, "工号已存在");
+        }
+        Optional<Role> op = roleRepo.findById(addRequest.getRoleId());
+        if (op.isEmpty() || op.get().isStop()){
+            return response.setError(ErrorType.VALID, "角色不存在或已被删除");
         }
         User user = new User();
         BeanUtils.copyProperties(addRequest, user);
         user.setLoginName(user.getEmployeeNum());
         //密码加密
-        byte[] hashBytes = SecurityUtil.hash(addRequest.getEmployeeNum().getBytes(), SecurityUtil.HashType.MD5);
+        byte[] hashBytes = SecurityUtil.hash(employeeNum.getBytes(), SecurityUtil.HashType.MD5);
         String password = new BigInteger(1, hashBytes).toString(16);
         user.setPassword(password);
         user.setInsertTime(LocalDateTime.now());
         userRepo.persist(user);
-        addSysLog("添加用户" + addRequest.getEmployeeNum(), addRequest.getToken(), user.getId());
+        addSysLog("添加用户" + employeeNum, addRequest.getToken(), user.getId());
         response.setMessage("添加用户成功");
         return response.toJson();
     }
@@ -98,6 +110,9 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
         CommonResponse response = new CommonResponse();
         if (!RegexValid.validMobile(editRequest.getMobile())){
             return response.setError(ErrorType.VALID, "手机号格式不正确");
+        }
+        if (!hasText(editRequest.getName())){
+            return response.setError(ErrorType.VALID, "请填写用户名");
         }
         User user = userRepo.findById(editRequest.getId()).get();
         BeanUtils.copyProperties(editRequest, user);
@@ -137,28 +152,5 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
         response.setMessage("启用用户成功");
         return response.toJson();
 
-    }
-
-    @Override
-    public String passwordEdit(UserPasswordEditRequest request){
-        CommonResponse response = new CommonResponse();
-        User user = getUser(request.getToken());
-        if (user == null) return response.setError(ErrorType.NOLOGIN);
-        //校验密码
-        byte[] hashBytes = SecurityUtil.hash(request.getPassword().getBytes(), SecurityUtil.HashType.MD5);
-        String requestPassword = new BigInteger(1, hashBytes).toString(16);
-        if (!requestPassword.equals(user.getPassword())){
-            return response.setError(ErrorType.PASSWORD);
-        }
-
-        //新密码加密
-        byte[] newHashBytes = SecurityUtil.hash(request.getNewPassword().getBytes(), SecurityUtil.HashType.MD5);
-        String password = new BigInteger(1, newHashBytes).toString(16);
-        userRepo.updatePassword(user.getId(), password, LocalDateTime.now());
-
-        addSysLog("修改密码" + user.getName(), request.getToken(), user.getId());
-
-        response.setMessage("修改密码成功");
-        return response.toJson();
     }
 }

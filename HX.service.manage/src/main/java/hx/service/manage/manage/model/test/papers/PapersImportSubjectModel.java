@@ -13,12 +13,30 @@ import java.util.List;
  **/
 public class PapersImportSubjectModel extends BaseEntity {
 
+    private boolean success = true;//是否读取成功
+    private String errorMsg;//错误信息
     private int list;//排序
     private String subject;//题目
     private int type;//题目类型
     private int score;//分值
     private String correctNum;//答案序号
     private List<PapersImportOptionModel> optionModels;//选项List
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
 
     public int getList() {
         return list;
@@ -67,5 +85,11 @@ public class PapersImportSubjectModel extends BaseEntity {
 
     public void setOptionModels(List<PapersImportOptionModel> optionModels) {
         this.optionModels = optionModels;
+    }
+
+    public PapersImportSubjectModel setError(String errorMsg){
+        this.setSuccess(false);
+        this.setErrorMsg(errorMsg);
+        return this;
     }
 }

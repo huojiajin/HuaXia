@@ -52,9 +52,4 @@ public class UserController extends BaseEntity {
     public String start(@RequestBody UserIdRequest startRequest){
         return userManager.start(startRequest);
     }
-
-    @PostMapping("/pwedit")
-    public String passwordEdit(@RequestBody UserPasswordEditRequest request){
-        return  userManager.passwordEdit(request);
-    }
 }

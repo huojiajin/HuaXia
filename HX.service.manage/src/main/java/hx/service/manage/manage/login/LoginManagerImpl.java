@@ -77,6 +77,7 @@ public class LoginManagerImpl extends CommonAbstract implements LoginManager{
             response.setSuccess(false);
             response.setErrCode(ErrorType.LOGIN.getErrCode());
             response.setMessage("用户已停用");
+            return response.toJson();
         }
         //校验密码
         byte[] hashBytes = SecurityUtil.hash(loginRequest.getPassword().getBytes(), SecurityUtil.HashType.MD5);

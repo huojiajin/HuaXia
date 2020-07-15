@@ -20,7 +20,7 @@ import java.io.*;
  */
 public class PaperTest extends ApplicationTests{
 
-    private static final String token = "ef0fc2ee21cd43dd8b75f4ac57aa0116";
+    private static final String token = "5e9ad2689fe64e0a8dfab3f06370033d";
 
     @Test
     void query() throws IOException {
@@ -29,6 +29,8 @@ public class PaperTest extends ApplicationTests{
         request.setResourceCode(31);
         request.setName("");
         request.setType(null);
+        request.setPageNo(1);
+        request.setPageSize(20);
 //        String url = "http://123.56.154.176/manage/test/paper/query";
         String url = "http://localhost/manage/test/paper/query";
         String s = HttpClientHelper.jsonPost(url, request.toJson());

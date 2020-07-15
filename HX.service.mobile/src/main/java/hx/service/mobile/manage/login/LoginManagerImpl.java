@@ -140,7 +140,6 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
         loginResponse.setName(mobileUser.getName());
         loginResponse.setAvatar(mobileUser.getAvatar());
         loginResponse.setEnryTme(mobileUser.getEmployee_date());
-
         if (mobileUser.getEmployee_type().equals("1")){//当员工为外勤时
             try {
                 setOutWorker(mobileUser, loginResponse);
@@ -185,16 +184,17 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
             loginResponse.setType(2);
         }
         //获取部、组评级
+        String lastMonth = MyTimeTools.timeToStr(LocalDateTime.now().minusMonths(1), "yyyy-MM");
         if (positionsType != PositionsType.FZG){
             if (positionsType != PositionsType.BC) {
                 String sectionCode = mobileUser.getEmployee_part_com();
-                RadarGrade radarGrade = radarGradeRepo.findByCode(sectionCode, month, SectionType.SECTION);
+                RadarGrade radarGrade = radarGradeRepo.findByCode(sectionCode, lastMonth, SectionType.SECTION);
                 if (radarGrade != null) {
                     loginResponse.setSectionRateGrade(radarGrade.getRateType().getValue() + SectionType.SECTION.getName());
                 }
             }
             String groupCode = mobileUser.getEmployee_group_com();
-            RadarGrade radarGrade = radarGradeRepo.findByCode(groupCode, month, SectionType.GROUP);
+            RadarGrade radarGrade = radarGradeRepo.findByCode(groupCode, lastMonth, SectionType.GROUP);
             if (radarGrade != null) {
                 loginResponse.setGroupRateGrade(radarGrade.getRateType().getValue() + SectionType.GROUP.getName());
             }
