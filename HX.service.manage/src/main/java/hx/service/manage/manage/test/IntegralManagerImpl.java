@@ -118,7 +118,7 @@ public class IntegralManagerImpl extends AbstractManager implements IntegralMana
             cell.setCellValue(model.getTestNum());
             setCellStyle(cell, workbook, false);
             //每月开单积分
-            cell = ExcelTemplateHelper.getCell(sheet, row, 6);
+            cell = ExcelTemplateHelper.getCell(sheet, row, 7);
             cell.setCellValue(model.getPerformNum());
             setCellStyle(cell, workbook, false);
             row++;

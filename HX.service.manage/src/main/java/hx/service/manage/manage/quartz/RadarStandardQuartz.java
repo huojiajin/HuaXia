@@ -1,4 +1,4 @@
-package hx.service.mobile;
+package hx.service.manage.manage.quartz;
 
 import hx.base.core.dao.dict.*;
 import hx.base.core.dao.entity.Attendance;
@@ -10,9 +10,10 @@ import hx.base.core.dao.entity.radar.RadarStandard;
 import hx.base.core.dao.repo.jpa.*;
 import hx.base.core.dao.repo.jpa.radar.RadarGradeRepo;
 import hx.base.core.dao.repo.jpa.radar.RadarStandardRepo;
+import hx.base.core.manage.annotation.MyScheduler;
 import org.apache.commons.compress.utils.Lists;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
@@ -26,13 +27,14 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * @ClassName RadarGradeConfig
- * @Description TODO
- * @Author HuoJiaJin
- * @Date 2020/6/29 22:25
- * @Version 1.0
- **/
-public class RadarGradeConfig extends MobileApplicationTests{
+ * @name: RadarStandardQuartz
+ * @description: 生成上月各员工主管经营雷达图达成标准
+ * @author: huojiajin
+ * @time: 2020/7/16 15:03
+ */
+@Service
+@MyScheduler(name = "RADAR_STANDARD", cron = "0 0 0 1 * ?")
+public class RadarStandardQuartz extends CommonQuartz {
 
     @Autowired
     private MarketingManpowerRepo manpowerRepo;
@@ -49,9 +51,8 @@ public class RadarGradeConfig extends MobileApplicationTests{
     @Autowired
     private RadarGradeRepo radarGradeRepo;
 
-    @Test
-    public void setRadarGrade() throws InterruptedException {
-        LocalDate now = LocalDate.now();
+    @Override
+    public void run() {
         List<MarketingManpower> manpowerList = manpowerRepo.findAll();
         manpowerList = manpowerList.stream().filter(m -> m.getOutworkDate() == null).collect(Collectors.toList());
         //根据部代码区分人员
@@ -72,11 +73,18 @@ public class RadarGradeConfig extends MobileApplicationTests{
                 return false;
             }).collect(Collectors.toList());
             if (CollectionUtils.isEmpty(collect)){
-                System.out.println("=======部" + sectionCode + "======未找到部经理，不进行结算");
+                logger.info("=======部" + sectionCode + "======未找到部经理，不进行结算");
             }else {
-                RadarGrade radarGrade = handle(true, sectionCode, collect.get(0));
+                RadarGrade radarGrade = null;
+                try {
+                    radarGrade = handle(true, sectionCode, collect.get(0));
+                } catch (InterruptedException e) {
+                    logger.error("", e);
+                    logger.info("======组" + sectionCode + "处理失败，不进行结算");
+                    continue;
+                }
                 radarGradeList.add(radarGrade);
-                System.out.println("=======部" + sectionCode + "======结算完成，评级为:" + radarGrade.getRateType().getValue() + radarGrade.getSectionType().getName());
+                logger.info("=======部" + sectionCode + "======结算完成，评级为:" + radarGrade.getRateType().getValue() + radarGrade.getSectionType().getName());
             }
         }
 
@@ -97,11 +105,18 @@ public class RadarGradeConfig extends MobileApplicationTests{
                 return false;
             }).collect(Collectors.toList());
             if (CollectionUtils.isEmpty(collect)){
-                System.out.println("=======组" + groupCode + "======未找到组经理，不进行结算");
+                logger.info("=======组" + groupCode + "======未找到组经理，不进行结算");
             }else {
-                RadarGrade radarGrade = handle(false, groupCode, collect.get(0));
+                RadarGrade radarGrade = null;
+                try {
+                    radarGrade = handle(false, groupCode, collect.get(0));
+                } catch (InterruptedException e) {
+                    logger.error("", e);
+                    logger.info("======组" + groupCode + "处理失败，不进行结算");
+                    continue;
+                }
                 radarGradeList.add(radarGrade);
-                System.out.println("=======部" + groupCode + "======结算完成，评级为:" + radarGrade.getRateType().getValue() + radarGrade.getSectionType().getName());
+                logger.info("=======部" + groupCode + "======结算完成，评级为:" + radarGrade.getRateType().getValue() + radarGrade.getSectionType().getName());
             }
         }
         radarGradeRepo.persistAll(radarGradeList);

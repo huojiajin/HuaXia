@@ -122,11 +122,18 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
             String agentCode = manpower.getAgentCode();
             model.setAgentCode(agentCode);
             model.setName(manpower.getName());
-            Double preStadprem = businessMap.get(agentCode).parallelStream().mapToDouble(Business::getPreStadPrem).sum();
-            model.setPreStadprem(preStadprem.toString());
-            Double stadPrem = businessMap.get(agentCode).parallelStream().mapToDouble(Business::getWrittenStadPrem).sum();
-            model.setStadprem(stadPrem.toString());
-            model.setType(stadPrem > 5000 ? 1 : 0);
+            List<Business> businesses = businessMap.get(agentCode);
+            if (isEmpty(businesses)){
+                model.setPreStadprem("0");
+                model.setStadprem("0");
+                model.setType(0);
+            }else{
+                Double preStadprem = businesses.parallelStream().mapToDouble(Business::getPreStadPrem).sum();
+                model.setPreStadprem(preStadprem.toString());
+                Double stadPrem = businesses.parallelStream().mapToDouble(Business::getWrittenStadPrem).sum();
+                model.setStadprem(stadPrem.toString());
+                model.setType(stadPrem > 5000 ? 1 : 0);
+            }
             result.add(model);
         }
         data.setResult(result);

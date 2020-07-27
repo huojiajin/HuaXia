@@ -108,6 +108,9 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         if (byName != null){
             return response.setError(ErrorType.VALID, "该试卷已存在");
         }
+        if (request.getAnswerTime() < 5){
+            return response.setError(ErrorType.VALID, "答题时间不应小于5分钟");
+        }
         Papers papers = new Papers();
         papers.setName(request.getName());
         papers.setAnswerTime(request.getAnswerTime());
@@ -179,7 +182,9 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         //校验分值
         int sumScore = importModels.stream().mapToInt(p -> p.getScore()).sum();
         if (sumScore != 100){
-            return response.setError(ErrorType.SCORE);
+            logger.error("读取试卷失败，错误信息：{}", "分值相加不等于100");
+            return response.setError(ErrorType.CONVERT,
+                    toLogString("读取试卷失败：{}", "分值相加不等于100"));
         }
         List<PapersSubject> subjectList = Lists.newArrayList();
         List<PapersOption> optionList = Lists.newArrayList();
@@ -195,19 +200,47 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
             subject.setList(importModel.getList());
             subject.setSubject(importModel.getSubject());
             subject.setScore(importModel.getScore());
+            PapersSubjectType subjectType;
             try {
-                subject.setType(PapersSubjectType.fromCode(importModel.getType()));
-            } catch (InterruptedException e) {
+                subjectType = PapersSubjectType.fromCode(importModel.getType());
+                subject.setType(subjectType);
+            } catch (Exception e) {
                 logger.error("读取试卷失败，行数{}，错误信息：{}", row, "题目类型不存在");
                 return response.setError(ErrorType.CONVERT,
                         toLogString("第{}行读取失败：{}", row, "题目类型不存在"));
             }
-            subject.setCorrectNum(importModel.getCorrectNum());
-            subjectList.add(subject);
             List<PapersImportOptionModel> optionModels = importModel.getOptionModels();
             if (isEmpty(optionModels) || optionModels.size() < 2) {
-                return response.setError(ErrorType.NOOPTION);
+                logger.error("读取试卷失败，行数{}，错误信息：{}", row, "选项数量不应小于两个");
+                return response.setError(ErrorType.CONVERT,
+                        toLogString("第{}行读取失败：{}", row, "选项数量不应小于两个"));
             }
+            //正确答案序号校验
+            String[] correctArr = importModel.getCorrectNum().split("\\|");
+            //校验题目类型
+            if (subjectType == PapersSubjectType.SINGLE){
+                if (correctArr.length != 1){
+                    logger.error("读取试卷失败，行数{}，错误信息：{}", row, "该题目为单选题，请修改答案序号");
+                    return response.setError(ErrorType.CONVERT,
+                            toLogString("第{}行读取失败：{}", row, "该题目为单选题，请修改答案序号"));
+                }
+            }else if (subjectType == PapersSubjectType.MULTIPLE){
+                if (correctArr.length <= 1){
+                    logger.error("读取试卷失败，行数{}，错误信息：{}", row, "该题目为多选题，请修改答案序号");
+                    return response.setError(ErrorType.CONVERT,
+                            toLogString("第{}行读取失败：{}", row, "该题目为多选题，请修改答案序号"));
+                }
+            }
+            for (String correct : correctArr) {
+                int num = Integer.valueOf(correct);
+                if (num > optionModels.size() || num <= 0){
+                    logger.error("读取试卷失败，行数{}，错误信息：{}", row, "答案序号超出范围");
+                    return response.setError(ErrorType.CONVERT,
+                            toLogString("第{}行读取失败：{}", row, "答案序号超出范围"));
+                }
+            }
+            subject.setCorrectNum(importModel.getCorrectNum());
+
             for (PapersImportOptionModel optionModel : optionModels) {
                 PapersOption option = new PapersOption();
                 option.setSubjectId(subject.getId());
@@ -215,6 +248,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
                 option.setContent(optionModel.getContent());
                 optionList.add(option);
             }
+            subjectList.add(subject);
         }
         persist(request.getPaperId(), subjectList, optionList);
         addSysLog("导入试卷" + op.get().getName() + "成功", request.getToken(), request.getPaperId());
@@ -245,7 +279,8 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         try {
             model.setList(row - 1);
             model.setSubject(getCellValue(rowData, 1));
-            model.setType(Integer.valueOf(getCellValue(rowData, 2)));
+            Integer type = Integer.valueOf(getCellValue(rowData, 2));
+            model.setType(type);
             model.setScore(Integer.valueOf(getCellValue(rowData, 3)));
             String correctNumStr = getCellValue(rowData, 4);
             correctNumStr = validCorrectNum(correctNumStr);
@@ -293,7 +328,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
             try {
                 list.add(Integer.valueOf(num));
             } catch (NumberFormatException e) {
-                return null;
+                return "答案序号仅允许填写数字";
             }
         }
         Collections.sort(list);

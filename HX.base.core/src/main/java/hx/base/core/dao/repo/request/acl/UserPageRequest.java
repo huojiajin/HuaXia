@@ -12,6 +12,9 @@ import hx.base.core.dao.repo.request.common.JpaPageableDataRequest;
  */
 public class UserPageRequest extends JpaPageableDataRequest<User> {
 
+    public UserPageRequest() {
+    }
+
     @Override
     public HqlBuilder toSelectHql() {
         HqlBuilder hql = new HqlBuilder("from " + clazz.getName() + " where 1 = 1 ");

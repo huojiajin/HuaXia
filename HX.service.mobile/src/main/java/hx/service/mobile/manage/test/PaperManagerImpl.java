@@ -59,7 +59,19 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
         Map<String, PapersPush> pushMap = pushList.stream().collect(Collectors.toMap(PapersPush::getPapersId, Function.identity()));
         List<String> papersId = pushList.stream().map(PapersPush::getPapersId).collect(Collectors.toList());
         List<Papers> paperList = papersRepo.listByIds(papersId);
-
+        paperList = paperList.stream().filter(p -> {
+            int type = request.getType();
+            if (type != 5){
+                if (p.getType().getCode() == type){
+                    return true;
+                }
+            }else{
+                if (PapersType.isZZRZType(p.getType())){
+                    return true;
+                }
+            }
+            return false;
+        }).collect(Collectors.toList());
         List<PaperListModel> result = Lists.newArrayList();
         for (Papers papers : paperList) {
             String id = papers.getId();
@@ -273,7 +285,10 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
             model.setStem(subject.getSubject());
             model.setType(subject.getType().getCode());
             PapersPushAnswer pushAnswer = pushAnswerMaps.get(subjectId);
-            String[] answerArr = pushAnswer.getAnswer().split("\\|");
+            String[] answerArr = new String[]{};
+            if (pushAnswer != null){
+                answerArr = pushAnswer.getAnswer().split("\\|");
+            }
             String[] correctArr = subject.getCorrectNum().split("\\|");
             //处理选项
             List<PapersOption> options = optionMaps.get(subjectId);

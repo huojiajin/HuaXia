@@ -57,4 +57,11 @@ public enum PapersType {
         }
         throw new InterruptedException("此类型不存在" + code);
     }
+
+    public static boolean isZZRZType(PapersType type){
+        if (type == ZZRZRZ || type == ZZRZZJLJJ || type == ZZRZBJLJJ || type == ZZRZPX){
+            return true;
+        }
+        return false;
+    }
 }

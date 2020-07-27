@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="core" />
         <module name="HX.service.mobile" />
         <module name="HX.service.manage" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="core" target="11" />
       <module name="HX.service.manage" target="11" />
       <module name="HX.service.mobile" target="11" />
     </bytecodeTargetLevel>
@@ -19,6 +21,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="HX.service.manage" options="-parameters" />
       <module name="HX.service.mobile" options="-parameters" />
+      <module name="core" options="-parameters" />
     </option>
   </component>
 </project>

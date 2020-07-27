@@ -7,6 +7,7 @@ import hx.service.mobile.manage.model.test.course.CourseDetailRequest;
 import hx.service.mobile.manage.model.test.course.CourseDetailResponse;
 import hx.service.mobile.manage.model.test.course.CourseListRequest;
 import hx.service.mobile.manage.model.test.paper.PaperCompletedListRequest;
+import hx.service.mobile.manage.model.test.paper.PaperListRequest;
 import hx.service.mobile.manage.model.test.paper.PaperSubmitRequest;
 import hx.service.mobile.manage.model.test.paper.PaperSubmitSubjectModel;
 import org.apache.commons.compress.utils.Lists;
@@ -28,6 +29,18 @@ import java.util.List;
 public class PaperTest extends ApplicationTests{
 
     private static final String token = "882fdfe7018d4f2ba092fabaee438b8a";
+
+    @Test
+    public void query() throws IOException {
+        String url = "http://localhost:81/mobile/test/paper/list";
+
+        PaperListRequest request = new PaperListRequest();
+        request.setToken("0b274c829cac4dba8972ce886ad98b6d");
+        request.setType(5);
+        String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
+        echo(responseStr);
+    }
+
 
     @Test
     public void getSubmit() throws IOException {
