@@ -98,7 +98,7 @@ public class ScheduleManagerImpl extends CommonAbstract implements ScheduleManag
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     private void update(List<ScheduleTask> taskList){
         repo.deleteAll();
         repo.persistAll(taskList);

@@ -25,7 +25,6 @@ public interface RoleManager {
 
     String delete(RoleIdRequest deleteRequest);
 
-    @Transactional
     String resourceConfig(RoleResourceRequest resourceRequest);
 
     String resourceList(RoleIdRequest request);

@@ -198,7 +198,7 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
         return response.toJson();
     }
 
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     private void persistPush(CoursePushRequest request, List<CoursePush> pushList) {
         coursePushRepo.persistAll(pushList);
         courseRepo.updateStatus(request.getCourseId(), CourseStatus.YTS);

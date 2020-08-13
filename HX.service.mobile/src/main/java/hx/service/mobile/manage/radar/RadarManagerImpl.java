@@ -262,7 +262,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
             return response.setError(ErrorType.CONVERT);
         }
         boolean isSection = positionsType == PositionsType.BM || positionsType == PositionsType.AS;
-        data.setStar(isSection ? 0 : 1);
+        data.setType(isSection ? 0 : 1);
         //处理季度标保
         LocalDate now = LocalDate.now();
         int monthValue = now.getMonthValue();

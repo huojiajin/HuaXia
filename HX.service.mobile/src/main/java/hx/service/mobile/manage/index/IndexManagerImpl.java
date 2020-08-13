@@ -120,7 +120,7 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
                 GroupModel defaultModel = new GroupModel("0", "全部");
                 groupList.add(defaultModel);
                 //查找本部下所有组
-                List<MarketingManpower> manpowers = manpowerRepo.listByDeptCode3(user.getEmployee_part_com());
+                List<MarketingManpower> manpowers = manpowerRepo.listByDeptCode3(request.getSectionCode());
                 Map<String, List<MarketingManpower>> groupMap = manpowers.stream()
                         .collect(Collectors.groupingBy(m -> m.getDeptCode4() + "|" + m.getDeptName4()));
                 for (String groupStr : groupMap.keySet()) {

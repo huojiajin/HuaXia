@@ -93,7 +93,7 @@ public class SignInManagerImpl extends AbstractMobileManager implements SignInMa
         return response.toJson();
     }
 
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     private void updateIntegral(IntegralSignIn signIn, MobileUserModel user){
         signInRepo.persist(signIn);
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM");

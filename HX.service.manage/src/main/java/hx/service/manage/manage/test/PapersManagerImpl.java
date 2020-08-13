@@ -256,7 +256,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         return response.toJson();
     }
 
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     private void persist(String papersId, List<PapersSubject> subjectList, List<PapersOption> optionList){
         subjectRepo.persistAll(subjectList);
         optionRepo.persistAll(optionList);
@@ -412,7 +412,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         return response.toJson();
     }
 
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     private void persistPush(PapersPushRequest request, List<PapersPush> pushList) {
         pushRepo.persistAll(pushList);
         papersRepo.updateStatus(request.getPaperId(), PapersStatus.YTS, LocalDateTime.now());

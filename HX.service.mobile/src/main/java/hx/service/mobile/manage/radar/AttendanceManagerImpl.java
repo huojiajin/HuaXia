@@ -112,6 +112,7 @@ public class AttendanceManagerImpl extends AbstractMobileManager implements Atte
         LocalDate startDate = LocalDate.now().withMonth(request.getMonth()).withDayOfMonth(1);
         LocalDate endDate = startDate.plusMonths(1);
         MarketingManpowerPageRequest pageRequest = new MarketingManpowerPageRequest();
+        BeanUtils.copyProperties(request, pageRequest);
         pageRequest.setDeptCode4(request.getGroupCode());
         Pagination pagn = manpowerRepo.page(pageRequest);
         BeanUtils.copyProperties(pagn, data);

@@ -120,7 +120,6 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
     }
 
     @Override
-    @Transactional
     public String resourceConfig(RoleResourceRequest resourceRequest){
         CommonResponse response = new CommonResponse();
         List<RoleResource> roleResourceList = Lists.newArrayList();
@@ -137,11 +136,16 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
             }
             roleResourceList.add(roleResource);
         }
-        roleResourceRepo.deleteByRoleId(roleId);
-        roleResourceRepo.persistAll(roleResourceList);
+        roleResourceUpdate(roleId, roleResourceList);
         addSysLog("配置角色" + op.get().getName() + "的权限", resourceRequest.getToken(), resourceRequest.getRoleId());
         response.setMessage("配置权限成功");
         return response.toJson();
+    }
+
+    @Transactional(rollbackFor=Exception.class)
+    private void roleResourceUpdate(String roleId, List<RoleResource> roleResourceList){
+        roleResourceRepo.deleteByRoleId(roleId);
+        roleResourceRepo.persistAll(roleResourceList);
     }
 
     @Override

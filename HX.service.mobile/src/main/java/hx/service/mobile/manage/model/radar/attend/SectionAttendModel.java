@@ -12,7 +12,7 @@ import hx.base.core.dao.entity.common.BaseEntity;
 public class SectionAttendModel extends BaseEntity {
 
     private int month;//月份
-    private int attendNum;//出勤人力
+    private Integer attendNum;//出勤人力
 
     public int getMonth() {
         return month;
@@ -22,11 +22,11 @@ public class SectionAttendModel extends BaseEntity {
         this.month = month;
     }
 
-    public int getAttendNum() {
+    public Integer getAttendNum() {
         return attendNum;
     }
 
-    public void setAttendNum(int attendNum) {
+    public void setAttendNum(Integer attendNum) {
         this.attendNum = attendNum;
     }
 }

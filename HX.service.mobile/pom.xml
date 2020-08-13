@@ -98,6 +98,12 @@
             <artifactId>core</artifactId>
             <version>0.0.1</version>
         </dependency>
+
+        <!-- 健康状态监控 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

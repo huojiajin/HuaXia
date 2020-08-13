@@ -48,8 +48,8 @@ public class Pagination extends BaseEntity
 		if (totalCount < 0 || pageSize <= 0) throw new RuntimeException("totalCount和pageSize设置之前不能进行计算");
 		if (currentPage <= 0) currentPage = 1;// 当前页不能为负数
 		pageCount = getPageCount(totalCount, pageSize);
-		int count = Long.valueOf(pageCount).intValue();
-		if (currentPage > count) currentPage = count;// 如页码过大，返回最后一页
+//		int count = Long.valueOf(pageCount).intValue();
+//		if (currentPage > count) currentPage = count;// 如页码过大，返回最后一页
 		return this;
 	}
 

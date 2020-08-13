@@ -11,7 +11,7 @@ memcache:
 
 spring:
   application:
-    name: manage
+    name: mobile
   datasource:
     username: huaxia
     password: test@123456

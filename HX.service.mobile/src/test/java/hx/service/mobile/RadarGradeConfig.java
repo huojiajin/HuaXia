@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 /**
  * @ClassName RadarGradeConfig
- * @Description TODO
+ * @Description 配置主管雷达图等级
  * @Author HuoJiaJin
  * @Date 2020/6/29 22:25
  * @Version 1.0

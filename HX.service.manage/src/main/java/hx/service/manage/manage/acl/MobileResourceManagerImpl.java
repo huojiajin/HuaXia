@@ -57,7 +57,7 @@ public class MobileResourceManagerImpl extends AbstractManager implements Mobile
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public String resourceConfig(MobileResourceConfigRequest request){
         CommonResponse response = new CommonResponse();
         try {

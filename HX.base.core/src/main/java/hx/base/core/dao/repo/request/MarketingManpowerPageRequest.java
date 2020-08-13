@@ -16,6 +16,8 @@ public class MarketingManpowerPageRequest extends JpaPageableDataRequest<Marketi
     private String deptCode3;//部代码
     private String deptCode4;//组代码
 
+
+
     @Override
     public HqlBuilder toSelectHql() {
         HqlBuilder hql = new HqlBuilder("from " + clazz.getName() + " where 1=1");

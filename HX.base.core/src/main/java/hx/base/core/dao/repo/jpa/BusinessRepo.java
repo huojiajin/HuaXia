@@ -16,27 +16,27 @@ import java.util.List;
  **/
 public interface BusinessRepo extends AbstractJpaRepo<Business, String> {
 
-    @Query("select sum(writtenStadPrem) from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3")
+    @Query("select sum(writtenStadPrem) from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职'")
     Double sumByDeptCode3(String deptCode3, LocalDate issueDateStart, LocalDate issueDateEnd);
 
-    @Query("select sum(writtenStadPrem) from Business where deptCode4 = ?1 and issueDate >= ?2 and issueDate < ?3")
+    @Query("select sum(writtenStadPrem) from Business where deptCode4 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职'")
     Double sumByDeptCode4(String deptCode4, LocalDate issueDateStart, LocalDate issueDateEnd);
 
-    @Query("select sum(writtenStadPrem) from Business where agentCode = ?1 and issueDate >= ?2 and issueDate < ?3")
+    @Query("select sum(writtenStadPrem) from Business where agentCode = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职'")
     Double sumByAgentCode(String agentCode, LocalDate issueDateStart, LocalDate issueDateEnd);
 
-    @Query("from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3")
+    @Query("from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职'")
     List<Business> listByDeptCode3(String deptCode3, LocalDate issueDateStart, LocalDate issueDateEnd);
 
-    @Query("from Business where deptCode4 = ?1 and issueDate >= ?2 and issueDate < ?3")
+    @Query("from Business where deptCode4 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职'")
     List<Business> listByDeptCode4(String deptCode4, LocalDate issueDateStart, LocalDate issueDateEnd);
 
-    @Query("from Business where agentCode = ?1 and issueDate >= ?2 and issueDate < ?3")
+    @Query("from Business where agentCode = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职'")
     List<Business> listByAgentCode(String agentCode, LocalDate issueDateStart, LocalDate issueDateEnd);
 
-    @Query("select agentCode, sum(writtenStadPrem) from Business where deptCode4 = ?1 and issueDate >= ?2 and issueDate < ?3 group by agentCode")
+    @Query("select agentCode, sum(writtenStadPrem) from Business where deptCode4 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职' group by agentCode")
     List<Object[]> listSumByGroup(String groupCode, LocalDate issueDateStart, LocalDate issueDateEnd);
 
-    @Query("select agentCode, sum(writtenStadPrem) from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3 group by agentCode")
+    @Query("select agentCode, sum(writtenStadPrem) from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职' group by agentCode")
     List<Object[]> listSumBySection(String sectionCode, LocalDate issueDateStart, LocalDate issueDateEnd);
 }

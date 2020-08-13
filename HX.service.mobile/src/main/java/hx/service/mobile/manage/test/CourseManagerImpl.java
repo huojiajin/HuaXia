@@ -128,7 +128,7 @@ public class CourseManagerImpl extends AbstractMobileManager implements CourseMa
         return response.toJson();
     }
 
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     private void updateLearned(String agentCode, String courseId, int integral){
         LocalDateTime now = LocalDateTime.now();
         pushRepo.updateLearned(agentCode, courseId, now);

@@ -25,11 +25,17 @@ public class BusinessPageRequest extends JpaPageableDataRequest<Business> {
     }
 
     @Override
+    public String toCountHql()
+    {
+        return "select count(*) " + toSelectHql().toString();
+    }
+
+    @Override
     public HqlBuilder toSelectHql() {
         HqlBuilder hql = new HqlBuilder("from " + clazz.getName() + " where 1=1");
         hql.append(" and agentCode = :agentCode", agentCode);
         hql.append(" and issueDate >= :issueDateStart", issueDateStart);
-        hql.append(" and issueDateEnd < :issueDateEnd", issueDateEnd);
+        hql.append(" and issueDate < :issueDateEnd", issueDateEnd);
         return hql;
     }
 

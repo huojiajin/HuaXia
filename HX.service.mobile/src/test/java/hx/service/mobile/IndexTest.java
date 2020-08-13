@@ -17,12 +17,12 @@ import java.io.IOException;
  **/
 public class IndexTest extends ApplicationTests{
 
-    private static final String token = "162e578c24a14e72a2401e29b5c2b2ab";
+    private static final String token = "82bb3c229963450fbbce054bad092fc4";
 
     @Test
     public void getSectionList() throws IOException {
-        String url = "http://123.56.154.176:81/mobile/index/sectionlist";
-//        String url = "http://localhost:81/mobile/index/sectionlist";
+//        String url = "http://123.56.154.176:81/mobile/index/sectionlist";
+        String url = "http://localhost:81/mobile/index/sectionlist";
         MobileCommonRequest request = new MobileCommonRequest();
         request.setToken(token);
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
@@ -31,11 +31,11 @@ public class IndexTest extends ApplicationTests{
 
     @Test
     public void getGroupList() throws IOException {
-        String url = "http://123.56.154.176:81/mobile/index/grouplist";
-//        String url = "http://localhost:81/mobile/index/grouplist";
+//        String url = "http://123.56.154.176:81/mobile/index/grouplist";
+        String url = "http://localhost:81/mobile/index/grouplist";
         GroupListReqeust request = new GroupListReqeust();
         request.setToken(token);
-        request.setSectionCode("861102010601");
+        request.setSectionCode("861102010602");
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
     }
@@ -51,4 +51,15 @@ public class IndexTest extends ApplicationTests{
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
     }
+
+    @Test
+    public void staronself() throws IOException {
+//        String url = "http://123.56.154.176:81/mobile/index/radar/oneself";
+        String url = "http://localhost:81/mobile/index/radar/oneself";
+        MobileCommonRequest request = new MobileCommonRequest();
+        request.setToken(token);
+        String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
+        echo(responseStr);
+    }
+
 }

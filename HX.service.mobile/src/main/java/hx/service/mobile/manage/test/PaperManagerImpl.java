@@ -199,7 +199,7 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
         return response.toJson();
     }
 
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     private void updateAnswer(List<PapersPushAnswer> pushAnswerList, IntegralTest integralTest, int score, int integral,
                               String agentCode, String papersId){
         pushAnswerRepo.persistAll(pushAnswerList);
