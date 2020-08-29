@@ -1,6 +1,7 @@
 package hx.service.mobile.manage.test;
 
 import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.dict.PapersAnswerType;
 import hx.base.core.dao.dict.PapersStatus;
 import hx.base.core.dao.dict.PapersType;
 import hx.base.core.dao.entity.test.integral.IntegralTest;
@@ -59,19 +60,22 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
         Map<String, PapersPush> pushMap = pushList.stream().collect(Collectors.toMap(PapersPush::getPapersId, Function.identity()));
         List<String> papersId = pushList.stream().map(PapersPush::getPapersId).collect(Collectors.toList());
         List<Papers> paperList = papersRepo.listByIds(papersId);
-        paperList = paperList.stream().filter(p -> {
-            int type = request.getType();
-            if (type != 5){
-                if (p.getType().getCode() == type){
-                    return true;
+        //判断试卷类型 如果为空则查询全部
+        Integer type = request.getType();
+        if (type != null) {
+            paperList = paperList.stream().filter(p -> {
+                if (type != 5) {
+                    if (p.getType().getCode() == type) {
+                        return true;
+                    }
+                } else {
+                    if (PapersType.isZZRZType(p.getType())) {
+                        return true;
+                    }
                 }
-            }else{
-                if (PapersType.isZZRZType(p.getType())){
-                    return true;
-                }
-            }
-            return false;
-        }).collect(Collectors.toList());
+                return false;
+            }).collect(Collectors.toList());
+        }
         List<PaperListModel> result = Lists.newArrayList();
         for (Papers papers : paperList) {
             String id = papers.getId();
@@ -152,8 +156,7 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
         MobileUserModel user = getUser(request.getToken());
         if (user == null) return response.setError(ErrorType.NOLOGIN);
         PapersPush papersPush = pushRepo.findByPapersId(request.getPaperId(), user.getEmployee_code());
-        List<PapersPushAnswer> answers = pushAnswerRepo.listByPushId(papersPush.getId());
-        if (!isEmpty(answers)){
+        if (papersPush.getAnswerType() == PapersAnswerType.YDT){
             return response.setError(ErrorType.HASCOMPLETED);
         }
         //获取题目答案
@@ -167,9 +170,12 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
             PapersPushAnswer entity = new PapersPushAnswer();
             entity.setPushId(papersPush.getId());
             entity.setSubjectId(model.getSubjectId());
-            entity.setAnswer(model.getAnswer());
+            String answer = model.getAnswer();
+            //将提交的答案排序
+            String answerSort = validCorrectNum(answer);
+            entity.setAnswer(answerSort);
             PapersSubject subject = subjectMap.get(model.getSubjectId());
-            if (model.getAnswer().equals(subject.getCorrectNum())){
+            if (answerSort.equals(subject.getCorrectNum())){
                 score += subject.getScore();
             }
             pushAnswerList.add(entity);
@@ -197,6 +203,28 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
         data.setIntegral(integral);
         response.setData(data);
         return response.toJson();
+    }
+
+    /**
+     * @Name validCorrectNum
+     * @Author HuoJiaJin
+     * @Description 将答题序号排序
+     * @Date 2020/8/26 17:37
+     * @Param [correctNum]
+     * @return java.lang.String
+     **/
+    private String validCorrectNum(String correctNum){
+        String[] correctNums = correctNum.split("\\|");
+        List<Integer> list = Lists.newArrayList();
+        for (String num : correctNums) {
+            list.add(Integer.valueOf(num));
+        }
+        Collections.sort(list);
+        StringBuilder newCorrectNum = new StringBuilder("");
+        for (Integer num : list) {
+            newCorrectNum.append(num + "|");
+        }
+        return newCorrectNum.deleteCharAt(newCorrectNum.length() - 1).toString();
     }
 
     @Transactional(rollbackFor=Exception.class)

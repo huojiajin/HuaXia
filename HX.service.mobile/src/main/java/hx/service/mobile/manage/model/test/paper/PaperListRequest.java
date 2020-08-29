@@ -11,13 +11,13 @@ import hx.service.mobile.manage.model.common.MobileCommonRequest;
  **/
 public class PaperListRequest extends MobileCommonRequest {
 
-    private int type;//试卷类型
+    private Integer type;//试卷类型
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 }
