@@ -179,16 +179,12 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
             logger.error("", e);
             return response.setError(ErrorType.CONVERT);
         }
-        //校验分值
-        int sumScore = importModels.stream().mapToInt(p -> p.getScore()).sum();
-        if (sumScore != 100){
-            logger.error("读取试卷失败，错误信息：{}", "分值相加不等于100");
-            return response.setError(ErrorType.CONVERT,
-                    toLogString("读取试卷失败：{}", "分值相加不等于100"));
-        }
         List<PapersSubject> subjectList = Lists.newArrayList();
         List<PapersOption> optionList = Lists.newArrayList();
+        //行号
         int row = 1;
+        //分值
+        int sumScore = 0;
         for (PapersImportSubjectModel importModel : importModels) {
             if (!importModel.isSuccess()) {
                 logger.error("读取试卷失败，行数{}，错误信息：{}", row, importModel.getErrorMsg());
@@ -200,6 +196,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
             subject.setList(importModel.getList());
             subject.setSubject(importModel.getSubject());
             subject.setScore(importModel.getScore());
+            sumScore += importModel.getScore();
             PapersSubjectType subjectType;
             try {
                 subjectType = PapersSubjectType.fromCode(importModel.getType());
@@ -250,6 +247,12 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
             }
             subjectList.add(subject);
         }
+        if (sumScore != 100){
+            logger.error("读取试卷失败，错误信息：{}", "分值相加不等于100");
+            return response.setError(ErrorType.CONVERT,
+                    toLogString("读取试卷失败：{}", "分值相加不等于100"));
+        }
+
         persist(request.getPaperId(), subjectList, optionList);
         addSysLog("导入试卷" + op.get().getName() + "成功", request.getToken(), request.getPaperId());
         response.setMessage("导入试卷成功");
@@ -280,6 +283,9 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
             model.setList(row - 1);
             model.setSubject(getCellValue(rowData, 1));
             Integer type = Integer.valueOf(getCellValue(rowData, 2));
+            if (type == null){
+                return model.setError(toLogString("第{}行类型不能为空"));
+            }
             model.setType(type);
             model.setScore(Integer.valueOf(getCellValue(rowData, 3)));
             String correctNumStr = getCellValue(rowData, 4);
