@@ -81,6 +81,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         RadarResponse data = new RadarResponse();
         List<RadarStandard> standards = standardRepo.findAll();
         RateType rateType = null;
+        //获取雷达图标准
         Map<RadarStandardType, Map<RateType, RadarStandard>> standardMap = standards.stream()
                 .filter(s -> {
                     if (isSection) {
@@ -93,11 +94,18 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         LocalDate now = LocalDate.now();
         LocalDate startDate = now.withDayOfMonth(1);
         LocalDate endDate = now.withDayOfMonth(1).plusMonths(1);
+        //获取该季度第一个月份值
+        int firstMonth = MyTimeTools.getQuarter(now.getMonthValue()).get(0);
         boolean hasReduce = false;
         //处理月均标保
-        Double stadpremNum = isSection ? businessRepo.sumByDeptCode3(deptCode, startDate, endDate) :
-                businessRepo.sumByDeptCode4(deptCode, startDate, endDate);
+        LocalDate avgStartDate = startDate.withMonth(firstMonth);
+        Double stadpremNum = isSection ? businessRepo.sumByDeptCode3(deptCode, avgStartDate, endDate) :
+                businessRepo.sumByDeptCode4(deptCode, avgStartDate, endDate);
         if (stadpremNum == null) stadpremNum = 0d;
+        int nowMonth = now.getMonthValue();
+        //月均，例： 8月组月均标保=（7月标保+8月标保）/2
+        stadpremNum = new BigDecimal(stadpremNum)
+                .divide(new BigDecimal(nowMonth - firstMonth + 1), 2, RoundingMode.HALF_UP).doubleValue();
         Map<RateType, RadarStandard> stadpremStandards = standardMap.get(RadarStandardType.STADPREM);
         int scopMin = 0;
         for (Map.Entry<RateType, RadarStandard> map : stadpremStandards.entrySet()) {
@@ -163,7 +171,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         }
 
         //处理出勤人力
-        List<Attendance> attendanceList = attendanceRepo.listByAgentCodes(agentCodes, startDate, endDate);
+        List<Attendance> attendanceList = attendanceRepo.listByAgentCodes(agentCodes, avgStartDate, endDate);
         Map<String, List<Attendance>> agentCodeMaps = attendanceList.stream()
                 .collect(Collectors.groupingBy(Attendance::getStaffCode));
         int attendanceNum = 0;
@@ -172,6 +180,9 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
                 attendanceNum++;
             }
         }
+        //月均，例： 8月组出勤人力=（7月人力+8月人力）/2
+        attendanceNum = new BigDecimal(attendanceNum)
+                .divide(new BigDecimal(nowMonth - firstMonth + 1), 0, RoundingMode.HALF_UP).intValue();
         data.setAttendPowerNum(attendanceNum);
         RadarStandard attendStandard = standardMap.get(RadarStandardType.ATTENDPOWER).get(rateType);
         rateType = getRateType(rateType, attendanceNum, attendStandard, hasReduce);
@@ -183,14 +194,9 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         RateType newRateType = RateType.fromCode(rateType.getCode() + 1);
         //上月达到等级
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM");
-        String month = df.format(now);
-        RadarGrade lastRadarGrade;
+        String month = df.format(now.withMonth(firstMonth));
+        RadarGrade lastRadarGrade = radarGradeRepo.findByCode(deptCode, month, isSection ? SectionType.SECTION : SectionType.GROUP);
         RateType lastRateType;
-        if (isSection){//获取部评级
-            lastRadarGrade = radarGradeRepo.findByCode(deptCode, month, SectionType.SECTION);
-        }else {//获取组评级
-            lastRadarGrade = radarGradeRepo.findByCode(deptCode, month, SectionType.GROUP);
-        }
         if (lastRadarGrade != null) {
             lastRateType = lastRadarGrade.getRateType();
         }else {

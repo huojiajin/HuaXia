@@ -11,6 +11,7 @@ import hx.base.core.dao.repo.jpa.*;
 import hx.base.core.dao.repo.jpa.radar.RadarGradeRepo;
 import hx.base.core.dao.repo.jpa.radar.RadarStandardRepo;
 import hx.base.core.manage.annotation.MyScheduler;
+import hx.base.core.manage.tools.MyTimeTools;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ import java.util.stream.Collectors;
  * @time: 2020/7/16 15:03
  */
 @Service
-@MyScheduler(name = "RADAR_STANDARD", cron = "0 0 0 1 * ?")
+@MyScheduler(name = "RADAR_STANDARD", cron = "0 0 0 1 1,4,7,10 ?")
 public class RadarStandardQuartz extends CommonQuartz {
 
     @Autowired
@@ -138,11 +139,17 @@ public class RadarStandardQuartz extends CommonQuartz {
         LocalDate lastMonth = LocalDate.now().minusMonths(1);
         LocalDate startDate = lastMonth.withDayOfMonth(1);
         LocalDate endDate = lastMonth.withDayOfMonth(1).plusMonths(1);
+        //获取该季度第一个月份值
+        int firstMonth = MyTimeTools.getQuarter(lastMonth.getMonthValue()).get(0);
         boolean hasReduce = false;
         //处理月均标保
-        Double stadpremNum = isSection ? businessRepo.sumByDeptCode3(deptCode, startDate, endDate) :
-                businessRepo.sumByDeptCode4(deptCode, startDate, endDate);
+        LocalDate avgStartDate = startDate.withMonth(firstMonth);
+        Double stadpremNum = isSection ? businessRepo.sumByDeptCode3(deptCode, avgStartDate, endDate) :
+                businessRepo.sumByDeptCode4(deptCode, avgStartDate, endDate);
         if (stadpremNum == null) stadpremNum = 0d;
+        //月均，例： 8月组月均标保=（7月标保+8月标保）/2
+        stadpremNum = new BigDecimal(stadpremNum)
+                .divide(new BigDecimal(lastMonth.getMonthValue() - firstMonth + 1), 2, RoundingMode.HALF_UP).doubleValue();
         Map<RateType, RadarStandard> stadpremStandards = standardMap.get(RadarStandardType.STADPREM);
         int scopMin = 0;
         for (Map.Entry<RateType, RadarStandard> map : stadpremStandards.entrySet()) {
@@ -214,7 +221,7 @@ public class RadarStandardQuartz extends CommonQuartz {
         System.out.println("======" + (isSection ? "部" : "组") + "继续率为：" + allRate);
 
         //处理出勤人力
-        List<Attendance> attendanceList = attendanceRepo.listByAgentCodes(agentCodes, startDate, endDate);
+        List<Attendance> attendanceList = attendanceRepo.listByAgentCodes(agentCodes, avgStartDate, endDate);
         Map<String, List<Attendance>> agentCodeMaps = attendanceList.stream()
                 .collect(Collectors.groupingBy(Attendance::getStaffCode));
         int attendanceNum = 0;
@@ -223,6 +230,9 @@ public class RadarStandardQuartz extends CommonQuartz {
                 attendanceNum++;
             }
         }
+        //月均，例： 8月组出勤人力=（7月人力+8月人力）/2
+        attendanceNum = new BigDecimal(attendanceNum)
+                .divide(new BigDecimal(lastMonth.getMonthValue() - firstMonth + 1), 0, RoundingMode.HALF_UP).intValue();
         RadarStandard attendStandard = standardMap.get(RadarStandardType.ATTENDPOWER).get(rateType);
         rateType = getRateType(rateType, attendanceNum, attendStandard, hasReduce);
         System.out.println("======" + (isSection ? "部" : "组") + "出勤人力为：" + attendanceNum);

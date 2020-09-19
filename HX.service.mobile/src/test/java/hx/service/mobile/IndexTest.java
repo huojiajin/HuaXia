@@ -21,8 +21,8 @@ public class IndexTest extends ApplicationTests{
 
     @Test
     public void getSectionList() throws IOException {
-//        String url = "http://123.56.154.176:81/mobile/index/sectionlist";
-        String url = "http://localhost:81/mobile/index/sectionlist";
+        String url = "http://123.56.154.176:81/mobile/index/sectionlist";
+//        String url = "http://localhost:81/mobile/index/sectionlist";
         MobileCommonRequest request = new MobileCommonRequest();
         request.setToken(token);
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());

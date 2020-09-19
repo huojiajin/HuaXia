@@ -57,7 +57,7 @@ public class SignInManagerImpl extends AbstractMobileManager implements SignInMa
         IntegralSignIn signIn = new IntegralSignIn();
         signIn.setAgentCode(agentCode);
         signIn.setSignInDate(now);
-        List<LocalDate> week = MyTimeTools.getWeek(now);
+        List<LocalDate> week = MyTimeTools.getWeek();
         boolean isSeries = false;
         String weekSign = "";
         String weekIntegral = "";

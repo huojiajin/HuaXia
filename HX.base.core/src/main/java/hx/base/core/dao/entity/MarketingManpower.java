@@ -12,7 +12,7 @@ import java.time.LocalDate;
  * @time: 2020/6/17 15:18
  */
 @Entity
-@Table(name = "D_AGENT_PROVINCE", indexes = {
+@Table(name = "D_AGENT_PROVINCE_YX", indexes = {
         @Index(columnList = "AGENTGRADE", name = "D_AGENT_PROVINCE_INDEX"),
         @Index(columnList = "AGENTCODE", name = "D_AGENT_PROVINCE_INDEX1"),
         @Index(columnList = "DEPTCODE3", name = "D_AGENT_PROVINCE_INDEX2"),

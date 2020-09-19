@@ -193,7 +193,7 @@ public abstract class JsonTools extends CommonAbstract
 	 *  将json字符串转换为泛型对象
 	 */
 	public static <R,T> R json2Object(String jsonStr,Class<R> wrapClazz, Class<T> modelClazz)
-			throws JsonParseException, JsonMappingException, IOException {
+			throws IOException {
 		JavaType valueType = objectMapper.getTypeFactory().constructParametricType(wrapClazz, modelClazz);
 		return objectMapper.readValue(jsonStr, valueType);
 	}

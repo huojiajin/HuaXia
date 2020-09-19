@@ -15,11 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * @name: ScheduleManagerImpl
@@ -47,8 +45,13 @@ public class ScheduleManagerImpl extends CommonAbstract implements ScheduleManag
     }
 
     /**
-     * 重新启动所有的job
-     */
+     * @Name reStartAllJobs
+     * @Author HuoJiaJin
+     * @Description 重新启动所有的job
+     * @Date 2020/9/16 23:37
+     * @Param []
+     * @return void
+     **/
     private void reStartAllJobs() throws Exception {
         synchronized (logger) {                                                         //只允许一个线程进入操作
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
@@ -111,5 +114,42 @@ public class ScheduleManagerImpl extends CommonAbstract implements ScheduleManag
         map.put("description", description);
         map.put("auto", true);
         return map;
+    }
+
+    @Override
+    public void runByName(String name) throws Exception {
+        ScheduleTask task = repo.findByName(name);
+        //通过反射获取所有带@MyScheduler注解的类
+        Reflections f = new Reflections("hx.service.manage.manage.quartz");
+        Set<Class<?>> scheduleClasses = f.getTypesAnnotatedWith(MyScheduler.class);
+        Class<?> scheduleClass = null;
+        for (Class<?> aClass : scheduleClasses) {
+            MyScheduler annotation = scheduleClass.getAnnotation(MyScheduler.class);
+            String aName = annotation.name();
+            if (!hasText(aName)){
+                aName = scheduleClass.getName();
+            }
+            if (name.equals(aName)){
+                scheduleClass = aClass;
+            }
+        }
+        if (scheduleClass == null){
+            throw new InterruptedException("无此定时任务");
+        }
+        //创建任务
+        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        JobDataMap map = getJobDataMap(name, task.getCron(), task.getDescription());
+        JobKey jobKey = JobKey.jobKey(name);
+        JobDetail jobDetail = JobBuilder.newJob((Class<? extends QuartzJobBean>) scheduleClass)
+                .withIdentity(jobKey)
+                .withDescription(task.getDescription())
+                .setJobData(map)
+                .storeDurably()
+                .build();
+        scheduler.scheduleJob(jobDetail, TriggerBuilder.newTrigger()
+                .withIdentity(name, null)
+                .startAt(new Date(System.currentTimeMillis() + 5 * 1000))
+                .build());
+
     }
 }

@@ -36,6 +36,14 @@ public class MyTimeTools {
         return LocalDateTime.parse(timeStr, df);
     }
 
+    /**
+     * @Name getQuarter
+     * @Author HuoJiaJin
+     * @Description 获得当前季度相关月份
+     * @Date 2020/9/16 22:59
+     * @Param [month]
+     * @return java.util.List<java.lang.Integer>
+     **/
     public static List<Integer> getQuarter(int month){
         List<Integer> quarter = Lists.newArrayList();
         if (month >= 1 && month <= 3){
@@ -58,7 +66,15 @@ public class MyTimeTools {
         return quarter;
     }
 
-    public static List<LocalDate> getWeek(LocalDate now){
+    /**
+     * @Name getWeek
+     * @Author HuoJiaJin
+     * @Description 获得当前周日期
+     * @Date 2020/9/16 23:07
+     * @Param []
+     * @return java.util.List<java.time.LocalDate>
+     **/
+    public static List<LocalDate> getWeek(){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
         while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
