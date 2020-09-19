@@ -35,8 +35,7 @@ public class PaperTest extends ApplicationTests{
         String url = "http://localhost:81/mobile/test/paper/list";
 
         PaperListRequest request = new PaperListRequest();
-        request.setToken("0b274c829cac4dba8972ce886ad98b6d");
-        request.setType(5);
+        request.setToken("82bb3c229963450fbbce054bad092fc4");
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
     }

@@ -188,7 +188,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         rateType = getRateType(rateType, attendanceNum, attendStandard, hasReduce);
 
         //最后拼装数据
-        data.setGrade(rateType.getValue() + SectionType.SECTION.getName());
+        data.setGrade(rateType.getValue() + (isSection ? SectionType.SECTION.getName() : SectionType.GROUP.getName()));
 
         //下一个等级
         RateType newRateType = RateType.fromCode(rateType.getCode() + 1);
@@ -277,15 +277,17 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         for (Integer month : quarter) {
             StadpremMonthModel model = new StadpremMonthModel();
             model.setMonth(month);
-            LocalDate startDate = now.withMonth(month).withDayOfMonth(1);
-            LocalDate endDate = startDate.plusMonths(1);
-            Double stadprem = isSection ? businessRepo.sumByDeptCode3(user.getEmployee_part_com(), startDate, endDate)
-                    : businessRepo.sumByDeptCode4(user.getEmployee_group_com(), startDate, endDate);
-            if (stadprem == null) stadprem = 0d;
-            BigDecimal stadpremNumBd = new BigDecimal(String.valueOf(stadprem));
-            stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 0, RoundingMode.HALF_UP);
-            int stadpremInt = stadpremNumBd.intValue();
-            model.setStadprem(String.valueOf(stadpremInt));
+            if (monthValue > month) {
+                LocalDate startDate = now.withMonth(month).withDayOfMonth(1);
+                LocalDate endDate = startDate.plusMonths(1);
+                Double stadprem = isSection ? businessRepo.sumByDeptCode3(user.getEmployee_part_com(), startDate, endDate)
+                        : businessRepo.sumByDeptCode4(user.getEmployee_group_com(), startDate, endDate);
+                if (stadprem == null) stadprem = 0d;
+                BigDecimal stadpremNumBd = new BigDecimal(String.valueOf(stadprem));
+                stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 0, RoundingMode.HALF_UP);
+                int stadpremInt = stadpremNumBd.intValue();
+                model.setStadprem(String.valueOf(stadpremInt));
+            }
             stadpremList.add(model);
         }
         data.setStadpremList(stadpremList);

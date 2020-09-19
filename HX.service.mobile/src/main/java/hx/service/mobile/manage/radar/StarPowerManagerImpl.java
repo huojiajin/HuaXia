@@ -41,7 +41,7 @@ public class StarPowerManagerImpl extends AbstractMobileManager implements StarP
     public String getStarList(StarPowerRequest request){
         CommonResponse response = new CommonResponse();
         StarPowerResponse data = new StarPowerResponse();
-        boolean isSection = hasText(request.getSectionCode());
+        boolean isSection = request.getGroupCode().equals("0");
         data.setType(isSection ? 0 : 1);
         List<MarketingManpower> manpowerList = isSection ?
                 manpowerRepo.listByDeptCode3(request.getSectionCode()) : manpowerRepo.listByDeptCode4(request.getGroupCode());
@@ -76,7 +76,7 @@ public class StarPowerManagerImpl extends AbstractMobileManager implements StarP
         CommonResponse response = new CommonResponse();
         StarPowerDetailResponse data = new StarPowerDetailResponse();
         List<StarPowerDetailModel> result = Lists.newArrayList();
-        boolean isSection = hasText(request.getSectionCode());
+        boolean isSection = request.getGroupCode().equals("0");
         //搜索业绩时间范围
         LocalDate now = LocalDate.now();
         LocalDate startDate = now.withDayOfMonth(1);

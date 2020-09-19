@@ -39,7 +39,7 @@ public class AttendanceManagerImpl extends AbstractMobileManager implements Atte
     public String getSectionAttend(SectionAttendRequest request){
         CommonResponse response = new CommonResponse();
         SectionAttendResponse data = new SectionAttendResponse();
-        boolean isSection = hasText(request.getSectionCode());
+        boolean isSection = request.getGroupCode().equals("0");
         data.setType(isSection ? 0 : 1);
         LocalDate now = LocalDate.now();
         LocalDate startDate = now.withDayOfMonth(1);

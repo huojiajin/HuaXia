@@ -163,8 +163,8 @@ public class StadpremManagerImpl extends AbstractMobileManager implements Stadpr
             model.setStadprem(business.getWrittenStadPrem().toString());
             model.setIsContinue(business.getRnFlag());
             model.setInsuranceTime(business.getIssueDate().toString());
-            model.setReceiptTime(business.getConfirmDate().toString());
-            model.setVisitTime(business.getCallDate().toString());
+            model.setReceiptTime(business.getConfirmDate() == null ? "" : business.getConfirmDate().toString());
+            model.setVisitTime(business.getCallDate() == null ? "" : business.getCallDate().toString());
             result.add(model);
         }
         data.setResult(result);
