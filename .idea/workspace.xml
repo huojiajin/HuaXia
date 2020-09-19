@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -43,33 +46,14 @@
       <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_checkerframework_checker_qual_2_11_1.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_configuration_processor_2_3_1_RELEASE.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_log4j2_2_3_1_RELEASE.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/bd8a5023-9151-41b1-a02d-8ad955529da4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/bd8a5023-9151-41b1-a02d-8ad955529da4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_2_3.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_2_3.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_18_0.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpmime_4_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpmime_4_5_11.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_to_slf4j_2_13_3.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_logging_2_3_1_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.base.core/src/main/java/hx/base/core/dao/dict/ErrorType.java" beforeDir="false" afterPath="$PROJECT_DIR$/HX.base.core/src/main/java/hx/base/core/dao/dict/ErrorType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.base.core/src/main/java/hx/base/core/dao/dict/PapersType.java" beforeDir="false" afterPath="$PROJECT_DIR$/HX.base.core/src/main/java/hx/base/core/dao/dict/PapersType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.base.core/src/main/java/hx/base/core/dao/repo/request/acl/UserPageRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/HX.base.core/src/main/java/hx/base/core/dao/repo/request/acl/UserPageRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.service.manage/src/main/java/hx/service/manage/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/HX.service.manage/src/main/java/hx/service/manage/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.service.manage/src/main/java/hx/service/manage/config/quartz/QuartzConfiguration.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.service.manage/src/main/java/hx/service/manage/manage/login/LoginManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HX.service.manage/src/main/java/hx/service/manage/manage/login/LoginManagerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.service.manage/src/main/java/hx/service/manage/manage/test/IntegralManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HX.service.manage/src/main/java/hx/service/manage/manage/test/IntegralManagerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.service.manage/src/main/java/hx/service/manage/manage/test/PapersManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HX.service.manage/src/main/java/hx/service/manage/manage/test/PapersManagerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.service.manage/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/HX.service.manage/src/main/resources/application-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.service.mobile/src/main/java/hx/service/mobile/manage/radar/StadpremManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HX.service.mobile/src/main/java/hx/service/mobile/manage/radar/StadpremManagerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.service.mobile/src/main/java/hx/service/mobile/manage/test/PaperManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/HX.service.mobile/src/main/java/hx/service/mobile/manage/test/PaperManagerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.service.mobile/src/test/java/hx/service/mobile/PaperTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/HX.service.mobile/src/test/java/hx/service/mobile/PaperTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HX.service.mobile/src/test/java/hx/service/mobile/RadarGradeConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/HX.service.mobile/src/test/java/hx/service/mobile/RadarGradeConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,14 +85,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="b7ed40b3-e5bb-44b8-a0c0-17d161a8963b" />
-  </component>
   <component name="GithubPullRequestsUISettings">
     <option name="hiddenUrls">
       <set>
         <option value="https://github.com/huojiajin/HuaXia.git" />
       </set>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="C:\Program Files\JetBrains\IntelliJ IDEA 2020.1.2\plugins\maven\lib\maven3" />
+      </MavenGeneralSettings>
     </option>
   </component>
   <component name="ProjectId" id="1dL8crkUPYPlDnxA3g19ljDrAWc" />
@@ -142,7 +130,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.30574712" />
-    <property name="settings.editor.selected.configurable" value="copyright" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -168,18 +156,45 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.Application">
-    <configuration name="IntegralManagerTest.roleQuery" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HX.service.manage" />
+  <component name="RunManager" selected="JUnit.IndexTest.getSectionList">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IndexTest.getGroupList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HX.service.mobile" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="hx.service.manage.config.quartz.*" />
+          <option name="PATTERN" value="hx.service.mobile.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="hx.service.manage" />
-      <option name="MAIN_CLASS_NAME" value="hx.service.manage.IntegralManagerTest" />
-      <option name="METHOD_NAME" value="roleQuery" />
+      <option name="PACKAGE_NAME" value="hx.service.mobile" />
+      <option name="MAIN_CLASS_NAME" value="hx.service.mobile.IndexTest" />
+      <option name="METHOD_NAME" value="getGroupList" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IndexTest.getSectionList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HX.service.mobile" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="hx.service.mobile.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="hx.service.mobile" />
+      <option name="MAIN_CLASS_NAME" value="hx.service.mobile.IndexTest" />
+      <option name="METHOD_NAME" value="getSectionList" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -201,23 +216,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PaperTest.query" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="HX.service.mobile" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="hx.service.mobile.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="hx.service.mobile" />
-      <option name="MAIN_CLASS_NAME" value="hx.service.mobile.PaperTest" />
-      <option name="METHOD_NAME" value="query" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="StadpremTest.testSection" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="StadpremTest.testPerson" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HX.service.mobile" />
       <extension name="coverage">
         <pattern>
@@ -227,7 +226,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="hx.service.mobile" />
       <option name="MAIN_CLASS_NAME" value="hx.service.mobile.StadpremTest" />
-      <option name="METHOD_NAME" value="testSection" />
+      <option name="METHOD_NAME" value="testPerson" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -264,24 +263,25 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.LoginTest.login" />
+      <item itemvalue="JUnit.IndexTest.getGroupList" />
+      <item itemvalue="JUnit.IndexTest.getSectionList" />
+      <item itemvalue="JUnit.StadpremTest.testPerson" />
       <item itemvalue="JUnit.TokenTest.setToken" />
-      <item itemvalue="JUnit.StadpremTest.testSection" />
-      <item itemvalue="JUnit.IntegralManagerTest.roleQuery" />
+      <item itemvalue="JUnit.LoginTest.login" />
       <item itemvalue="Spring Boot.Application" />
       <item itemvalue="Spring Boot.MobileApplication" />
-      <item itemvalue="JUnit.PaperTest.query" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.PaperTest.query" />
-        <item itemvalue="JUnit.IntegralManagerTest.roleQuery" />
-        <item itemvalue="JUnit.TokenTest.setToken" />
-        <item itemvalue="JUnit.StadpremTest.testSection" />
+        <item itemvalue="JUnit.IndexTest.getSectionList" />
         <item itemvalue="JUnit.LoginTest.login" />
+        <item itemvalue="JUnit.TokenTest.setToken" />
+        <item itemvalue="JUnit.StadpremTest.testPerson" />
+        <item itemvalue="JUnit.IndexTest.getGroupList" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SpringBeansView">
     <option name="beanDetailsProportion" value="0.37414965" />
   </component>
@@ -330,7 +330,36 @@
       <workItem from="1594979473400" duration="10454000" />
       <workItem from="1595485189698" duration="1268000" />
       <workItem from="1595491214690" duration="5341000" />
-      <workItem from="1595576317098" duration="16048000" />
+      <workItem from="1595576317098" duration="22856000" />
+      <workItem from="1595902605377" duration="2441000" />
+      <workItem from="1595921730594" duration="1162000" />
+      <workItem from="1595991539418" duration="597000" />
+      <workItem from="1596014656507" duration="2741000" />
+      <workItem from="1596275295237" duration="2052000" />
+      <workItem from="1597024255521" duration="3805000" />
+      <workItem from="1597222079489" duration="647000" />
+      <workItem from="1597226505057" duration="4964000" />
+      <workItem from="1597289736373" duration="635000" />
+      <workItem from="1597371037524" duration="596000" />
+      <workItem from="1597652730924" duration="606000" />
+      <workItem from="1597717185926" duration="2162000" />
+      <workItem from="1597802267901" duration="1804000" />
+      <workItem from="1598322228088" duration="676000" />
+      <workItem from="1598323145704" duration="593000" />
+      <workItem from="1598410482595" duration="1823000" />
+      <workItem from="1598433594335" duration="1455000" />
+      <workItem from="1598435172664" duration="1289000" />
+      <workItem from="1598669536270" duration="2654000" />
+      <workItem from="1598839783808" duration="591000" />
+      <workItem from="1599185221032" duration="606000" />
+      <workItem from="1599444076969" duration="148000" />
+      <workItem from="1599444395962" duration="597000" />
+      <workItem from="1599474540211" duration="875000" />
+      <workItem from="1599703857347" duration="1195000" />
+      <workItem from="1600002677786" duration="2728000" />
+      <workItem from="1600139921878" duration="12562000" />
+      <workItem from="1600325670555" duration="4129000" />
+      <workItem from="1600513245897" duration="320000" />
     </task>
     <task id="LOCAL-00001" summary="初始化移动端项目">
       <created>1592202039885</created>
@@ -444,11 +473,39 @@
       <option name="project" value="LOCAL" />
       <updated>1594799296880</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="更新">
+      <created>1595831508317</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1595831508317</updated>
+    </task>
+    <task id="LOCAL-00018" summary="更新">
+      <created>1597288667560</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1597288667560</updated>
+    </task>
+    <task id="LOCAL-00019" summary="更新">
+      <created>1597288840647</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1597288840647</updated>
+    </task>
+    <task id="LOCAL-00020" summary="更新">
+      <created>1600513383005</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1600513383005</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -538,10 +595,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="477" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.728@0.0.1366.728" timestamp="1594108416574" />
-    <state x="40" y="0" key="CommitChangelistDialog2" timestamp="1594799291152">
+    <state x="233" y="0" key="CommitChangelistDialog2" timestamp="1600513372499">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="40" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1594799291152" />
+    <state x="233" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1600513372499" />
     <state x="25" y="55" width="1092" height="610" key="DiffContextDialog" timestamp="1594457691562">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -550,54 +607,54 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="50" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1595559888522" />
-    <state width="1323" height="220" key="GridCell.Tab.0.bottom" timestamp="1595831408986">
+    <state width="1323" height="245" key="GridCell.Tab.0.bottom" timestamp="1600139856654">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="220" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1595831408986" />
-    <state width="1323" height="220" key="GridCell.Tab.0.center" timestamp="1595831408985">
+    <state width="1323" height="245" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1600139856654" />
+    <state width="1323" height="245" key="GridCell.Tab.0.center" timestamp="1600139856654">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="220" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1595831408985" />
-    <state width="1323" height="220" key="GridCell.Tab.0.left" timestamp="1595831408985">
+    <state width="1323" height="245" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1600139856654" />
+    <state width="1323" height="245" key="GridCell.Tab.0.left" timestamp="1600139856654">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="220" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1595831408985" />
-    <state width="1323" height="220" key="GridCell.Tab.0.right" timestamp="1595831408985">
+    <state width="1323" height="245" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1600139856654" />
+    <state width="1323" height="245" key="GridCell.Tab.0.right" timestamp="1600139856654">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="220" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1595831408985" />
-    <state width="1039" height="313" key="GridCell.Tab.1.bottom" timestamp="1595821258324">
+    <state width="1323" height="245" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1600139856654" />
+    <state width="1039" height="304" key="GridCell.Tab.1.bottom" timestamp="1597289642543">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1039" height="313" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1595821258324" />
-    <state width="1039" height="313" key="GridCell.Tab.1.center" timestamp="1595821258324">
+    <state width="1039" height="304" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1597289642543" />
+    <state width="1039" height="304" key="GridCell.Tab.1.center" timestamp="1597289642542">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1039" height="313" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1595821258324" />
-    <state width="1039" height="313" key="GridCell.Tab.1.left" timestamp="1595821258324">
+    <state width="1039" height="304" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1597289642542" />
+    <state width="1039" height="304" key="GridCell.Tab.1.left" timestamp="1597289642542">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1039" height="313" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1595821258324" />
-    <state width="1039" height="313" key="GridCell.Tab.1.right" timestamp="1595821258324">
+    <state width="1039" height="304" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1597289642542" />
+    <state width="1039" height="304" key="GridCell.Tab.1.right" timestamp="1597289642542">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1039" height="313" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1595821258324" />
-    <state width="1039" height="313" key="GridCell.Tab.2.bottom" timestamp="1595821258325">
+    <state width="1039" height="304" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1597289642542" />
+    <state width="1039" height="304" key="GridCell.Tab.2.bottom" timestamp="1597289642543">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1039" height="313" key="GridCell.Tab.2.bottom/0.0.1366.728@0.0.1366.728" timestamp="1595821258325" />
-    <state width="1039" height="313" key="GridCell.Tab.2.center" timestamp="1595821258325">
+    <state width="1039" height="304" key="GridCell.Tab.2.bottom/0.0.1366.728@0.0.1366.728" timestamp="1597289642543" />
+    <state width="1039" height="304" key="GridCell.Tab.2.center" timestamp="1597289642543">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1039" height="313" key="GridCell.Tab.2.center/0.0.1366.728@0.0.1366.728" timestamp="1595821258325" />
-    <state width="1039" height="313" key="GridCell.Tab.2.left" timestamp="1595821258325">
+    <state width="1039" height="304" key="GridCell.Tab.2.center/0.0.1366.728@0.0.1366.728" timestamp="1597289642543" />
+    <state width="1039" height="304" key="GridCell.Tab.2.left" timestamp="1597289642543">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1039" height="313" key="GridCell.Tab.2.left/0.0.1366.728@0.0.1366.728" timestamp="1595821258325" />
-    <state width="1039" height="313" key="GridCell.Tab.2.right" timestamp="1595821258325">
+    <state width="1039" height="304" key="GridCell.Tab.2.left/0.0.1366.728@0.0.1366.728" timestamp="1597289642543" />
+    <state width="1039" height="304" key="GridCell.Tab.2.right" timestamp="1597289642543">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1039" height="313" key="GridCell.Tab.2.right/0.0.1366.728@0.0.1366.728" timestamp="1595821258325" />
+    <state width="1039" height="304" key="GridCell.Tab.2.right/0.0.1366.728@0.0.1366.728" timestamp="1597289642543" />
     <state x="213" y="19" key="Maven.ArtifactSearchDialog" timestamp="1595560532770">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -606,14 +663,14 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="306" y="66" key="NewModule_or_Project.wizard/0.0.1366.728@0.0.1366.728" timestamp="1593397332463" />
-    <state x="187" y="9" key="SettingsEditor" timestamp="1595560407506">
+    <state x="187" y="9" key="SettingsEditor" timestamp="1597289232866">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="187" y="9" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1595560407506" />
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1594737016621">
+    <state x="187" y="9" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1597289232866" />
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1600513550026">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1594737016621" />
+    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1600513550026" />
     <state width="691" height="372" key="XDebugger.FullValuePopup" timestamp="1594784256188">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -634,10 +691,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="413" y="110" key="extract.method.dialog/0.0.1366.728@0.0.1366.728" timestamp="1594459080214" />
-    <state x="385" y="95" width="771" height="538" key="find.popup" timestamp="1595818235701">
+    <state x="385" y="95" width="771" height="538" key="find.popup" timestamp="1600422071818">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="385" y="95" width="771" height="538" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1595818235701" />
+    <state x="385" y="95" width="771" height="538" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1600422071818" />
     <state x="381" y="149" key="git4idea.merge.GitPullDialog" timestamp="1593484708075">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -658,14 +715,14 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="381" y="118" key="refactoring.ChangeSignatureDialog/0.0.1366.728@0.0.1366.728" timestamp="1595575968353" />
-    <state x="339" y="162" key="run.anything.popup" timestamp="1594537148240">
+    <state x="339" y="162" key="run.anything.popup" timestamp="1600268233183">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1594537148240" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1595830215751">
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1600268233183" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1600342425633">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1595830215751" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1600342425633" />
     <state x="0" y="0" key="svn.passwordDialog" timestamp="1593505950941">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -698,7 +755,7 @@
     </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
-        <PinnedItemInfo typeName="hx.service.mobile.manage.model.common.HXCommonResponse" fieldName="data" />
+        <PinnedItemInfo />
       </pinned-members>
     </pin-to-top-manager>
   </component>
