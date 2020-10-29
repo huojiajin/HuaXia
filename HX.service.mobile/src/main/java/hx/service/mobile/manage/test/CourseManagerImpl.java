@@ -90,7 +90,7 @@ public class CourseManagerImpl extends AbstractMobileManager implements CourseMa
         CommonResponse response = new CommonResponse();
         CourseDetailResponse data = new CourseDetailResponse();
         Optional<Course> op = courseRepo.findById(request.getCourseId());
-        if (op.isEmpty()){
+        if (!op.isPresent()){
             return response.setError(ErrorType.NOCOURSE);
         }
         Course course = op.get();

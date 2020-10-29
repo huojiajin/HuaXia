@@ -16,6 +16,7 @@ import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -63,7 +64,14 @@ public class RadarStandardQuartz extends CommonQuartz {
         for (Map.Entry<String, List<MarketingManpower>> map : manPowerMaps.entrySet()) {
             String sectionCode = map.getKey();
             List<MarketingManpower> collect = map.getValue().stream().filter(m -> {
-                PositionsClass positionsClass = PositionsClass.valueOf(m.getAgentGrade());
+                if (!StringUtils.hasText(m.getAgentGrade())) return false;
+                PositionsClass positionsClass = null;
+                try {
+                    positionsClass = PositionsClass.valueOf(m.getAgentGrade());
+                } catch (Exception e) {
+                    logger.error("======无此职级代码：" + m.getAgentGrade());
+                }
+                if (positionsClass == null) return false;
                 PositionsType positionsType = null;
                 try {
                     positionsType = PositionsType.fromClass(positionsClass);
@@ -89,13 +97,20 @@ public class RadarStandardQuartz extends CommonQuartz {
             }
         }
 
-        //根据部代码区分人员
+        //根据组代码区分人员
         Map<String, List<MarketingManpower>> manPowerMaps2 = manpowerList.parallelStream()
                 .collect(Collectors.groupingBy(MarketingManpower::getDeptCode4));
         for (Map.Entry<String, List<MarketingManpower>> map : manPowerMaps2.entrySet()) {
             String groupCode = map.getKey();
             List<MarketingManpower> collect = map.getValue().stream().filter(m -> {
-                PositionsClass positionsClass = PositionsClass.valueOf(m.getAgentGrade());
+                if (!StringUtils.hasText(m.getAgentGrade())) return false;
+                PositionsClass positionsClass = null;
+                try {
+                    positionsClass = PositionsClass.valueOf(m.getAgentGrade());
+                } catch (Exception e) {
+                    logger.error("======无此职级代码：" + m.getAgentGrade());
+                }
+                if (positionsClass == null) return false;
                 PositionsType positionsType = null;
                 try {
                     positionsType = PositionsType.fromClass(positionsClass);

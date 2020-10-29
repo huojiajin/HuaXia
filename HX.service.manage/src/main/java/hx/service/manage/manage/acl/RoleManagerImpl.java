@@ -103,7 +103,7 @@ public class RoleManagerImpl extends AbstractManager implements RoleManager {
     public String delete(RoleIdRequest deleteRequest){
         CommonResponse response = new CommonResponse();
         Optional<Role> op = roleRepo.findById(deleteRequest.getRoleId());
-        if (op.isEmpty()){
+        if (!op.isPresent()){
             return response.setError(ErrorType.NOROLE);
         }
         List<User> users = userRepo.listByRoleId(op.get().getId());

@@ -88,7 +88,7 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
             return response.setError(ErrorType.VALID, "工号已存在");
         }
         Optional<Role> op = roleRepo.findById(addRequest.getRoleId());
-        if (op.isEmpty() || op.get().isStop()){
+        if (!op.isPresent() || op.get().isStop()){
             return response.setError(ErrorType.VALID, "角色不存在或已被删除");
         }
         User user = new User();
@@ -127,7 +127,7 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
     public String stop(UserIdRequest deleteRequest){
         CommonResponse response = new CommonResponse();
         Optional<User> op = userRepo.findById(deleteRequest.getId());
-        if (op.isEmpty()){
+        if (!op.isPresent()){
             return response.setError(ErrorType.NOUSER);
         }
         userRepo.updateStop(deleteRequest.getId(), User.UserStatus.INVALID, LocalDateTime.now());
@@ -140,11 +140,11 @@ public class UserManagerImpl extends AbstractManager implements UserManager {
     public String start(UserIdRequest startRequest){
         CommonResponse response = new CommonResponse();
         Optional<User> op = userRepo.findById(startRequest.getId());
-        if (op.isEmpty()){
+        if (!op.isPresent()){
             return response.setError(ErrorType.NOUSER);
         }
         Optional<Role> roleOp = roleRepo.findById(op.get().getRoleId());
-        if (roleOp.isEmpty() || roleOp.get().isStop()){
+        if (!roleOp.isPresent() || roleOp.get().isStop()){
             return response.setError(ErrorType.NOROLE);
         }
         userRepo.updateStop(startRequest.getId(), User.UserStatus.NORMAL, LocalDateTime.now());

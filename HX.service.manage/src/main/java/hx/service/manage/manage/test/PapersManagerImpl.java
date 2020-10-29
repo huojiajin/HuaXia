@@ -133,7 +133,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
     public String delete(PapersIdRequest request) {
         CommonResponse response = new CommonResponse();
         Optional<Papers> op = papersRepo.findById(request.getId());
-        if (op.isEmpty()) {
+        if (!op.isPresent()) {
             return response.setError(ErrorType.NOPAPERS);
         }
         if(op.get().getStatus() == PapersStatus.YTS || op.get().getStatus() == PapersStatus.YJZ){
@@ -168,7 +168,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
     public String importPapers(PapersImportReqeust request){
         CommonResponse response = new CommonResponse();
         Optional<Papers> op = papersRepo.findById(request.getPaperId());
-        if (op.isEmpty()){
+        if (!op.isPresent()){
             return response.setError(ErrorType.NOPAPERS);
         }
         PoiExcelInfo excelInfo = getExcelInfo(request);
@@ -349,7 +349,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
     public String view(PapersViewRequest request){
         CommonResponse response = new CommonResponse();
         Optional<Papers> op = papersRepo.findById(request.getId());
-        if (op.isEmpty()){
+        if (!op.isPresent()){
             return response.setError(ErrorType.NOPAPERS);
         }else {
             if (op.get().getStatus() == PapersStatus.WDR){

@@ -16,7 +16,7 @@ import java.util.List;
  **/
 public interface BusinessRepo extends AbstractJpaRepo<Business, String> {
 
-    @Query("select sum(writtenStadPrem) from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职' and ")
+    @Query("select sum(writtenStadPrem) from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职'")
     Double sumByDeptCode3(String deptCode3, LocalDate issueDateStart, LocalDate issueDateEnd);
 
     @Query("select sum(writtenStadPrem) from Business where deptCode4 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职'")

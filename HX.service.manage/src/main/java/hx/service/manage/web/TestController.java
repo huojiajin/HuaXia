@@ -1,5 +1,7 @@
 package hx.service.manage.web;
 
+import hx.base.core.dao.entity.MarketingManpower;
+import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
 import net.spy.memcached.MemcachedClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.InetAddress;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * @name: TestController
@@ -25,12 +28,15 @@ public class TestController {
 
     @Autowired
     private MemcachedClient memcacheClient;
+    @Autowired
+    private MarketingManpowerRepo manpowerRepo;
 
     @RequestMapping(value = "/health",method = {RequestMethod.GET,RequestMethod.HEAD})
     public String heathTest(){
         String adress="unknow";
         try {
             adress= InetAddress.getLocalHost()+"";
+            List<MarketingManpower> all = manpowerRepo.findAll();
         } catch (Exception e) {
             e.printStackTrace();
         }

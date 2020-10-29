@@ -105,7 +105,7 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
     public String delete(CourseIdRequest request){
         CommonResponse response = new CommonResponse();
         Optional<Course> op = courseRepo.findById(request.getId());
-        if (op.isEmpty()){
+        if (!op.isPresent()){
             return response.setError(ErrorType.NOCOURSE);
         }
         if (op.get().getStatus() != CourseStatus.WDR && op.get().getStatus() != CourseStatus.YDR){
@@ -123,7 +123,7 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
     public String importCourse(CourseImportRequest request){
         CommonResponse response = new CommonResponse();
         Optional<Course> op = courseRepo.findById(request.getCourseId());
-        if (op.isEmpty()){
+        if (!op.isPresent()){
             return response.setError(ErrorType.NOCOURSE);
         }
         Course course = op.get();
@@ -141,7 +141,7 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
     public String view(CourseIdRequest request){
         CommonResponse response = new CommonResponse();
         Optional<Course> op = courseRepo.findById(request.getId());
-        if (op.isEmpty()){
+        if (!op.isPresent()){
             return response.setError(ErrorType.NOCOURSE);
         }
         CourseViewResponse viewResponse = new CourseViewResponse();
@@ -161,7 +161,7 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
     public String push(CoursePushRequest request){
         CommonResponse response = new CommonResponse();
         Optional<Course> op = courseRepo.findById(request.getCourseId());
-        if (op.isEmpty()){
+        if (!op.isPresent()){
             return response.setError(ErrorType.NOCOURSE);
         }
         List<CoursePush> pushList = Lists.newArrayList();

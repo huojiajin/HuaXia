@@ -16,7 +16,7 @@
     <description>华夏经营主管系统-移动端</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
     </properties>
 
     <dependencies>

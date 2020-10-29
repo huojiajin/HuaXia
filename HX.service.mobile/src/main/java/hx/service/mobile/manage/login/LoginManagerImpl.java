@@ -125,7 +125,7 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
             } catch (IOException e) {
                 return response.setError(ErrorType.CONVERT);
             }
-            if (mobileUser.getBranch_type().equals("99")) {
+            if (hasText(mobileUser.getBranch_type()) && mobileUser.getBranch_type().equals("99")) {
                 return response.setError(ErrorType.NOEMPLAYEE);
             }
             //保存登录信息

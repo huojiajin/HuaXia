@@ -30,6 +30,7 @@ public enum ErrorType {
     //移动端
     //登录
     NOEMPLAYEE(70015, "客户无法访问本系统"){},
+    NOSERVICEPERSON(70099, "内勤功能暂未开放"){},
     //基本法测试
     HASEXPIRE(70016, "该试卷无法作答"){},
     HASSTOP(70017, "该资料已停止使用，无法学习"){},

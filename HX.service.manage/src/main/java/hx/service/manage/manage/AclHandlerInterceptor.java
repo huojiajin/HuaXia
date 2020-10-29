@@ -43,7 +43,8 @@ public class AclHandlerInterceptor extends HandlerInterceptorAdapter {
             String requestURI = request.getRequestURI();
             logger.info("requestURI:{}", requestURI);
             String[] urlSplitArr = requestURI.substring(1).split("/");
-            if (!urlSplitArr[1].equals("login") && !urlSplitArr[1].equals("error")) {//除登陆操作之外
+            if (!urlSplitArr[1].equals("login") && !urlSplitArr[1].equals("error")
+                    && !urlSplitArr[1].equals("schedule") && !urlSplitArr[1].equals("health")) {//除登陆操作、返回错误、出发定时任务操作之外
                 String requestData = getOpenApiRequestData(request);
                 if (requestData.length() < 500) logger.info("request:{}", requestData);
                 CommonRequest commonRequest = JsonTools.json2Object(requestData, CommonRequest.class);

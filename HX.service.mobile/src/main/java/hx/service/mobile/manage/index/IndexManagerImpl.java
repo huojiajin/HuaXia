@@ -41,10 +41,14 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
         CommonResponse response = new CommonResponse();
         MobileUserModel user = getUser(request.getToken());
         if (user == null) return response.setError(ErrorType.NOLOGIN);
+        String position_code = user.getPosition_code();
+        if (!hasText(position_code)){
+            return response.setError(ErrorType.NOSERVICEPERSON);
+        }
         SectionListResponse data = new SectionListResponse();
         PositionsType positionsType;
         try {
-            PositionsClass positionsClass = PositionsClass. valueOf(user.getPosition_code());
+            PositionsClass positionsClass = PositionsClass. valueOf(position_code);
             positionsType = PositionsType.fromClass(positionsClass);
         } catch (Exception e) {
             logger.error("", e);
@@ -101,6 +105,10 @@ public class IndexManagerImpl extends AbstractMobileManager implements IndexMana
         CommonResponse response = new CommonResponse();
         MobileUserModel user = getUser(request.getToken());
         if (user == null) return response.setError(ErrorType.NOLOGIN);
+        String position_code = user.getPosition_code();
+        if (!hasText(position_code)){
+            return response.setError(ErrorType.NOSERVICEPERSON);
+        }
         GroupListResponse data = new GroupListResponse();
         PositionsType positionsType;
         try {

@@ -4,6 +4,7 @@ import hx.base.core.dao.entity.quartz.ScheduleTask;
 import hx.base.core.dao.repo.jpa.quartz.ScheduleTaskRepo;
 import hx.base.core.manage.annotation.MyScheduler;
 import hx.base.core.manage.common.CommonAbstract;
+import hx.service.manage.config.AppContextManager;
 import org.apache.commons.compress.utils.Lists;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
@@ -13,9 +14,10 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ReflectionUtils;
 
 import javax.annotation.PostConstruct;
-import java.util.Date;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Set;
 
@@ -118,16 +120,15 @@ public class ScheduleManagerImpl extends CommonAbstract implements ScheduleManag
 
     @Override
     public void runByName(String name) throws Exception {
-        ScheduleTask task = repo.findByName(name);
         //通过反射获取所有带@MyScheduler注解的类
         Reflections f = new Reflections("hx.service.manage.manage.quartz");
         Set<Class<?>> scheduleClasses = f.getTypesAnnotatedWith(MyScheduler.class);
         Class<?> scheduleClass = null;
         for (Class<?> aClass : scheduleClasses) {
-            MyScheduler annotation = scheduleClass.getAnnotation(MyScheduler.class);
+            MyScheduler annotation = aClass.getAnnotation(MyScheduler.class);
             String aName = annotation.name();
             if (!hasText(aName)){
-                aName = scheduleClass.getName();
+                aName = aClass.getName();
             }
             if (name.equals(aName)){
                 scheduleClass = aClass;
@@ -136,20 +137,9 @@ public class ScheduleManagerImpl extends CommonAbstract implements ScheduleManag
         if (scheduleClass == null){
             throw new InterruptedException("无此定时任务");
         }
-        //创建任务
-        Scheduler scheduler = schedulerFactoryBean.getScheduler();
-        JobDataMap map = getJobDataMap(name, task.getCron(), task.getDescription());
-        JobKey jobKey = JobKey.jobKey(name);
-        JobDetail jobDetail = JobBuilder.newJob((Class<? extends QuartzJobBean>) scheduleClass)
-                .withIdentity(jobKey)
-                .withDescription(task.getDescription())
-                .setJobData(map)
-                .storeDurably()
-                .build();
-        scheduler.scheduleJob(jobDetail, TriggerBuilder.newTrigger()
-                .withIdentity(name, null)
-                .startAt(new Date(System.currentTimeMillis() + 5 * 1000))
-                .build());
-
+        //执行run方法
+        Object bean = AppContextManager.getBean(scheduleClass);
+        Method method = ReflectionUtils.findMethod(bean.getClass(), "run");
+        ReflectionUtils.invokeMethod(method, bean);
     }
 }

@@ -106,7 +106,7 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
         CommonResponse response = new CommonResponse();
         PaperDetailResponse data = new PaperDetailResponse();
         Optional<Papers> op = papersRepo.findById(request.getPaperId());
-        if (op.isEmpty()){
+        if (!op.isPresent()){
             return response.setError(ErrorType.NOPAPERS);
         }
         Papers papers = op.get();
@@ -287,7 +287,7 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
         PaperCompletedDetailResponse data = new PaperCompletedDetailResponse();
         String paperId = request.getPaperId();
         Optional<Papers> op = papersRepo.findById(paperId);
-        if (op.isEmpty()){
+        if (!op.isPresent()){
             return response.setError(ErrorType.NOPAPERS);
         }
         Papers papers = op.get();
