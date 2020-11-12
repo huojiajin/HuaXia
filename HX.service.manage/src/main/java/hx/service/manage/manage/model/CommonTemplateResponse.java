@@ -1,4 +1,4 @@
-package hx.service.manage.manage.model.test.papers;
+package hx.service.manage.manage.model;
 
 import hx.base.core.dao.entity.common.BaseEntity;
 
@@ -9,7 +9,7 @@ import hx.base.core.dao.entity.common.BaseEntity;
  * @Date 2020/6/21 17:44
  * @Version 1.0
  **/
-public class PaperTemplateResponse extends BaseEntity {
+public class CommonTemplateResponse extends BaseEntity {
 
     private String template;//模板文件base64
 

@@ -2,8 +2,10 @@ package hx.service.manage.manage.test;
 
 import hx.base.core.dao.dict.*;
 import hx.base.core.dao.entity.MarketingManpower;
+import hx.base.core.dao.entity.staff.TrainPeople;
 import hx.base.core.dao.entity.test.papers.*;
 import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
+import hx.base.core.dao.repo.jpa.staff.TrainPeopleRepo;
 import hx.base.core.dao.repo.jpa.test.papers.*;
 import hx.base.core.dao.repo.request.common.Pagination;
 import hx.base.core.dao.repo.request.test.PapersPageRequest;
@@ -16,13 +18,16 @@ import hx.base.core.manage.poi.WorkbookWithDataHandler;
 import hx.base.core.manage.tools.FileTools;
 import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.MyTimeTools;
-import hx.service.manage.manage.AbstractManager;
+import hx.service.manage.manage.AbstractExcelManager;
+import hx.service.manage.manage.model.CommonExportResponse;
 import hx.service.manage.manage.model.CommonRequest;
+import hx.service.manage.manage.model.CommonTemplateResponse;
 import hx.service.manage.manage.model.test.papers.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.Lists;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +53,7 @@ import java.util.stream.Collectors;
  * @Version 1.0
  **/
 @Service
-public class PapersManagerImpl extends AbstractManager implements PapersManager,
+public class PapersManagerImpl extends AbstractExcelManager implements PapersManager,
         ExcelReadRowHandler<PapersImportSubjectModel>, WorkbookWithDataHandler<PapersIdRequest> {
 
     @Autowired
@@ -63,6 +68,8 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
     private PapersPushRepo pushRepo;
     @Autowired
     private PapersPushAnswerRepo answerRepo;
+    @Autowired
+    private TrainPeopleRepo trainPeopleRepo;
 
     @Override
     public String query(PapersQueryRequest request) {
@@ -136,11 +143,11 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         if (!op.isPresent()) {
             return response.setError(ErrorType.NOPAPERS);
         }
-        if(op.get().getStatus() == PapersStatus.YTS || op.get().getStatus() == PapersStatus.YJZ){
-            response.setError(ErrorType.NOPAPERS);
-            response.setMessage("试卷已推送或已截止，不可删除");
-            return response.toJson();
-        }
+//        if(op.get().getStatus() == PapersStatus.YTS || op.get().getStatus() == PapersStatus.YJZ){
+//            response.setError(ErrorType.NOPAPERS);
+//            response.setMessage("试卷已推送或已截止，不可删除");
+//            return response.toJson();
+//        }
         papersRepo.updateDelete(request.getId(), LocalDateTime.now());
         addSysLog("删除试卷" + op.get().getName(), request.getToken(), request.getId());
         response.setMessage("删除试卷成功");
@@ -150,7 +157,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
     @Override
     public String downloadTemplate(CommonRequest request) {
         CommonResponse response = new CommonResponse();
-        PaperTemplateResponse templateResponse = new PaperTemplateResponse();
+        CommonTemplateResponse templateResponse = new CommonTemplateResponse();
         InputStream fis = FileTools.getResourcesFileInputStream("template/papersTemplate.xlsx");
         String str = null;
         try {
@@ -175,7 +182,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         List<PapersImportSubjectModel> importModels;
         try {
             importModels = ExcelTemplateHelper.readData(excelInfo, this);
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error("", e);
             return response.setError(ErrorType.CONVERT);
         }
@@ -313,19 +320,6 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         return model;
     }
 
-    private String getCellValue(Map<Integer, Cell> rowData, int index) throws InterruptedException {
-        Cell cell = rowData.get(index);
-        switch (cell.getCellType()) {
-            case NUMERIC:
-                return String.valueOf(Double.valueOf(cell.getNumericCellValue()).intValue());
-            case STRING:
-                return cell.getStringCellValue();
-            case BLANK:
-                throw new InterruptedException("必填单元格为空");
-            default:
-                throw new InterruptedException("格式不正确");
-        }
-    }
 
     private String validCorrectNum(String correctNum){
         String[] correctNums = correctNum.split("\\|");
@@ -384,20 +378,20 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
     public String push(PapersPushRequest request){
         CommonResponse response = new CommonResponse();
         List<PapersPush> pushList = Lists.newArrayList();
-        List<String> rankCodeList = request.getRankCodeList();
+        List<String> codeList = request.getCodeList();
         //查询已推送数据
         List<PapersPush> pushedList = pushRepo.listByPapersId(request.getPaperId());
         Map<String, PapersPush> pushedMap = pushedList.stream()
                 .collect(Collectors.toMap(PapersPush::getAgentCode, Function.identity()));
-        for (String rankCode : rankCodeList) {
+        for (String code : codeList) {
+            List<MarketingManpower> manpowerList = null;
             try {
-                PositionsClass.valueOf(rankCode);
-            } catch (IllegalArgumentException e) {
-                logger.error("无此类型{}", rankCode);
-                return response.setError(ErrorType.CONVERT);
+                manpowerList = getManpowerList(code, PapersPushType.fromCode(request.getPushType()));
+            } catch (Exception e) {
+                logger.error("", e);
+                return response.setError(ErrorType.CONVERT, e.getMessage());
             }
-            List<MarketingManpower> manpowers = manpowerRepo.listByAgentGrade(rankCode);
-            for (MarketingManpower manpower : manpowers) {
+            for (MarketingManpower manpower : manpowerList) {
                 if(null != pushedMap.get(manpower.getAgentCode())) continue;
                 PapersPush entity = new PapersPush();
                 entity.setAgentCode(manpower.getAgentCode());
@@ -410,12 +404,34 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         //保存实体
         persistPush(request, pushList);
         try {
-            addSysLog("推送试卷" + request.getPaperId() + "至职级" + JsonTools.toJsonStr(rankCodeList), request.getToken(), request.getPaperId());
+            addSysLog("推送试卷" + request.getPaperId() + "至职级" + JsonTools.toJsonStr(codeList), request.getToken(), request.getPaperId());
         } catch (IOException e) {
             logger.error("", e);
         }
         response.setMessage("推送试卷成功！");
         return response.toJson();
+    }
+
+    private List<MarketingManpower> getManpowerList(String code, PapersPushType pushType) throws InterruptedException {
+
+        if (pushType == PapersPushType.RANK) {//按职级推送
+            try {
+                PositionsClass.valueOf(code);
+            } catch (IllegalArgumentException e) {
+                logger.error("无此职级{}", code);
+                throw new InterruptedException(toLogString("无此职级{}", code));
+            }
+            return manpowerRepo.listByAgentGrade(code);
+        }else if (pushType == PapersPushType.CAMP){//按营服推送
+            return manpowerRepo.listByDeptCode1(code);
+        }else if (pushType == PapersPushType.TRAIN){
+            List<TrainPeople> trainPeopleList = trainPeopleRepo.listByTrainId(code);
+            List<String> agentCodes = trainPeopleList.stream().map(TrainPeople::getAgentCode).collect(Collectors.toList());
+            return manpowerRepo.listByAgentCodes(agentCodes);
+        }else{
+            logger.error("无此推送类型{}", pushType);
+            throw new InterruptedException(toLogString("无此推送类型{}", pushType));
+        }
     }
 
     @Transactional(rollbackFor=Exception.class)
@@ -432,7 +448,7 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         if (isEmpty(pushes)){
             return response.setError(ErrorType.VALID, "目前暂无人答题");
         }
-        PapersResultResponse resultResponse = new PapersResultResponse();
+        CommonExportResponse resultResponse = new CommonExportResponse();
         InputStream is = FileTools.getResourcesFileInputStream("template/papersAnswerTemplate.xlsx");
         try {
             ByteArrayOutputStream op = ExcelTemplateHelper.generateExcel(is, true, request, this);
@@ -509,46 +525,20 @@ public class PapersManagerImpl extends AbstractManager implements PapersManager,
         }
     }
 
-    private void regionCells(Workbook workbook, Sheet sheet, Cell cell, String cellValue,
-                                int firstRow, int lastRow, int firstCol, int lastCol){
-        //创建其余空白表格，不创建会报错
-        for (int i = firstRow; i <= lastRow; i++) {
-            for (int j = firstCol; j <= lastCol; j++) {
-                cell = ExcelTemplateHelper.getCell(sheet, i, j);
-                if (i == firstRow && j == firstCol){
-                    cell.setCellValue(cellValue);
-                }
-            }
+    @Override
+    public String getCampList(CommonRequest request){
+        CommonResponse response = new CommonResponse();
+        List<CampModel> modelList = Lists.newArrayList();
+        List<Map<String, String>> mapList = manpowerRepo.groupByCamp();
+        for (Map<String, String> map : mapList) {
+            CampModel model = new CampModel();
+            model.setCampName(map.get("deptName1"));
+            model.setCampCode(map.get("deptCode1"));
+            modelList.add(model);
         }
-
-        CellRangeAddress region = new CellRangeAddress(firstRow, lastRow, firstCol, lastCol);
-        sheet.addMergedRegion(region);
-        CellStyle cellType = setCellStyle(cell, workbook, true, false);
-        for (int i = region.getFirstRow(); i <= region.getLastRow(); i++) {
-            Row row = sheet.getRow(i);
-            for (int j = region.getFirstColumn(); j <= region.getLastColumn(); j++) {
-                cell = row.getCell(j);
-                cell.setCellStyle(cellType);
-            }
-        }
-    }
-
-    private CellStyle setCellStyle(Cell cell, Workbook workbook, boolean bold, boolean error){
-        CellStyle cellStyle = workbook.createCellStyle();
-        cellStyle.cloneStyleFrom(cell.getCellStyle());
-        cellStyle.setAlignment(HorizontalAlignment.CENTER);//水平居中
-        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
-        Font font = workbook.createFont();
-        font.setBold(bold);
-        cellStyle.setFont(font);
-        //设置边框线
-        cellStyle.setBorderBottom(BorderStyle.THIN);
-        cellStyle.setBorderLeft(BorderStyle.THIN);
-        cellStyle.setBorderTop(BorderStyle.THIN);
-        cellStyle.setBorderRight(BorderStyle.THIN);
-        if (error) {
-            cellStyle.setFillForegroundColor(IndexedColors.RED.getIndex());
-        }
-        return cellStyle;
+        CampListResponse listResponse = new CampListResponse();
+        listResponse.setModelList(modelList);
+        response.setData(listResponse);
+        return response.toJson();
     }
 }

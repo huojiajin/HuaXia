@@ -10,6 +10,7 @@ import hx.service.manage.manage.model.test.course.*;
  *@Version 1.0
  **/
 public interface CourseManager {
+
     String query(CourseQueryRequest request);
 
     String add(CourseAddRequest addRequest);

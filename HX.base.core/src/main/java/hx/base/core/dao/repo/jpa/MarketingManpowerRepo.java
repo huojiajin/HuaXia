@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  *@ClassName MarketingManpowerRepo
@@ -48,4 +49,10 @@ public interface MarketingManpowerRepo extends AbstractJpaRepo<MarketingManpower
 
     @Query("select count(agentCode) from MarketingManpower where recommAgentCode in (?1) and outworkDate is null")
     Integer countByRecommCodes(List<String> recommAgentCodes);
+
+    @Query("select deptName1, deptCode1, count(agentCode) as num from MarketingManpower where outworkDate is null group by deptName1, deptCode1")
+    List<Map<String, String>> groupByCamp();
+
+    @Query(" from MarketingManpower where deptCode1 = ?1 and outworkDate is null")
+    List<MarketingManpower> listByDeptCode1(String deptCode1);
 }

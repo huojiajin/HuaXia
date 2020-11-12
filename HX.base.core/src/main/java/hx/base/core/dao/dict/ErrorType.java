@@ -25,18 +25,20 @@ public enum ErrorType {
     //基本法测试
     NOPAPERS(70010, "试卷不存在"){},
     NOIMPORT(70011, "试卷未导入"){},
-    NOCOURSE(70014, "学习资料不存在"){},
+    NOCOURSE(70012, "学习资料不存在"){},
+    //人员管理
+    NOTRAIN(70020, "培训场次不存在"){},
 
     //移动端
     //登录
-    NOEMPLAYEE(70015, "客户无法访问本系统"){},
-    NOSERVICEPERSON(70099, "内勤功能暂未开放"){},
+    NOEMPLAYEE(70100, "客户无法访问本系统"){},
+    NOSERVICEPERSON(70101, "内勤功能暂未开放"){},
     //基本法测试
-    HASEXPIRE(70016, "该试卷无法作答"){},
-    HASSTOP(70017, "该资料已停止使用，无法学习"){},
-    HASLEARNED(70018, "已学习过该资料，不获得积分"){},
-    HASSIGNUP(70019, "不可重复签到"){},
-    HASCOMPLETED(70020, "试卷已作答，不可重复提交"){}
+    HASEXPIRE(70110, "该试卷无法作答"){},
+    HASSTOP(70111, "该资料已停止使用，无法学习"){},
+    HASLEARNED(70112, "已学习过该资料，不获得积分"){},
+    HASSIGNUP(70113, "不可重复签到"){},
+    HASCOMPLETED(70114, "试卷已作答，不可重复提交"){}
     ;
 
     private final int errCode;

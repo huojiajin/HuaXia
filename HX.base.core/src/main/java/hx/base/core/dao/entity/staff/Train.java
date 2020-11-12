@@ -1,6 +1,6 @@
 package hx.base.core.dao.entity.staff;
 
-import hx.base.core.dao.dict.TrainType;
+import hx.base.core.dao.dict.TrainStatus;
 import hx.base.core.dao.entity.common.AbstractInsertTimeEntity;
 
 import javax.persistence.*;
@@ -20,8 +20,8 @@ public class Train extends AbstractInsertTimeEntity {
     private String name;//培训名称
     private LocalDateTime trainTime;//培训时间
     private int peopleNum;//培训人数
-    private TrainType status;//培训场次状态
-    private boolean delete;
+    private TrainStatus status = TrainStatus.WDR;//培训场次状态
+    private boolean hasDelete = false;
 
     @Column(name = "name")
     public String getName() {
@@ -52,20 +52,20 @@ public class Train extends AbstractInsertTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    public TrainType getStatus() {
+    public TrainStatus getStatus() {
         return status;
     }
 
-    public void setStatus(TrainType status) {
+    public void setStatus(TrainStatus status) {
         this.status = status;
     }
 
-    @Column(name = "delete")
-    public boolean isDelete() {
-        return delete;
+    @Column(name = "has_delete")
+    public boolean isHasDelete() {
+        return hasDelete;
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setHasDelete(boolean delete) {
+        this.hasDelete = delete;
     }
 }

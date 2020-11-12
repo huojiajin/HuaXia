@@ -5,6 +5,7 @@ import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.httpclient.HttpClientHelper;
 import hx.service.manage.manage.model.CommonRequest;
+import hx.service.manage.manage.model.CommonTemplateResponse;
 import hx.service.manage.manage.model.test.papers.*;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.Test;
@@ -59,8 +60,8 @@ public class PaperTest extends ApplicationTests{
 //        String url = "http://localhost/manage/test/paper/template";
         String url = "http://123.56.154.176/manage/test/paper/template";
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
-        CommonResponse<PaperTemplateResponse> response =
-                JsonTools.json2Object(responseStr, CommonResponse.class, PaperTemplateResponse.class);
+        CommonResponse<CommonTemplateResponse> response =
+                JsonTools.json2Object(responseStr, CommonResponse.class, CommonTemplateResponse.class);
         byte[] b = Base64Utils.decodeFromString(response.getData().getTemplate());
         for (int i = 0; i < b.length; ++i) {
             if (b[i] < 0) {// 调整异常数据
@@ -117,7 +118,7 @@ public class PaperTest extends ApplicationTests{
         request.setToken(token);
         request.setResourceCode(31);
         request.setPaperId("bc1f6adfff3e4316b0a6ac7d087f3025");
-        request.setRankCodeList(Lists.newArrayList("AS", "BC"));
+        request.setCodeList(Lists.newArrayList("AS", "BC"));
 //        String url = "http://123.56.154.176/manage/test/paper/push";
         String url = "http://localhost/manage/test/paper/push";
         String s = HttpClientHelper.jsonPost(url, request.toJson());

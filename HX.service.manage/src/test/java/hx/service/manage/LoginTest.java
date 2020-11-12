@@ -52,11 +52,11 @@ public class LoginTest extends ApplicationTests{
     public void login() throws IOException {
         LoginRequest request = new LoginRequest();
         request.setLoginName("000000001");
-        request.setPassword("123456");
-        request.setVerifyId("dc47b7dda7ac47db9c67d9b2d5cd7cb3");
-        request.setVerifyCode("4mgd");
-        String url = "http://123.56.154.176/manage/login/login";
-//        String url = "http://localhost/manage/login/login";
+        request.setPassword("1234567");
+        request.setVerifyId("ccdb06b6a27445da84ba2eff30fbf673");
+        request.setVerifyCode("rtlw");
+//        String url = "http://123.56.154.176/manage/login/login";
+        String url = "http://localhost/manage/login/login";
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);

@@ -60,6 +60,7 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
         Map<String, PapersPush> pushMap = pushList.stream().collect(Collectors.toMap(PapersPush::getPapersId, Function.identity()));
         List<String> papersId = pushList.stream().map(PapersPush::getPapersId).collect(Collectors.toList());
         List<Papers> paperList = papersRepo.listByIds(papersId);
+        paperList = paperList.stream().filter(p -> !p.isHasDelete()).collect(Collectors.toList());
         //判断试卷类型 如果为空则查询全部
         Integer type = request.getType();
         if (type != null) {

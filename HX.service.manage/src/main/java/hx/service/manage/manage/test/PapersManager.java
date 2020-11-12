@@ -11,6 +11,7 @@ import hx.service.manage.manage.model.test.papers.*;
  *@Version 1.0
  **/
 public interface PapersManager {
+
     String query(PapersQueryRequest request);
 
     String add(PapersAddRequest request);
@@ -26,4 +27,6 @@ public interface PapersManager {
     String push(PapersPushRequest request);
 
     String resultView(PapersIdRequest request);
+
+    String getCampList(CommonRequest request);
 }

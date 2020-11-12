@@ -15,5 +15,5 @@ public interface ExcelReadRowHandler<E>
 	 *            行数据
 	 * @return
 	 */
-	public E row2Model(int row, Map<Integer, Cell> rowData);
+	public E row2Model(int row, Map<Integer, Cell> rowData) throws Exception;
 }

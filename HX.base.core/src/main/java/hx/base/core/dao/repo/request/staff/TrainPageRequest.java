@@ -1,5 +1,6 @@
 package hx.base.core.dao.repo.request.staff;
 
+import hx.base.core.dao.dict.TrainStatus;
 import hx.base.core.dao.entity.staff.Train;
 import hx.base.core.dao.repo.request.common.HqlBuilder;
 import hx.base.core.dao.repo.request.common.JpaPageableDataRequest;
@@ -17,7 +18,8 @@ public class TrainPageRequest extends JpaPageableDataRequest<Train> {
     private String name;//培训名称
     private LocalDateTime trainTimeStart;//培训时间开始
     private LocalDateTime trainTimeEnd;//培训时间结束
-    private boolean delete;
+    private boolean hasDelete;
+    private TrainStatus status;
 
     public TrainPageRequest() {
         this.orderBy = "updateTime";
@@ -36,7 +38,8 @@ public class TrainPageRequest extends JpaPageableDataRequest<Train> {
         hql.append(" and name like :name", like(name));
         hql.append(" and trainTime >= :trainTimeStart", trainTimeStart);
         hql.append(" and trainTime < :trainTimeEnd", trainTimeEnd);
-        hql.append(" and delete = :delete", delete);
+        hql.append(" and hasDelete = :hasDelete", hasDelete);
+        hql.append(" and status = :status", status);
         return hql;
     }
 
@@ -64,11 +67,19 @@ public class TrainPageRequest extends JpaPageableDataRequest<Train> {
         this.trainTimeEnd = trainTimeEnd;
     }
 
-    public boolean isDelete() {
-        return delete;
+    public boolean isHasDelete() {
+        return hasDelete;
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setHasDelete(boolean hasDelete) {
+        this.hasDelete = hasDelete;
+    }
+
+    public TrainStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TrainStatus status) {
+        this.status = status;
     }
 }

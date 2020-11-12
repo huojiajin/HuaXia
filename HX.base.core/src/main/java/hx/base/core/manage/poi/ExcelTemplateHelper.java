@@ -64,7 +64,7 @@ public class ExcelTemplateHelper extends CommonAbstract
 	 * @return 读取的数据列表
 	 * @throws IOException
 	 */
-	public static <E> List<E> readData(PoiExcelInfo info, ExcelReadRowHandler<E> handler) throws IOException
+	public static <E> List<E> readData(PoiExcelInfo info, ExcelReadRowHandler<E> handler) throws Exception
 	{
 		List<E> rs = new ArrayList<E>();
 		InputStream in = info.getExcelInput();

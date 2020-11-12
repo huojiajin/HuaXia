@@ -14,7 +14,8 @@ import java.util.List;
 public class PapersPushRequest extends CommonRequest {
 
     private String paperId;
-    private List<String> rankCodeList;
+    private int pushType;//推送类型
+    private List<String> codeList;//代码集合
 
     public String getPaperId() {
         return paperId;
@@ -24,11 +25,19 @@ public class PapersPushRequest extends CommonRequest {
         this.paperId = paperId;
     }
 
-    public List<String> getRankCodeList() {
-        return rankCodeList;
+    public int getPushType() {
+        return pushType;
     }
 
-    public void setRankCodeList(List<String> rankCodeList) {
-        this.rankCodeList = rankCodeList;
+    public void setPushType(int pushType) {
+        this.pushType = pushType;
+    }
+
+    public List<String> getCodeList() {
+        return codeList;
+    }
+
+    public void setCodeList(List<String> codeList) {
+        this.codeList = codeList;
     }
 }

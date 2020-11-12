@@ -63,4 +63,9 @@ public class PapersController extends MyBaseController {
     public String add(@RequestBody PapersIdRequest request){
         return manager.resultView(request);
     }
+
+    @PostMapping("/push/campList")
+    public String campList(@RequestBody CommonRequest request){
+        return manager.getCampList(request);
+    }
 }
