@@ -121,7 +121,7 @@ public class TrainManagerImpl extends AbstractExcelManager implements TrainManag
     @Override
     public String delete(TrainIdRequest request){
         trainRepo.updateDelete(request.getTrainId());
-        return new CommonRequest().toJson();
+        return new CommonResponse<>().toJson();
     }
 
     @Override
@@ -294,6 +294,7 @@ public class TrainManagerImpl extends AbstractExcelManager implements TrainManag
             cell = ExcelTemplateHelper.getCell(sheet, 3 + i, 6);
             cell.setCellValue(trainPeople.getGroupName());
             setCellStyle(cell, workbook, false, false);
+            i++;
         }
     }
 }

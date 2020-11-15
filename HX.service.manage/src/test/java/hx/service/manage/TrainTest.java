@@ -24,7 +24,7 @@ import java.io.*;
  */
 public class TrainTest extends ApplicationTests{
 
-    private static final String token = "dd7feb19ca5340c4a0c1280638c513e1";
+    private static final String token = "cd764b6540864ad9960f2335ef31901e";
 
     @Test
     void query() throws IOException {
@@ -105,9 +105,9 @@ public class TrainTest extends ApplicationTests{
     void peopleQuery() throws IOException {
         TrainPeopleQueryRequest request = new TrainPeopleQueryRequest();
         request.setToken(token);
-        request.setCampName("第一营业区");
-        request.setResourceCode(11);
-        request.setTrainId("eea0760bbb7841be908fc23c6422c6ab");
+//        request.setCampName("第一营业区");
+        request.setResourceCode(21);
+        request.setTrainId("7c33958e31ba490e8e3b77475b695dfd");
         String url = "http://localhost/manage/staff/train/people/query";
         String s = HttpClientHelper.jsonPost(url, request.toJson());
         echo(s);
@@ -117,9 +117,9 @@ public class TrainTest extends ApplicationTests{
     void peopleExport() throws IOException {
         TrainPeopleQueryRequest request = new TrainPeopleQueryRequest();
         request.setToken(token);
-        request.setCampName("第一营业区");
-        request.setResourceCode(11);
-        request.setTrainId("eea0760bbb7841be908fc23c6422c6ab");
+//        request.setCampName("第一营业区");
+        request.setResourceCode(21);
+        request.setTrainId("7c33958e31ba490e8e3b77475b695dfd");
 //        String url = "http://123.56.154.176/manage/test/paper/push";
         String url = "http://localhost/manage/staff/train/people/export";
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());

@@ -21,7 +21,7 @@ import java.io.*;
  */
 public class PaperTest extends ApplicationTests{
 
-    private static final String token = "5e9ad2689fe64e0a8dfab3f06370033d";
+    private static final String token = "cd764b6540864ad9960f2335ef31901e";
 
     @Test
     void query() throws IOException {
@@ -121,6 +121,17 @@ public class PaperTest extends ApplicationTests{
         request.setCodeList(Lists.newArrayList("AS", "BC"));
 //        String url = "http://123.56.154.176/manage/test/paper/push";
         String url = "http://localhost/manage/test/paper/push";
+        String s = HttpClientHelper.jsonPost(url, request.toJson());
+        echo(s);
+    }
+
+    @Test
+    void campList() throws IOException {
+        CommonRequest request = new CommonRequest();
+        request.setToken(token);
+        request.setResourceCode(11);
+//        String url = "http://123.56.154.176/manage/test/paper/push";
+        String url = "http://localhost/manage/test/paper/push/campList";
         String s = HttpClientHelper.jsonPost(url, request.toJson());
         echo(s);
     }

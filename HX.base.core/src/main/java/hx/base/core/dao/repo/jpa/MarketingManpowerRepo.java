@@ -50,7 +50,7 @@ public interface MarketingManpowerRepo extends AbstractJpaRepo<MarketingManpower
     @Query("select count(agentCode) from MarketingManpower where recommAgentCode in (?1) and outworkDate is null")
     Integer countByRecommCodes(List<String> recommAgentCodes);
 
-    @Query("select deptName1, deptCode1, count(agentCode) as num from MarketingManpower where outworkDate is null group by deptName1, deptCode1")
+    @Query("select deptName1 as campName, deptCode1 as campCode, count(agentCode) as num from MarketingManpower where outworkDate is null group by deptName1, deptCode1")
     List<Map<String, String>> groupByCamp();
 
     @Query(" from MarketingManpower where deptCode1 = ?1 and outworkDate is null")

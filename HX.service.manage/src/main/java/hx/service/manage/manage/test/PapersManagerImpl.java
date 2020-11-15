@@ -1,5 +1,6 @@
 package hx.service.manage.manage.test;
 
+import com.google.common.collect.Lists;
 import hx.base.core.dao.dict.*;
 import hx.base.core.dao.entity.MarketingManpower;
 import hx.base.core.dao.entity.staff.TrainPeople;
@@ -24,7 +25,6 @@ import hx.service.manage.manage.model.CommonRequest;
 import hx.service.manage.manage.model.CommonTemplateResponse;
 import hx.service.manage.manage.model.test.papers.*;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -38,10 +38,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -414,6 +411,7 @@ public class PapersManagerImpl extends AbstractExcelManager implements PapersMan
 
     private List<MarketingManpower> getManpowerList(String code, PapersPushType pushType) throws InterruptedException {
 
+        List<MarketingManpower> manpowerList = Lists.newArrayList();
         if (pushType == PapersPushType.RANK) {//按职级推送
             try {
                 PositionsClass.valueOf(code);
@@ -421,17 +419,21 @@ public class PapersManagerImpl extends AbstractExcelManager implements PapersMan
                 logger.error("无此职级{}", code);
                 throw new InterruptedException(toLogString("无此职级{}", code));
             }
-            return manpowerRepo.listByAgentGrade(code);
+            manpowerList = manpowerRepo.listByAgentGrade(code);
         }else if (pushType == PapersPushType.CAMP){//按营服推送
             return manpowerRepo.listByDeptCode1(code);
         }else if (pushType == PapersPushType.TRAIN){
             List<TrainPeople> trainPeopleList = trainPeopleRepo.listByTrainId(code);
             List<String> agentCodes = trainPeopleList.stream().map(TrainPeople::getAgentCode).collect(Collectors.toList());
-            return manpowerRepo.listByAgentCodes(agentCodes);
+            //去重
+            LinkedHashSet<String> hashSet = new LinkedHashSet<>(agentCodes);
+            agentCodes = new ArrayList<>(hashSet);
+            manpowerList = manpowerRepo.listByAgentCodes(agentCodes);
         }else{
             logger.error("无此推送类型{}", pushType);
             throw new InterruptedException(toLogString("无此推送类型{}", pushType));
         }
+        return manpowerList.stream().distinct().collect(Collectors.toList());
     }
 
     @Transactional(rollbackFor=Exception.class)
@@ -532,8 +534,8 @@ public class PapersManagerImpl extends AbstractExcelManager implements PapersMan
         List<Map<String, String>> mapList = manpowerRepo.groupByCamp();
         for (Map<String, String> map : mapList) {
             CampModel model = new CampModel();
-            model.setCampName(map.get("deptName1"));
-            model.setCampCode(map.get("deptCode1"));
+            model.setCampName(map.get("campName"));
+            model.setCampCode(map.get("campCode"));
             modelList.add(model);
         }
         CampListResponse listResponse = new CampListResponse();
