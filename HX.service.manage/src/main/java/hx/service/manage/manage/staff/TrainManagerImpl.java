@@ -107,6 +107,7 @@ public class TrainManagerImpl extends AbstractExcelManager implements TrainManag
         CommonResponse response = new CommonResponse();
         Train train = new Train();
         BeanUtils.copyProperties(request, train, new String[]{"id"});
+        train.setUpdateTime(LocalDateTime.now());
         train.setInsertTime(LocalDateTime.now());
         try {
             train.setTrainTime(LocalDateTime.parse(request.getTrainTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));

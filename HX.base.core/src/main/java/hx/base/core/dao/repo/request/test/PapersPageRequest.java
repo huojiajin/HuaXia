@@ -18,6 +18,7 @@ public class PapersPageRequest extends JpaPageableDataRequest<Papers> {
 
     public PapersPageRequest() {
         this.orderBy = "updateTime";
+        this.desc = true;
     }
 
     @Override
