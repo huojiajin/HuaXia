@@ -149,7 +149,7 @@ public class RadarManagerImpl extends AbstractMobileManager implements RadarMana
         }
 
         //处理继续率
-        List<ContinueRate> continueRates = continueRateRepo.listByAgentCodes(agentCodes);
+        List<ContinueRate> continueRates = continueRateRepo.listByAgentCodes(agentCodes, MyTimeTools.timeToStr(now.atStartOfDay(), "yyyyMM"));
         Double writtenPremSum = continueRates.parallelStream().mapToDouble(ContinueRate::getWrittenPrem).sum();
         Double paidPremSum = continueRates.parallelStream().mapToDouble(ContinueRate::getPaidPrem).sum();
         BigDecimal writtenPremSumBd = new BigDecimal(writtenPremSum.toString());

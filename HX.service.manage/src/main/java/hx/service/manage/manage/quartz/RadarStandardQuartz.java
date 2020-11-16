@@ -135,11 +135,11 @@ public class RadarStandardQuartz extends CommonQuartz {
                 logger.info("=======部" + groupCode + "======结算完成，评级为:" + radarGrade.getRateType().getValue() + radarGrade.getSectionType().getName());
             }
         }
-        radarGradeRepo.persistAll(radarGradeList);
+        radarGradeRepo.saveAll(radarGradeList);
     }
 
     private RadarGrade handle(boolean isSection, String deptCode, MarketingManpower manage) throws InterruptedException {
-        System.out.println("======" + (isSection ? "部" : "组") + "详细信息");
+        logger.info("======" + (isSection ? "部" : "组") + "详细信息");
         List<RadarStandard> standards = standardRepo.findAll();
         RateType rateType = null;
         Map<RadarStandardType, Map<RateType, RadarStandard>> standardMap = standards.stream()
@@ -151,11 +151,13 @@ public class RadarStandardQuartz extends CommonQuartz {
                     }
                 }).collect(Collectors.groupingBy(RadarStandard::getStandardType,
                         Collectors.toMap(RadarStandard::getRateType, Function.identity())));
-        LocalDate lastMonth = LocalDate.now().minusMonths(1);
+        //获取该季度第一个月份
+        LocalDate firstMonthDate = getFirstMonthInQuarter().withDayOfMonth(1);
+        LocalDate lastMonth = firstMonthDate.minusMonths(1);
         LocalDate startDate = lastMonth.withDayOfMonth(1);
         LocalDate endDate = lastMonth.withDayOfMonth(1).plusMonths(1);
-        //获取该季度第一个月份值
-        int firstMonth = MyTimeTools.getQuarter(lastMonth.getMonthValue()).get(0);
+
+        int firstMonth = firstMonthDate.getMonthValue();
         boolean hasReduce = false;
         //处理月均标保
         LocalDate avgStartDate = startDate.withMonth(firstMonth);
@@ -179,7 +181,7 @@ public class RadarStandardQuartz extends CommonQuartz {
         BigDecimal stadpremNumBd = new BigDecimal(String.valueOf(stadpremNum));
         stadpremNumBd = stadpremNumBd.divide(new BigDecimal("10000"), 2, RoundingMode.HALF_UP);
         double stadpremNumDouble = stadpremNumBd.doubleValue();
-        System.out.println("======" + (isSection ? "部" : "组") + "月标保为：" + stadpremNumDouble);
+        logger.info("======" + (isSection ? "部" : "组") + "月标保为：" + stadpremNumDouble);
 
         //处理团队星级人力
         List<MarketingManpower> manpowers = isSection ? manpowerRepo.listByDeptCode3(deptCode) :
@@ -195,7 +197,7 @@ public class RadarStandardQuartz extends CommonQuartz {
             rateType = getRateType(rateType, starPower.intValue(), spStandard, hasReduce);
             hasReduce = true;
         }
-        System.out.println("======" + (isSection ? "部" : "组") + "团队星级人力为：" + starPower);
+        logger.info("======" + (isSection ? "部" : "组") + "团队星级人力为：" + starPower);
 
         //处理个人星级
         StarRating manageStar = starRatingRepo.findByAgentCode(manage.getAgentCode());
@@ -208,13 +210,13 @@ public class RadarStandardQuartz extends CommonQuartz {
                 hasReduce = true;
             }
         }else{
-            System.out.println("======员工" + manage.getAgentCode() + "无凤凰社评级");
+            logger.info("======员工" + manage.getAgentCode() + "无凤凰社评级");
         }
-        System.out.println("======" + (isSection ? "部" : "组") + "个人星级人力为：" + personStar);
+        logger.info("======" + (isSection ? "部" : "组") + "个人星级人力为：" + personStar);
 
 
         //处理继续率
-        List<ContinueRate> continueRates = continueRateRepo.listByAgentCodes(agentCodes);
+        List<ContinueRate> continueRates = continueRateRepo.listByAgentCodes(agentCodes, MyTimeTools.timeToStr(lastMonth.atStartOfDay(), "yyyyMM"));
         Double writtenPremSum = continueRates.parallelStream().mapToDouble(ContinueRate::getWrittenPrem).sum();
         Double paidPremSum = continueRates.parallelStream().mapToDouble(ContinueRate::getPaidPrem).sum();
         BigDecimal writtenPremSumBd = new BigDecimal(writtenPremSum.toString());
@@ -233,7 +235,7 @@ public class RadarStandardQuartz extends CommonQuartz {
             rateType = getRateType(rateType, allRate, rateStandard, hasReduce);
             hasReduce = true;
         }
-        System.out.println("======" + (isSection ? "部" : "组") + "继续率为：" + allRate);
+        logger.info("======" + (isSection ? "部" : "组") + "继续率为：" + allRate);
 
         //处理出勤人力
         List<Attendance> attendanceList = attendanceRepo.listByAgentCodes(agentCodes, avgStartDate, endDate);
@@ -250,17 +252,27 @@ public class RadarStandardQuartz extends CommonQuartz {
                 .divide(new BigDecimal(lastMonth.getMonthValue() - firstMonth + 1), 0, RoundingMode.HALF_UP).intValue();
         RadarStandard attendStandard = standardMap.get(RadarStandardType.ATTENDPOWER).get(rateType);
         rateType = getRateType(rateType, attendanceNum, attendStandard, hasReduce);
-        System.out.println("======" + (isSection ? "部" : "组") + "出勤人力为：" + attendanceNum);
+        logger.info("======" + (isSection ? "部" : "组") + "出勤人力为：" + attendanceNum);
 
-        //处理上月评级
-        RadarGrade radarGrade = new RadarGrade();
+        //保存上季度评级
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM");
-        radarGrade.setMonth(df.format(lastMonth));
-        radarGrade.setSectionType(isSection ? SectionType.SECTION : SectionType.GROUP);
-        radarGrade.setRateType(rateType);
-        radarGrade.setCode(deptCode);
-        radarGrade.setInsertTime(LocalDateTime.now());
-        return radarGrade;
+        String month = df.format(firstMonthDate);
+        SectionType sectionType = isSection ? SectionType.SECTION : SectionType.GROUP;
+        RadarGrade originRadarGrade = radarGradeRepo.findByCode(deptCode, month, sectionType);
+        if (originRadarGrade == null) {
+            originRadarGrade = new RadarGrade();
+            originRadarGrade.setMonth(month);
+            originRadarGrade.setSectionType(sectionType);
+            originRadarGrade.setRateType(rateType);
+            originRadarGrade.setCode(deptCode);
+            originRadarGrade.setInsertTime(LocalDateTime.now());
+            logger.info("======新增评级：" + originRadarGrade.getId());
+        }else {
+            originRadarGrade.setRateType(rateType);
+            originRadarGrade.setUpdateTime(LocalDateTime.now());
+            logger.info("======更新评级:" + originRadarGrade.getId());
+        }
+        return originRadarGrade;
     }
 
     private RateType getRateType(RateType type, double num, RadarStandard standard, boolean hasReduce) throws InterruptedException {
@@ -270,5 +282,17 @@ public class RadarStandardQuartz extends CommonQuartz {
             return type = typeCode > 0 ? RateType.fromCode(typeCode) : RateType.LAGGINGBEHIND;
         }
         return type;
+    }
+
+
+    private LocalDate getFirstMonthInQuarter(){
+        LocalDate now = LocalDate.now();
+        int month = now.getMonthValue();
+        if (month == 1 || month == 4 || month == 7 || month == 10){
+            return now;
+        }else {
+            Integer firstMonth = MyTimeTools.getQuarter(month).get(0);
+            return now.withMonth(firstMonth);
+        }
     }
 }

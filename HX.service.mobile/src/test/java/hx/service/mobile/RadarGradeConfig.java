@@ -10,6 +10,7 @@ import hx.base.core.dao.entity.radar.RadarStandard;
 import hx.base.core.dao.repo.jpa.*;
 import hx.base.core.dao.repo.jpa.radar.RadarGradeRepo;
 import hx.base.core.dao.repo.jpa.radar.RadarStandardRepo;
+import hx.base.core.manage.tools.MyTimeTools;
 import org.apache.commons.compress.utils.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,7 +178,7 @@ public class RadarGradeConfig extends MobileApplicationTests{
 
 
         //处理继续率
-        List<ContinueRate> continueRates = continueRateRepo.listByAgentCodes(agentCodes);
+        List<ContinueRate> continueRates = continueRateRepo.listByAgentCodes(agentCodes, MyTimeTools.timeToStr(lastMonth.atStartOfDay(), "yyyyMM"));
         Double writtenPremSum = continueRates.parallelStream().mapToDouble(ContinueRate::getWrittenPrem).sum();
         Double paidPremSum = continueRates.parallelStream().mapToDouble(ContinueRate::getPaidPrem).sum();
         BigDecimal writtenPremSumBd = new BigDecimal(writtenPremSum.toString());

@@ -401,8 +401,8 @@ public class PapersManagerImpl extends AbstractExcelManager implements PapersMan
         //保存实体
         persistPush(request, pushList);
         try {
-            addSysLog("推送试卷" + request.getPaperId() + "至职级" + JsonTools.toJsonStr(codeList), request.getToken(), request.getPaperId());
-        } catch (IOException e) {
+            addSysLog("推送试卷" + request.getPaperId() + "至" + PapersPushType.fromCode(request.getPushType()).getValue() + JsonTools.toJsonStr(codeList), request.getToken(), request.getPaperId());
+        } catch (Exception e) {
             logger.error("", e);
         }
         response.setMessage("推送试卷成功！");

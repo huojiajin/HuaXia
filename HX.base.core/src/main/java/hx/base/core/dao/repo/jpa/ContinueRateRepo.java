@@ -15,6 +15,6 @@ import java.util.List;
  **/
 public interface ContinueRateRepo extends AbstractJpaRepo<ContinueRate, String> {
 
-    @Query(" from ContinueRate where agentCode in (?1)")
-    List<ContinueRate> listByAgentCodes(List<String> agentCodes);
+    @Query(" from ContinueRate where agentCode in (?1) and statMonth = ?2")
+    List<ContinueRate> listByAgentCodes(List<String> agentCodes, String statMonth);
 }
