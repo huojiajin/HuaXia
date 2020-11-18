@@ -14,7 +14,8 @@ import java.util.List;
 public class CoursePushRequest extends CommonRequest {
 
     private String courseId;//
-    private List<String> rankCodeList;//职级代码集合
+    private int pushType;//推送类型
+    private List<String> codeList;//职级代码集合
 
     public String getCourseId() {
         return courseId;
@@ -24,11 +25,19 @@ public class CoursePushRequest extends CommonRequest {
         this.courseId = courseId;
     }
 
-    public List<String> getRankCodeList() {
-        return rankCodeList;
+    public int getPushType() {
+        return pushType;
     }
 
-    public void setRankCodeList(List<String> rankCodeList) {
-        this.rankCodeList = rankCodeList;
+    public void setPushType(int pushType) {
+        this.pushType = pushType;
+    }
+
+    public List<String> getCodeList() {
+        return codeList;
+    }
+
+    public void setCodeList(List<String> codeList) {
+        this.codeList = codeList;
     }
 }

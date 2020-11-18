@@ -19,10 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -68,7 +66,7 @@ public class CourseManagerImpl extends AbstractMobileManager implements CourseMa
                 .collect(Collectors.toMap(CoursePush::getCourseId, Function.identity()));
         List<String> courseIds = pushList.stream().map(CoursePush::getCourseId).collect(Collectors.toList());
         List<Course> courseList = courseRepo.listByIds(courseIds, type);
-
+        courseList = courseList.stream().filter(c -> !c.isHasDelete()).collect(Collectors.toList());
         List<CourseListModel> result = Lists.newArrayList();
         for (Course course : courseList) {
             CourseListModel model = new CourseListModel();

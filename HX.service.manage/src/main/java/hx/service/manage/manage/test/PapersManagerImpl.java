@@ -383,7 +383,7 @@ public class PapersManagerImpl extends AbstractExcelManager implements PapersMan
         for (String code : codeList) {
             List<MarketingManpower> manpowerList = null;
             try {
-                manpowerList = getManpowerList(code, PapersPushType.fromCode(request.getPushType()));
+                manpowerList = getManpowerList(code, PushType.fromCode(request.getPushType()));
             } catch (Exception e) {
                 logger.error("", e);
                 return response.setError(ErrorType.CONVERT, e.getMessage());
@@ -401,7 +401,7 @@ public class PapersManagerImpl extends AbstractExcelManager implements PapersMan
         //保存实体
         persistPush(request, pushList);
         try {
-            addSysLog("推送试卷" + request.getPaperId() + "至" + PapersPushType.fromCode(request.getPushType()).getValue() + JsonTools.toJsonStr(codeList), request.getToken(), request.getPaperId());
+            addSysLog("推送试卷" + request.getPaperId() + "至" + PushType.fromCode(request.getPushType()).getValue() + JsonTools.toJsonStr(codeList), request.getToken(), request.getPaperId());
         } catch (Exception e) {
             logger.error("", e);
         }
@@ -409,10 +409,10 @@ public class PapersManagerImpl extends AbstractExcelManager implements PapersMan
         return response.toJson();
     }
 
-    private List<MarketingManpower> getManpowerList(String code, PapersPushType pushType) throws InterruptedException {
+    private List<MarketingManpower> getManpowerList(String code, PushType pushType) throws InterruptedException {
 
         List<MarketingManpower> manpowerList = Lists.newArrayList();
-        if (pushType == PapersPushType.RANK) {//按职级推送
+        if (pushType == PushType.RANK) {//按职级推送
             try {
                 PositionsClass.valueOf(code);
             } catch (IllegalArgumentException e) {
@@ -420,9 +420,9 @@ public class PapersManagerImpl extends AbstractExcelManager implements PapersMan
                 throw new InterruptedException(toLogString("无此职级{}", code));
             }
             manpowerList = manpowerRepo.listByAgentGrade(code);
-        }else if (pushType == PapersPushType.CAMP){//按营服推送
+        }else if (pushType == PushType.CAMP){//按营服推送
             return manpowerRepo.listByDeptCode1(code);
-        }else if (pushType == PapersPushType.TRAIN){
+        }else if (pushType == PushType.TRAIN){
             List<TrainPeople> trainPeopleList = trainPeopleRepo.listByTrainId(code);
             List<String> agentCodes = trainPeopleList.stream().map(TrainPeople::getAgentCode).collect(Collectors.toList());
             //去重

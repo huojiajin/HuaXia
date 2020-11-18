@@ -1,13 +1,12 @@
 package hx.service.manage.manage.test;
 
-import hx.base.core.dao.dict.CourseStatus;
-import hx.base.core.dao.dict.CourseType;
-import hx.base.core.dao.dict.ErrorType;
-import hx.base.core.dao.dict.PositionsClass;
+import hx.base.core.dao.dict.*;
 import hx.base.core.dao.entity.MarketingManpower;
+import hx.base.core.dao.entity.staff.TrainPeople;
 import hx.base.core.dao.entity.test.course.Course;
 import hx.base.core.dao.entity.test.course.CoursePush;
 import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
+import hx.base.core.dao.repo.jpa.staff.TrainPeopleRepo;
 import hx.base.core.dao.repo.jpa.test.course.CoursePushRepo;
 import hx.base.core.dao.repo.jpa.test.course.CourseRepo;
 import hx.base.core.dao.repo.request.common.Pagination;
@@ -30,12 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -55,6 +51,8 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
     private CoursePushRepo coursePushRepo;
     @Autowired
     private MarketingManpowerRepo manpowerRepo;
+    @Autowired
+    private TrainPeopleRepo trainPeopleRepo;
 
     @Override
     public String query(CourseQueryRequest request){
@@ -108,11 +106,11 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
         if (!op.isPresent()){
             return response.setError(ErrorType.NOCOURSE);
         }
-        if (op.get().getStatus() != CourseStatus.WDR && op.get().getStatus() != CourseStatus.YDR){
-            response.setError(ErrorType.NOCOURSE);
-            response.setMessage("学习资料已推送，无法删除");
-            return response.toJson();
-        }
+//        if (op.get().getStatus() != CourseStatus.WDR && op.get().getStatus() != CourseStatus.YDR){
+//            response.setError(ErrorType.NOCOURSE);
+//            response.setMessage("学习资料已推送，无法删除");
+//            return response.toJson();
+//        }
         courseRepo.updateDelete(request.getId());
         addSysLog("删除学习资料" + op.get().getName() + "成功", request.getToken(), request.getId());
         response.setMessage("删除学习资料成功！");
@@ -165,20 +163,20 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
             return response.setError(ErrorType.NOCOURSE);
         }
         List<CoursePush> pushList = Lists.newArrayList();
-        List<String> rankCodeList = request.getRankCodeList();
+        List<String> codeList = request.getCodeList();
         //查询已推送数据
         List<CoursePush> pushedList = coursePushRepo.listByCourseId(request.getCourseId());
         Map<String, CoursePush> pushedMap = pushedList.stream()
                 .collect(Collectors.toMap(CoursePush::getAgentCode, Function.identity()));
-        for (String rankCode : rankCodeList) {
+        for (String code : codeList) {
+            List<MarketingManpower> manpowerList = null;
             try {
-                PositionsClass.valueOf(rankCode);
-            } catch (IllegalArgumentException e) {
-                logger.error("无此类型{}", rankCode);
-                return response.setError(ErrorType.CONVERT);
+                manpowerList = getManpowerList(code, PushType.fromCode(request.getPushType()));
+            } catch (Exception e) {
+                logger.error("", e);
+                return response.setError(ErrorType.CONVERT, e.getMessage());
             }
-            List<MarketingManpower> manpowers = manpowerRepo.listByAgentGrade(rankCode);
-            for (MarketingManpower manpower : manpowers) {
+            for (MarketingManpower manpower : manpowerList) {
                 if(null != pushedMap.get(manpower.getAgentCode())) continue;
                 CoursePush entity = new CoursePush();
                 entity.setAgentCode(manpower.getAgentCode());
@@ -189,13 +187,40 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
         }
         persistPush(request, pushList);
         try {
-            addSysLog("推送学习资料" + request.getCourseId() + "至职级" + JsonTools.toJsonStr(rankCodeList),
+            addSysLog("推送学习资料" + request.getCourseId() + "至" + PushType.fromCode(request.getPushType()).getValue() + JsonTools.toJsonStr(codeList),
                     request.getToken(), request.getCourseId());
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error("", e);
         }
         response.setMessage("推送学习资料成功！");
         return response.toJson();
+    }
+
+    private List<MarketingManpower> getManpowerList(String code, PushType pushType) throws InterruptedException {
+
+        List<MarketingManpower> manpowerList = com.google.common.collect.Lists.newArrayList();
+        if (pushType == PushType.RANK) {//按职级推送
+            try {
+                PositionsClass.valueOf(code);
+            } catch (IllegalArgumentException e) {
+                logger.error("无此职级{}", code);
+                throw new InterruptedException(toLogString("无此职级{}", code));
+            }
+            manpowerList = manpowerRepo.listByAgentGrade(code);
+        }else if (pushType == PushType.CAMP){//按营服推送
+            return manpowerRepo.listByDeptCode1(code);
+        }else if (pushType == PushType.TRAIN){
+            List<TrainPeople> trainPeopleList = trainPeopleRepo.listByTrainId(code);
+            List<String> agentCodes = trainPeopleList.stream().map(TrainPeople::getAgentCode).collect(Collectors.toList());
+            //去重
+            LinkedHashSet<String> hashSet = new LinkedHashSet<>(agentCodes);
+            agentCodes = new ArrayList<>(hashSet);
+            manpowerList = manpowerRepo.listByAgentCodes(agentCodes);
+        }else{
+            logger.error("无此推送类型{}", pushType);
+            throw new InterruptedException(toLogString("无此推送类型{}", pushType));
+        }
+        return manpowerList.stream().distinct().collect(Collectors.toList());
     }
 
     @Transactional(rollbackFor=Exception.class)
