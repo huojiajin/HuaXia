@@ -16,6 +16,7 @@ public class CoursePageRequest extends JpaPageableDataRequest<Course> {
 
     public CoursePageRequest() {
         this.orderBy = "insertTime";
+        this.desc = true;
     }
 
     @Override

@@ -24,7 +24,7 @@ import java.io.*;
  */
 public class TrainTest extends ApplicationTests{
 
-    private static final String token = "cd764b6540864ad9960f2335ef31901e";
+    private static final String token = "82f2dba491394eecac35415e713cb466";
 
     @Test
     void query() throws IOException {
