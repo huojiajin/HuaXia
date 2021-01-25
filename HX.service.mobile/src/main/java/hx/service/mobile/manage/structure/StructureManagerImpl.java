@@ -55,7 +55,7 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
         //解析职级
         PositionsType positionsType;
         try {
-            PositionsClass positionsClass = PositionsClass. valueOf(user.getPosition_code());
+            PositionsClass positionsClass = PositionsClass.valueOf(user.getPosition_code());
             positionsType = PositionsType.fromClass(positionsClass);
         } catch (Exception e) {
             logger.error("", e);

@@ -8,24 +8,30 @@ package hx.base.core.dao.dict;
  *@Version 1.0
  **/
 public enum PositionsClass {
-    TC("客户经理"),
-    PBC("业务主任"),
-    BC("组经理"),
-    SBC("高级组经理"),
-    BM("区域总经理"),
-    SBM("资深总经理"),
-    AS("总监"),
-    SAS("执行总监"),
-    GAS("首席总监"),
+    TC("客户经理", 1),
+    PBC("业务主任", 2),
+    BC("组经理", 3),
+    SBC("高级组经理", 4),
+    BM("区域总经理", 5),
+    SBM("资深总经理", 6),
+    AS("总监", 7),
+    SAS("执行总监", 8),
+    GAS("首席总监", 9),
     ;
 
-    PositionsClass(String value) {
+    PositionsClass(String value, int code) {
         this.value = value;
+        this.code = code;
     }
 
     private String value;
+    private int code;
 
     public String getValue() {
         return value;
+    }
+
+    public int getCode() {
+        return code;
     }
 }
