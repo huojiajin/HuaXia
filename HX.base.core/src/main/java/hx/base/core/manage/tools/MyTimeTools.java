@@ -67,6 +67,22 @@ public class MyTimeTools {
     }
 
     /**
+     * @Name getThreeMonths
+     * @Author HuoJiaJin
+     * @Description 获得最近三个月月份
+     * @Date 2021/1/29 1:29
+     * @Param [month]
+     * @return java.util.List<java.lang.Integer>
+     **/
+    public static List<LocalDate> getThreeMonths(LocalDate date){
+        List<LocalDate> threeMonthList = Lists.newArrayList();
+        threeMonthList.add(date.minusMonths(2));
+        threeMonthList.add(date.minusMonths(1));
+        threeMonthList.add(date);
+        return threeMonthList;
+    }
+
+    /**
      * @Name getWeek
      * @Author HuoJiaJin
      * @Description 获得当前周日期
