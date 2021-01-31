@@ -11,11 +11,20 @@ import hx.service.manage.manage.model.CommonPageRequest;
  **/
 public class SituationQueryRequest extends CommonPageRequest {
 
+    private String campCode;//营服代码
     private String campName;//营服名称
     private String chiefName;//总监名称
     private String sectionName;//部名称
     private String groupName;//组名称
     private String employeeNum;//工号
+
+    public String getCampCode() {
+        return campCode;
+    }
+
+    public void setCampCode(String campCode) {
+        this.campCode = campCode;
+    }
 
     public String getCampName() {
         return campName;

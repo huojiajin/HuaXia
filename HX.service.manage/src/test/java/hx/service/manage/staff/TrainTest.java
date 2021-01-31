@@ -1,8 +1,9 @@
-package hx.service.manage;
+package hx.service.manage.staff;
 
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.httpclient.HttpClientHelper;
+import hx.service.manage.ApplicationTests;
 import hx.service.manage.manage.model.CommonExportResponse;
 import hx.service.manage.manage.model.CommonRequest;
 import hx.service.manage.manage.model.CommonTemplateResponse;
@@ -22,7 +23,7 @@ import java.io.*;
  * @author: huojin
  * @time: 2020/6/22 10:16
  */
-public class TrainTest extends ApplicationTests{
+public class TrainTest extends ApplicationTests {
 
     private static final String token = "82f2dba491394eecac35415e713cb466";
 

@@ -129,7 +129,7 @@ public class TrainManagerImpl extends AbstractExcelManager implements TrainManag
     public String downloadTemplate(CommonRequest request){
         CommonResponse response = new CommonResponse();
         CommonTemplateResponse templateResponse = new CommonTemplateResponse();
-        InputStream fis = FileTools.getResourcesFileInputStream("template/trainStaffTemplate.xlsx");
+        InputStream fis = FileTools.getResourcesFileInputStream("template/trainStaffImportTemplate.xlsx");
         String str = null;
         try {
             str = inputStreamToBase64Str(fis);

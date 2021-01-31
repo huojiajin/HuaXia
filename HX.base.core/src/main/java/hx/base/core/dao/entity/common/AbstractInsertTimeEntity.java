@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @time: 2020/5/28 15:17
  */
 @MappedSuperclass
-public class AbstractInsertTimeEntity extends StringUUIDEntity{
+public class AbstractInsertTimeEntity extends StringUUIDEntity {
 
     private LocalDateTime insertTime = LocalDateTime.now();//插入时间
     private LocalDateTime updateTime;//更新时间

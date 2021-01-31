@@ -11,6 +11,7 @@ import hx.service.manage.manage.model.login.VerifyResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Base64Utils;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -40,8 +41,9 @@ public class LoginTest extends ApplicationTests{
                 b[i] += 256;
             }
         }
-
-        OutputStream out = new FileOutputStream("C:\\Users\\霍佳进\\Desktop\\out.png");
+        String fileName = "C:\\Users\\huojiajin\\Desktop\\out.png";
+        File file = new File(fileName);
+        OutputStream out = new FileOutputStream(file);
         out.write(b);
         out.flush();
         out.close();
@@ -53,8 +55,8 @@ public class LoginTest extends ApplicationTests{
         LoginRequest request = new LoginRequest();
         request.setLoginName("000000001");
         request.setPassword("1234567");
-        request.setVerifyId("ccdb06b6a27445da84ba2eff30fbf673");
-        request.setVerifyCode("rtlw");
+        request.setVerifyId("81c859593ce94dc8a5776c7c5b25b2dc");
+        request.setVerifyCode("t6ck");
 //        String url = "http://123.56.154.176/manage/login/login";
         String url = "http://localhost/manage/login/login";
 

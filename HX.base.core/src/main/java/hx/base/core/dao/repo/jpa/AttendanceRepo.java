@@ -21,4 +21,7 @@ public interface AttendanceRepo extends AbstractJpaRepo<Attendance, String> {
 
     @Query("from Attendance where staffCode = ?1 and attenDate >= ?2 and attenDate < ?3")
     List<Attendance> listByAgentCode(String agentCode, LocalDate attenDateStart, LocalDate attenDateEnd);
+
+    @Query("select count(1) from Attendance where staffCode = ?1 and attenDate >= ?2 and attenDate < ?3")
+    Long countByAgentCode(String agentCode, LocalDate attenDateStart, LocalDate attenDateEnd);
 }

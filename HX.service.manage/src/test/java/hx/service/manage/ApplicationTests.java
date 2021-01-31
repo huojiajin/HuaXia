@@ -8,7 +8,7 @@ import java.util.*;
 
 //@SpringBootTest
 //@RunWith(SpringRunner.class)
-class ApplicationTests {
+public class ApplicationTests {
 
     public static void echoList(Collection<?> list)
     {
