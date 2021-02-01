@@ -1,7 +1,7 @@
 package hx.service.mobile.manage.radar;
 
-import hx.service.mobile.manage.model.common.MobileCommonRequest;
-import hx.service.mobile.manage.model.radar.*;
+import hx.service.mobile.model.common.MobileCommonRequest;
+import hx.service.mobile.model.radar.RadarRequest;
 
 /**
  *@ClassName RadarManager

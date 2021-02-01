@@ -1,8 +1,8 @@
 package hx.service.manage.manage.acl;
 
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.acl.mobile.MobileResourceConfigRequest;
-import hx.service.manage.manage.model.acl.mobile.MobileResourceQueryRequest;
+import hx.service.manage.model.common.CommonRequest;
+import hx.service.manage.model.acl.mobile.MobileResourceConfigRequest;
+import hx.service.manage.model.acl.mobile.MobileResourceQueryRequest;
 
 /**
  * @name: MobileResourceManager

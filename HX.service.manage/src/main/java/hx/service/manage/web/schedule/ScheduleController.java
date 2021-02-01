@@ -1,7 +1,7 @@
 package hx.service.manage.web.schedule;
 
 import hx.service.manage.manage.schedule.ScheduleManager;
-import hx.service.manage.web.MyBaseController;
+import hx.service.manage.web.common.MyBaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

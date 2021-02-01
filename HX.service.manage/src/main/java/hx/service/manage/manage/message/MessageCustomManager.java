@@ -1,6 +1,6 @@
 package hx.service.manage.manage.message;
 
-import hx.service.manage.manage.model.message.*;
+import hx.service.manage.model.message.*;
 
 /**
  * @ClassName: MessageManager

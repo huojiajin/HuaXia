@@ -1,6 +1,6 @@
 package hx.service.manage.manage.staff;
 
-import hx.service.manage.manage.model.staff.situation.SituationQueryRequest;
+import hx.service.manage.model.staff.situation.SituationQueryRequest;
 
 /**
  * @ClassName: SituationManager

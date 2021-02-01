@@ -2,7 +2,7 @@ package hx.base.core.dao.repo.jpa.radar;
 
 import hx.base.core.dao.entity.radar.RadarGrade;
 import hx.base.core.dao.repo.jpa.common.AbstractJpaRepo;
-import hx.base.core.dao.dict.SectionType;
+import hx.base.core.dao.dict.acl.SectionType;
 import org.springframework.data.jpa.repository.Query;
 
 /**

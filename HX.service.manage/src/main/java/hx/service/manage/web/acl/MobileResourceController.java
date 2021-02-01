@@ -1,10 +1,10 @@
 package hx.service.manage.web.acl;
 
 import hx.service.manage.manage.acl.MobileResourceManager;
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.acl.mobile.MobileResourceConfigRequest;
-import hx.service.manage.manage.model.acl.mobile.MobileResourceQueryRequest;
-import hx.service.manage.web.MyBaseController;
+import hx.service.manage.model.common.CommonRequest;
+import hx.service.manage.model.acl.mobile.MobileResourceConfigRequest;
+import hx.service.manage.model.acl.mobile.MobileResourceQueryRequest;
+import hx.service.manage.web.common.MyBaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

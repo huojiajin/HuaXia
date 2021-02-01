@@ -1,6 +1,6 @@
 package hx.base.core.manage.model;
 
-import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.dict.acl.ErrorType;
 import hx.base.core.dao.entity.common.BaseEntity;
 
 /**

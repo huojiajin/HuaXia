@@ -1,11 +1,10 @@
 package hx.service.mobile.web.test;
 
 import hx.base.core.manage.common.CommonAbstract;
-import hx.service.mobile.manage.model.test.course.CourseDetailRequest;
-import hx.service.mobile.manage.model.test.course.CourseLearnedRequest;
-import hx.service.mobile.manage.model.test.course.CourseListRequest;
+import hx.service.mobile.model.test.course.CourseDetailRequest;
+import hx.service.mobile.model.test.course.CourseLearnedRequest;
+import hx.service.mobile.model.test.course.CourseListRequest;
 import hx.service.mobile.manage.test.CourseManager;
-import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,8 +1,8 @@
 package hx.service.manage.web.test;
 
-import hx.service.manage.manage.model.test.course.*;
 import hx.service.manage.manage.test.CourseManager;
-import hx.service.manage.web.MyBaseController;
+import hx.service.manage.model.test.course.*;
+import hx.service.manage.web.common.MyBaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

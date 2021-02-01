@@ -1,7 +1,7 @@
 package hx.service.manage.manage.staff;
 
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.staff.train.*;
+import hx.service.manage.model.common.CommonRequest;
+import hx.service.manage.model.staff.train.*;
 
 /**
  *@ClassName TrainManager

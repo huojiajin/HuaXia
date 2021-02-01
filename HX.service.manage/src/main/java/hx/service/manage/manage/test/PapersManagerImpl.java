@@ -1,11 +1,13 @@
 package hx.service.manage.manage.test;
 
 import com.google.common.collect.Lists;
-import hx.base.core.dao.dict.*;
-import hx.base.core.dao.entity.MarketingManpower;
+import hx.base.core.dao.dict.acl.ErrorType;
+import hx.base.core.dao.dict.acl.PositionsClass;
+import hx.base.core.dao.dict.test.*;
+import hx.base.core.dao.entity.hualife.MarketingManpower;
 import hx.base.core.dao.entity.staff.TrainPeople;
 import hx.base.core.dao.entity.test.papers.*;
-import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
+import hx.base.core.dao.repo.jpa.hualife.MarketingManpowerRepo;
 import hx.base.core.dao.repo.jpa.staff.TrainPeopleRepo;
 import hx.base.core.dao.repo.jpa.test.papers.*;
 import hx.base.core.dao.repo.request.common.Pagination;
@@ -19,11 +21,11 @@ import hx.base.core.manage.poi.WorkbookWithDataHandler;
 import hx.base.core.manage.tools.FileTools;
 import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.MyTimeTools;
-import hx.service.manage.manage.AbstractExcelManager;
-import hx.service.manage.manage.model.CommonExportResponse;
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.CommonTemplateResponse;
-import hx.service.manage.manage.model.test.papers.*;
+import hx.service.manage.manage.common.AbstractExcelManager;
+import hx.service.manage.model.common.CommonExportResponse;
+import hx.service.manage.model.common.CommonRequest;
+import hx.service.manage.model.common.CommonTemplateResponse;
+import hx.service.manage.model.test.papers.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -155,7 +157,7 @@ public class PapersManagerImpl extends AbstractExcelManager implements PapersMan
     public String downloadTemplate(CommonRequest request) {
         CommonResponse response = new CommonResponse();
         CommonTemplateResponse templateResponse = new CommonTemplateResponse();
-        InputStream fis = FileTools.getResourcesFileInputStream("template/papersTemplate.xlsx");
+        InputStream fis = FileTools.getResourcesFileInputStream("template/test/papersTemplate.xlsx");
         String str = null;
         try {
             str = inputStreamToBase64Str(fis);
@@ -451,7 +453,7 @@ public class PapersManagerImpl extends AbstractExcelManager implements PapersMan
             return response.setError(ErrorType.VALID, "目前暂无人答题");
         }
         CommonExportResponse resultResponse = new CommonExportResponse();
-        InputStream is = FileTools.getResourcesFileInputStream("template/papersAnswerTemplate.xlsx");
+        InputStream is = FileTools.getResourcesFileInputStream("template/test/papersAnswerTemplate.xlsx");
         try {
             ByteArrayOutputStream op = ExcelTemplateHelper.generateExcel(is, true, request, this);
             byte[] data = op.toByteArray();

@@ -1,7 +1,7 @@
 package hx.base.core.dao.repo.jpa.test.papers;
 
-import hx.base.core.dao.dict.PapersStatus;
-import hx.base.core.dao.dict.PapersType;
+import hx.base.core.dao.dict.test.PapersStatus;
+import hx.base.core.dao.dict.test.PapersType;
 import hx.base.core.dao.entity.test.papers.Papers;
 import hx.base.core.dao.repo.jpa.common.AbstractJpaRepo;
 import org.springframework.data.jpa.repository.Modifying;

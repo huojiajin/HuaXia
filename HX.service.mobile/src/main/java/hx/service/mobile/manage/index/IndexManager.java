@@ -1,7 +1,7 @@
 package hx.service.mobile.manage.index;
 
-import hx.service.mobile.manage.model.common.MobileCommonRequest;
-import hx.service.mobile.manage.model.index.GroupListReqeust;
+import hx.service.mobile.model.common.MobileCommonRequest;
+import hx.service.mobile.model.index.GroupListReqeust;
 
 /**
  * @ClassName IndexManager

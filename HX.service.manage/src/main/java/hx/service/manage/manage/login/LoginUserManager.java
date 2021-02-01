@@ -1,7 +1,7 @@
 package hx.service.manage.manage.login;
 
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.acl.user.UserPasswordEditRequest;
+import hx.service.manage.model.common.CommonRequest;
+import hx.service.manage.model.acl.user.UserPasswordEditRequest;
 
 /**
  *@ClassName LoginUserManager

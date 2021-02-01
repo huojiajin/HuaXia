@@ -1,12 +1,11 @@
 package hx.service.manage.manage.acl;
 
-import hx.service.manage.manage.model.CommonPageRequest;
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.acl.role.RoleAddRequest;
-import hx.service.manage.manage.model.acl.role.RoleEditRequest;
-import hx.service.manage.manage.model.acl.role.RoleIdRequest;
-import hx.service.manage.manage.model.acl.role.RoleResourceRequest;
-import org.springframework.transaction.annotation.Transactional;
+import hx.service.manage.model.common.CommonPageRequest;
+import hx.service.manage.model.common.CommonRequest;
+import hx.service.manage.model.acl.role.RoleAddRequest;
+import hx.service.manage.model.acl.role.RoleEditRequest;
+import hx.service.manage.model.acl.role.RoleIdRequest;
+import hx.service.manage.model.acl.role.RoleResourceRequest;
 
 /**
  * @name: RoleManager

@@ -1,9 +1,9 @@
 package hx.service.mobile.manage.structure;
 
-import hx.service.mobile.manage.model.common.MobileCommonRequest;
-import hx.service.mobile.manage.model.structure.SructureAnalysisRequest;
-import hx.service.mobile.manage.model.structure.StructurePersonDetailRequest;
-import hx.service.mobile.manage.model.structure.StructurePersonListRequest;
+import hx.service.mobile.model.common.MobileCommonRequest;
+import hx.service.mobile.model.structure.SructureAnalysisRequest;
+import hx.service.mobile.model.structure.StructurePersonDetailRequest;
+import hx.service.mobile.model.structure.StructurePersonListRequest;
 
 /**
  *@ClassName StructureManager

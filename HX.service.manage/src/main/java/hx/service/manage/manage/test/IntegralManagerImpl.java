@@ -1,6 +1,6 @@
 package hx.service.manage.manage.test;
 
-import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.dict.acl.ErrorType;
 import hx.base.core.dao.entity.test.integral.Integral;
 import hx.base.core.dao.repo.jpa.test.integral.IntegralRepo;
 import hx.base.core.dao.repo.request.common.Pagination;
@@ -9,10 +9,10 @@ import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.poi.ExcelTemplateHelper;
 import hx.base.core.manage.poi.WorkbookWithDataHandler;
 import hx.base.core.manage.tools.FileTools;
-import hx.service.manage.manage.AbstractManager;
-import hx.service.manage.manage.model.test.integral.IntegralExportResponse;
-import hx.service.manage.manage.model.test.integral.IntegralQueryModel;
-import hx.service.manage.manage.model.test.integral.IntegralQueryRequest;
+import hx.service.manage.manage.common.AbstractManager;
+import hx.service.manage.model.test.integral.IntegralExportResponse;
+import hx.service.manage.model.test.integral.IntegralQueryModel;
+import hx.service.manage.model.test.integral.IntegralQueryRequest;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.BeanUtils;
@@ -63,7 +63,7 @@ public class IntegralManagerImpl extends AbstractManager implements IntegralMana
     public String export(IntegralQueryRequest request){
         CommonResponse response = new CommonResponse();
         IntegralExportResponse exportResponse = new IntegralExportResponse();
-        InputStream is = FileTools.getResourcesFileInputStream("template/integralTemplate.xlsx");
+        InputStream is = FileTools.getResourcesFileInputStream("template/test/integralTemplate.xlsx");
         try {
             ByteArrayOutputStream op = ExcelTemplateHelper.generateExcel(is, true, request, this);
             byte[] data = op.toByteArray();

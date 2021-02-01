@@ -1,8 +1,8 @@
 package hx.service.manage.web.test;
 
-import hx.service.manage.manage.model.test.integral.IntegralQueryRequest;
+import hx.service.manage.model.test.integral.IntegralQueryRequest;
 import hx.service.manage.manage.test.IntegralManager;
-import hx.service.manage.web.MyBaseController;
+import hx.service.manage.web.common.MyBaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

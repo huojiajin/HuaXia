@@ -1,15 +1,15 @@
 package hx.service.manage.manage.login;
 
-import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.dict.acl.ErrorType;
 import hx.base.core.dao.entity.acl.User;
 import hx.base.core.dao.repo.jpa.acl.UserRepo;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.SecurityUtil;
-import hx.service.manage.manage.AbstractManager;
-import hx.service.manage.manage.MyMecachedPrefix;
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.acl.user.UserPasswordEditRequest;
+import hx.service.manage.manage.common.AbstractManager;
+import hx.service.manage.manage.tools.MyMecachedPrefix;
+import hx.service.manage.model.common.CommonRequest;
+import hx.service.manage.model.acl.user.UserPasswordEditRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,11 +1,11 @@
 package hx.service.mobile.manage.honor;
 
-import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.dict.acl.ErrorType;
 import hx.base.core.manage.model.CommonResponse;
-import hx.service.mobile.manage.AbstractMobileManager;
-import hx.service.mobile.manage.model.common.MobileCommonRequest;
-import hx.service.mobile.manage.model.honor.EntryTimeResponse;
-import hx.service.mobile.manage.model.login.MobileUserModel;
+import hx.service.mobile.manage.common.AbstractMobileManager;
+import hx.service.mobile.model.common.MobileCommonRequest;
+import hx.service.mobile.model.honor.EntryTimeResponse;
+import hx.service.mobile.model.login.MobileUserModel;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

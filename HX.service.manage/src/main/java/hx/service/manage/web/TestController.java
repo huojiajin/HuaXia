@@ -1,7 +1,7 @@
 package hx.service.manage.web;
 
-import hx.base.core.dao.entity.MarketingManpower;
-import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
+import hx.base.core.dao.entity.hualife.MarketingManpower;
+import hx.base.core.dao.repo.jpa.hualife.MarketingManpowerRepo;
 import net.spy.memcached.MemcachedClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

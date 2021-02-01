@@ -1,8 +1,8 @@
 package hx.service.mobile.manage.test;
 
-import hx.service.mobile.manage.model.test.course.CourseDetailRequest;
-import hx.service.mobile.manage.model.test.course.CourseLearnedRequest;
-import hx.service.mobile.manage.model.test.course.CourseListRequest;
+import hx.service.mobile.model.test.course.CourseDetailRequest;
+import hx.service.mobile.model.test.course.CourseLearnedRequest;
+import hx.service.mobile.model.test.course.CourseListRequest;
 
 /**
  * @name: CourseManager

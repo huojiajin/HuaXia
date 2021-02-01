@@ -1,8 +1,8 @@
 package hx.service.mobile.manage.radar;
 
-import hx.service.mobile.manage.model.radar.attend.GroupAttendRequest;
-import hx.service.mobile.manage.model.radar.attend.PersonAttendRequest;
-import hx.service.mobile.manage.model.radar.attend.SectionAttendRequest;
+import hx.service.mobile.model.radar.attend.GroupAttendRequest;
+import hx.service.mobile.model.radar.attend.PersonAttendRequest;
+import hx.service.mobile.model.radar.attend.SectionAttendRequest;
 
 /**
  * @ClassName AttendanceManager

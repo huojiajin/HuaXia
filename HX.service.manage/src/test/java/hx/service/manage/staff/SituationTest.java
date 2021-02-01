@@ -5,8 +5,8 @@ import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.httpclient.HttpClientHelper;
 import hx.service.manage.ApplicationTests;
-import hx.service.manage.manage.model.CommonExportResponse;
-import hx.service.manage.manage.model.staff.situation.SituationQueryRequest;
+import hx.service.manage.model.common.CommonExportResponse;
+import hx.service.manage.model.staff.situation.SituationQueryRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Base64Utils;
 

@@ -1,13 +1,17 @@
 package hx.service.manage.manage.quartz;
 
-import hx.base.core.dao.dict.*;
-import hx.base.core.dao.entity.Attendance;
-import hx.base.core.dao.entity.ContinueRate;
-import hx.base.core.dao.entity.MarketingManpower;
-import hx.base.core.dao.entity.StarRating;
+import hx.base.core.dao.dict.acl.PositionsClass;
+import hx.base.core.dao.dict.acl.PositionsType;
+import hx.base.core.dao.dict.acl.SectionType;
+import hx.base.core.dao.dict.structure.RadarStandardType;
+import hx.base.core.dao.dict.structure.RateType;
+import hx.base.core.dao.entity.hualife.Attendance;
+import hx.base.core.dao.entity.hualife.ContinueRate;
+import hx.base.core.dao.entity.hualife.MarketingManpower;
+import hx.base.core.dao.entity.hualife.StarRating;
 import hx.base.core.dao.entity.radar.RadarGrade;
 import hx.base.core.dao.entity.radar.RadarStandard;
-import hx.base.core.dao.repo.jpa.*;
+import hx.base.core.dao.repo.jpa.hualife.*;
 import hx.base.core.dao.repo.jpa.radar.RadarGradeRepo;
 import hx.base.core.dao.repo.jpa.radar.RadarStandardRepo;
 import hx.base.core.manage.annotation.MyScheduler;

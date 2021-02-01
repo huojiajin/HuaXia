@@ -1,8 +1,8 @@
 package hx.service.mobile.web.radar;
 
 import hx.base.core.manage.common.CommonAbstract;
-import hx.service.mobile.manage.model.radar.star.StarPowerDetailRequest;
-import hx.service.mobile.manage.model.radar.star.StarPowerRequest;
+import hx.service.mobile.model.radar.star.StarPowerDetailRequest;
+import hx.service.mobile.model.radar.star.StarPowerRequest;
 import hx.service.mobile.manage.radar.StarPowerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

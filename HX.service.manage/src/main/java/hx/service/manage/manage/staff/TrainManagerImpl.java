@@ -1,11 +1,11 @@
 package hx.service.manage.manage.staff;
 
-import hx.base.core.dao.dict.ErrorType;
-import hx.base.core.dao.dict.TrainStatus;
-import hx.base.core.dao.entity.MarketingManpower;
+import hx.base.core.dao.dict.acl.ErrorType;
+import hx.base.core.dao.dict.staff.TrainStatus;
+import hx.base.core.dao.entity.hualife.MarketingManpower;
 import hx.base.core.dao.entity.staff.Train;
 import hx.base.core.dao.entity.staff.TrainPeople;
-import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
+import hx.base.core.dao.repo.jpa.hualife.MarketingManpowerRepo;
 import hx.base.core.dao.repo.jpa.staff.TrainPeopleRepo;
 import hx.base.core.dao.repo.jpa.staff.TrainRepo;
 import hx.base.core.dao.repo.request.common.Pagination;
@@ -18,11 +18,11 @@ import hx.base.core.manage.poi.PoiExcelInfo;
 import hx.base.core.manage.poi.WorkbookWithDataHandler;
 import hx.base.core.manage.tools.FileTools;
 import hx.base.core.manage.tools.MyTimeTools;
-import hx.service.manage.manage.AbstractExcelManager;
-import hx.service.manage.manage.model.CommonExportResponse;
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.CommonTemplateResponse;
-import hx.service.manage.manage.model.staff.train.*;
+import hx.service.manage.manage.common.AbstractExcelManager;
+import hx.service.manage.model.common.CommonExportResponse;
+import hx.service.manage.model.common.CommonRequest;
+import hx.service.manage.model.common.CommonTemplateResponse;
+import hx.service.manage.model.staff.train.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.ss.usermodel.Cell;
@@ -134,7 +134,7 @@ public class TrainManagerImpl extends AbstractExcelManager implements TrainManag
     public String downloadTemplate(CommonRequest request){
         CommonResponse response = new CommonResponse();
         CommonTemplateResponse templateResponse = new CommonTemplateResponse();
-        InputStream fis = FileTools.getResourcesFileInputStream("template/trainStaffImportTemplate.xlsx");
+        InputStream fis = FileTools.getResourcesFileInputStream("template/staff/trainStaffImportTemplate.xlsx");
         String str = null;
         try {
             str = inputStreamToBase64Str(fis);
@@ -245,7 +245,7 @@ public class TrainManagerImpl extends AbstractExcelManager implements TrainManag
             return response.setError(ErrorType.CONVERT, "该场次无法导出人员信息");
         }
         CommonExportResponse resultResponse = new CommonExportResponse();
-        InputStream is = FileTools.getResourcesFileInputStream("template/trainStaffExportTemplate.xlsx");
+        InputStream is = FileTools.getResourcesFileInputStream("template/staff/trainStaffExportTemplate.xlsx");
         try {
             ByteArrayOutputStream op = ExcelTemplateHelper.generateExcel(is, true, request, this);
             byte[] data = op.toByteArray();

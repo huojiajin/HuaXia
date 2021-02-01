@@ -1,6 +1,6 @@
 package hx.base.core.dao.entity.test.papers;
 
-import hx.base.core.dao.dict.PapersSubjectType;
+import hx.base.core.dao.dict.test.PapersSubjectType;
 import hx.base.core.dao.entity.common.StringUUIDEntity;
 
 import javax.persistence.*;

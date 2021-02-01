@@ -1,6 +1,6 @@
 package hx.service.mobile.manage.honor;
 
-import hx.service.mobile.manage.model.common.MobileCommonRequest;
+import hx.service.mobile.model.common.MobileCommonRequest;
 
 /**
  * @name: EntryTimeManager

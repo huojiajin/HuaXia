@@ -1,6 +1,6 @@
 package hx.base.core.dao.entity.honor;
 
-import hx.base.core.dao.dict.HonorStatus;
+import hx.base.core.dao.dict.honor.HonorStatus;
 import hx.base.core.dao.entity.common.AbstractInsertTimeEntity;
 
 import javax.persistence.*;
@@ -31,7 +31,7 @@ public class Honor extends AbstractInsertTimeEntity {
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "name")
+    @Column(name = "status")
     public HonorStatus getStatus() {
         return status;
     }

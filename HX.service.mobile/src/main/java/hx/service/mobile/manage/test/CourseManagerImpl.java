@@ -1,7 +1,7 @@
 package hx.service.mobile.manage.test;
 
-import hx.base.core.dao.dict.CourseType;
-import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.dict.test.CourseType;
+import hx.base.core.dao.dict.acl.ErrorType;
 import hx.base.core.dao.entity.test.course.Course;
 import hx.base.core.dao.entity.test.course.CoursePush;
 import hx.base.core.dao.entity.test.integral.IntegralCourse;
@@ -11,9 +11,9 @@ import hx.base.core.dao.repo.jpa.test.integral.IntegralCourseRepo;
 import hx.base.core.dao.repo.jpa.test.integral.IntegralRepo;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.MyTimeTools;
-import hx.service.mobile.manage.AbstractMobileManager;
-import hx.service.mobile.manage.model.login.MobileUserModel;
-import hx.service.mobile.manage.model.test.course.*;
+import hx.service.mobile.manage.common.AbstractMobileManager;
+import hx.service.mobile.model.login.MobileUserModel;
+import hx.service.mobile.model.test.course.*;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

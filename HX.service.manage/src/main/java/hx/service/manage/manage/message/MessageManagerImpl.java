@@ -1,6 +1,6 @@
 package hx.service.manage.manage.message;
 
-import hx.service.manage.manage.AbstractManager;
+import hx.service.manage.manage.common.AbstractManager;
 import org.springframework.stereotype.Service;
 
 /**

@@ -1,8 +1,8 @@
 package hx.service.manage.manage.acl;
 
 import com.google.common.collect.Lists;
-import hx.base.core.dao.dict.ErrorType;
-import hx.base.core.dao.dict.ResourceType;
+import hx.base.core.dao.dict.acl.ErrorType;
+import hx.base.core.dao.dict.acl.ResourceType;
 import hx.base.core.dao.entity.acl.Role;
 import hx.base.core.dao.entity.acl.RoleResource;
 import hx.base.core.dao.entity.acl.User;
@@ -12,10 +12,10 @@ import hx.base.core.dao.repo.jpa.acl.UserRepo;
 import hx.base.core.dao.repo.request.acl.RolePageRequest;
 import hx.base.core.dao.repo.request.common.Pagination;
 import hx.base.core.manage.model.CommonResponse;
-import hx.service.manage.manage.AbstractManager;
-import hx.service.manage.manage.model.CommonPageRequest;
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.acl.role.*;
+import hx.service.manage.manage.common.AbstractManager;
+import hx.service.manage.model.acl.role.*;
+import hx.service.manage.model.common.CommonPageRequest;
+import hx.service.manage.model.common.CommonRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

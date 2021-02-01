@@ -1,13 +1,13 @@
 package hx.service.manage.web.acl;
 
 import hx.service.manage.manage.acl.RoleManager;
-import hx.service.manage.manage.model.CommonPageRequest;
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.acl.role.RoleAddRequest;
-import hx.service.manage.manage.model.acl.role.RoleEditRequest;
-import hx.service.manage.manage.model.acl.role.RoleIdRequest;
-import hx.service.manage.manage.model.acl.role.RoleResourceRequest;
-import hx.service.manage.web.MyBaseController;
+import hx.service.manage.model.common.CommonPageRequest;
+import hx.service.manage.model.common.CommonRequest;
+import hx.service.manage.model.acl.role.RoleAddRequest;
+import hx.service.manage.model.acl.role.RoleEditRequest;
+import hx.service.manage.model.acl.role.RoleIdRequest;
+import hx.service.manage.model.acl.role.RoleResourceRequest;
+import hx.service.manage.web.common.MyBaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,7 +1,7 @@
 package hx.base.core.dao.entity.test.course;
 
-import hx.base.core.dao.dict.CourseStatus;
-import hx.base.core.dao.dict.CourseType;
+import hx.base.core.dao.dict.test.CourseStatus;
+import hx.base.core.dao.dict.test.CourseType;
 import hx.base.core.dao.entity.common.AbstractInsertTimeEntity;
 
 import javax.persistence.*;

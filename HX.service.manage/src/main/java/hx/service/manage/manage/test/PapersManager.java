@@ -1,7 +1,7 @@
 package hx.service.manage.manage.test;
 
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.test.papers.*;
+import hx.service.manage.model.common.CommonRequest;
+import hx.service.manage.model.test.papers.*;
 
 /**
  *@ClassName PaperManager.java

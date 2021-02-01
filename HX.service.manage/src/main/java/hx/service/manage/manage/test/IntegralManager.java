@@ -1,6 +1,6 @@
 package hx.service.manage.manage.test;
 
-import hx.service.manage.manage.model.test.integral.IntegralQueryRequest;
+import hx.service.manage.model.test.integral.IntegralQueryRequest;
 
 /**
  * @ClassName IntegralManager

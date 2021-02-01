@@ -1,15 +1,15 @@
 package hx.service.mobile.manage.radar;
 
-import hx.base.core.dao.entity.MarketingManpower;
-import hx.base.core.dao.entity.StarRating;
-import hx.base.core.dao.repo.jpa.BusinessRepo;
-import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
-import hx.base.core.dao.repo.jpa.StarRatingRepo;
+import hx.base.core.dao.entity.hualife.MarketingManpower;
+import hx.base.core.dao.entity.hualife.StarRating;
+import hx.base.core.dao.repo.jpa.hualife.BusinessRepo;
+import hx.base.core.dao.repo.jpa.hualife.MarketingManpowerRepo;
+import hx.base.core.dao.repo.jpa.hualife.StarRatingRepo;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.MyTimeTools;
-import hx.service.mobile.manage.AbstractMobileManager;
-import hx.service.mobile.manage.model.radar.StadpremMonthModel;
-import hx.service.mobile.manage.model.radar.star.*;
+import hx.service.mobile.manage.common.AbstractMobileManager;
+import hx.service.mobile.model.radar.StadpremMonthModel;
+import hx.service.mobile.model.radar.star.*;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

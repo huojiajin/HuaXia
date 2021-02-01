@@ -1,6 +1,6 @@
 package hx.base.core.dao.entity.acl;
 
-import hx.base.core.dao.dict.PositionsType;
+import hx.base.core.dao.dict.acl.PositionsType;
 import hx.base.core.dao.entity.common.StringUUIDEntity;
 
 import javax.persistence.Column;

@@ -1,6 +1,6 @@
 package hx.service.manage.manage.test;
 
-import hx.service.manage.manage.model.test.course.*;
+import hx.service.manage.model.test.course.*;
 
 /**
  *@ClassName CourseManager

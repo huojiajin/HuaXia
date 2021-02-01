@@ -1,6 +1,6 @@
 package hx.base.core.dao.entity.staff;
 
-import hx.base.core.dao.dict.TrainStatus;
+import hx.base.core.dao.dict.staff.TrainStatus;
 import hx.base.core.dao.entity.common.AbstractInsertTimeEntity;
 
 import javax.persistence.*;

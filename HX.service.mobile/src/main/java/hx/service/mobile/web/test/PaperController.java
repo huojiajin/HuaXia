@@ -1,8 +1,8 @@
 package hx.service.mobile.web.test;
 
 import hx.base.core.manage.common.CommonAbstract;
-import hx.service.mobile.manage.model.test.paper.*;
 import hx.service.mobile.manage.test.PaperManager;
+import hx.service.mobile.model.test.paper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

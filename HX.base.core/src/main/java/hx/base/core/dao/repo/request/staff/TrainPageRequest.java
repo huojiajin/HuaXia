@@ -1,6 +1,6 @@
 package hx.base.core.dao.repo.request.staff;
 
-import hx.base.core.dao.dict.TrainStatus;
+import hx.base.core.dao.dict.staff.TrainStatus;
 import hx.base.core.dao.entity.staff.Train;
 import hx.base.core.dao.repo.request.common.HqlBuilder;
 import hx.base.core.dao.repo.request.common.JpaPageableDataRequest;

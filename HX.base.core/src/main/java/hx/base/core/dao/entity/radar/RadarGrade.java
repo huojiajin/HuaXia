@@ -1,7 +1,7 @@
 package hx.base.core.dao.entity.radar;
 
-import hx.base.core.dao.dict.RateType;
-import hx.base.core.dao.dict.SectionType;
+import hx.base.core.dao.dict.structure.RateType;
+import hx.base.core.dao.dict.acl.SectionType;
 import hx.base.core.dao.entity.common.AbstractInsertTimeEntity;
 
 import javax.persistence.*;

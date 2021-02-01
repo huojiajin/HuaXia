@@ -1,11 +1,15 @@
 package hx.service.manage.manage.test;
 
-import hx.base.core.dao.dict.*;
-import hx.base.core.dao.entity.MarketingManpower;
+import hx.base.core.dao.dict.acl.ErrorType;
+import hx.base.core.dao.dict.acl.PositionsClass;
+import hx.base.core.dao.dict.test.CourseStatus;
+import hx.base.core.dao.dict.test.CourseType;
+import hx.base.core.dao.dict.test.PushType;
+import hx.base.core.dao.entity.hualife.MarketingManpower;
 import hx.base.core.dao.entity.staff.TrainPeople;
 import hx.base.core.dao.entity.test.course.Course;
 import hx.base.core.dao.entity.test.course.CoursePush;
-import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
+import hx.base.core.dao.repo.jpa.hualife.MarketingManpowerRepo;
 import hx.base.core.dao.repo.jpa.staff.TrainPeopleRepo;
 import hx.base.core.dao.repo.jpa.test.course.CoursePushRepo;
 import hx.base.core.dao.repo.jpa.test.course.CourseRepo;
@@ -17,8 +21,8 @@ import hx.base.core.manage.poi.WorkbookWithDataHandler;
 import hx.base.core.manage.tools.FileTools;
 import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.MyTimeTools;
-import hx.service.manage.manage.AbstractManager;
-import hx.service.manage.manage.model.test.course.*;
+import hx.service.manage.manage.common.AbstractManager;
+import hx.service.manage.model.test.course.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.ss.usermodel.*;
@@ -233,7 +237,7 @@ public class CourseManagerImpl extends AbstractManager implements CourseManager,
     public String viewLearned(CourseIdRequest request){
         CommonResponse response = new CommonResponse();
         CourseViewLearnedResponse learnedResponse = new CourseViewLearnedResponse();
-        InputStream is = FileTools.getResourcesFileInputStream("template/courseLearnedTemplate.xlsx");
+        InputStream is = FileTools.getResourcesFileInputStream("template/test/courseLearnedTemplate.xlsx");
         try {
             ByteArrayOutputStream op = ExcelTemplateHelper.generateExcel(is, true, request, this);
             byte[] data = op.toByteArray();

@@ -1,6 +1,6 @@
 package hx.service.mobile.manage.test;
 
-import hx.service.mobile.manage.model.test.paper.*;
+import hx.service.mobile.model.test.paper.*;
 
 /**
  * @ClassName PaperManager

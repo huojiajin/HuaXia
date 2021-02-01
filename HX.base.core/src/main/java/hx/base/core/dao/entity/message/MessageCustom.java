@@ -35,6 +35,7 @@ public class MessageCustom extends AbstractInsertTimeEntity {
         this.name = name;
     }
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "content_type")
     public ContentType getContentType() {
         return contentType;
@@ -44,6 +45,7 @@ public class MessageCustom extends AbstractInsertTimeEntity {
         this.contentType = contentType;
     }
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "message_type")
     public MessageType getMessageType() {
         return messageType;
@@ -62,9 +64,9 @@ public class MessageCustom extends AbstractInsertTimeEntity {
         this.content = content;
     }
 
-    @Column(name = "image")
     @Lob
     @Basic(fetch = FetchType.LAZY)
+    @Column(name = "image")
     public byte[] getImage() {
         return image;
     }

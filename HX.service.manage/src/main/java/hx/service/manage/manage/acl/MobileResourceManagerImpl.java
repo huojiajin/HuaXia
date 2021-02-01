@@ -1,14 +1,14 @@
 package hx.service.manage.manage.acl;
 
-import hx.base.core.dao.dict.ErrorType;
-import hx.base.core.dao.dict.PositionsType;
+import hx.base.core.dao.dict.acl.ErrorType;
+import hx.base.core.dao.dict.acl.PositionsType;
 import hx.base.core.dao.entity.acl.MobileRoleResource;
 import hx.base.core.dao.repo.jpa.acl.MobileRoleResourceRepo;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.JsonTools;
-import hx.service.manage.manage.AbstractManager;
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.acl.mobile.*;
+import hx.service.manage.manage.common.AbstractManager;
+import hx.service.manage.model.acl.mobile.*;
+import hx.service.manage.model.common.CommonRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

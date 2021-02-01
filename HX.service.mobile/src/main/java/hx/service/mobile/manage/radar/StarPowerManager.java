@@ -1,7 +1,7 @@
 package hx.service.mobile.manage.radar;
 
-import hx.service.mobile.manage.model.radar.star.StarPowerDetailRequest;
-import hx.service.mobile.manage.model.radar.star.StarPowerRequest;
+import hx.service.mobile.model.radar.star.StarPowerDetailRequest;
+import hx.service.mobile.model.radar.star.StarPowerRequest;
 
 /**
  * @ClassName StarPowerManager

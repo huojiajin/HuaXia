@@ -1,25 +1,25 @@
 package hx.service.manage.manage.staff;
 
-import hx.base.core.dao.dict.ErrorType;
-import hx.base.core.dao.entity.MarketingManpower;
-import hx.base.core.dao.entity.StarRating;
-import hx.base.core.dao.repo.jpa.AttendanceRepo;
-import hx.base.core.dao.repo.jpa.BusinessRepo;
-import hx.base.core.dao.repo.jpa.MarketingManpowerRepo;
-import hx.base.core.dao.repo.jpa.StarRatingRepo;
-import hx.base.core.dao.repo.request.MarketingManpowerPageRequest;
+import hx.base.core.dao.dict.acl.ErrorType;
+import hx.base.core.dao.entity.hualife.MarketingManpower;
+import hx.base.core.dao.entity.hualife.StarRating;
+import hx.base.core.dao.repo.jpa.hualife.AttendanceRepo;
+import hx.base.core.dao.repo.jpa.hualife.BusinessRepo;
+import hx.base.core.dao.repo.jpa.hualife.MarketingManpowerRepo;
+import hx.base.core.dao.repo.jpa.hualife.StarRatingRepo;
+import hx.base.core.dao.repo.request.hualife.MarketingManpowerPageRequest;
 import hx.base.core.dao.repo.request.common.Pagination;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.poi.ExcelTemplateHelper;
 import hx.base.core.manage.poi.WorkbookWithDataHandler;
 import hx.base.core.manage.tools.FileTools;
 import hx.base.core.manage.tools.MyTimeTools;
-import hx.service.manage.manage.AbstractExcelManager;
-import hx.service.manage.manage.model.CommonExportResponse;
-import hx.service.manage.manage.model.staff.situation.SituationAttendModel;
-import hx.service.manage.manage.model.staff.situation.SituationQueryRequest;
-import hx.service.manage.manage.model.staff.situation.SituationQueryResponse;
-import hx.service.manage.manage.model.staff.situation.SituationStadpremModel;
+import hx.service.manage.manage.common.AbstractExcelManager;
+import hx.service.manage.model.common.CommonExportResponse;
+import hx.service.manage.model.staff.situation.SituationAttendModel;
+import hx.service.manage.model.staff.situation.SituationQueryRequest;
+import hx.service.manage.model.staff.situation.SituationQueryResponse;
+import hx.service.manage.model.staff.situation.SituationStadpremModel;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.poi.ss.usermodel.Cell;
@@ -124,7 +124,7 @@ public class SituationManagerImpl extends AbstractExcelManager implements Situat
             return response.setError(ErrorType.VALID, "请选择营服");
         }
         CommonExportResponse resultResponse = new CommonExportResponse();
-        InputStream is = FileTools.getResourcesFileInputStream("template/situationExportTemplate.xlsx");
+        InputStream is = FileTools.getResourcesFileInputStream("template/staff/situationExportTemplate.xlsx");
         try {
             ByteArrayOutputStream op = ExcelTemplateHelper.generateExcel(is, true, request, this);
             byte[] data = op.toByteArray();

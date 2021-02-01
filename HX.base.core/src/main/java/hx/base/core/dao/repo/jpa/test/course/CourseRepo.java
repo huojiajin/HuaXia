@@ -1,8 +1,8 @@
 package hx.base.core.dao.repo.jpa.test.course;
 
-import hx.base.core.dao.dict.CourseType;
+import hx.base.core.dao.dict.test.CourseType;
 import hx.base.core.dao.repo.jpa.common.AbstractJpaRepo;
-import hx.base.core.dao.dict.CourseStatus;
+import hx.base.core.dao.dict.test.CourseStatus;
 import hx.base.core.dao.entity.test.course.Course;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

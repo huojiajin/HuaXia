@@ -1,7 +1,7 @@
 package hx.service.mobile.web.test;
 
 import hx.base.core.manage.common.CommonAbstract;
-import hx.service.mobile.manage.model.common.MobileCommonRequest;
+import hx.service.mobile.model.common.MobileCommonRequest;
 import hx.service.mobile.manage.test.SignInManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

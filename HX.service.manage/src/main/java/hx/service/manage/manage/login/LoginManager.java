@@ -1,6 +1,6 @@
 package hx.service.manage.manage.login;
 
-import hx.service.manage.manage.model.login.LoginRequest;
+import hx.service.manage.model.login.LoginRequest;
 
 /**
  * @name: LoginManager

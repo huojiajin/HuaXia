@@ -1,6 +1,5 @@
 package hx.base.core.dao.repo.jpa.quartz;
 
-import hx.base.core.dao.entity.Attendance;
 import hx.base.core.dao.entity.quartz.ScheduleTask;
 import hx.base.core.dao.repo.jpa.common.AbstractJpaRepo;
 import org.springframework.data.jpa.repository.Query;

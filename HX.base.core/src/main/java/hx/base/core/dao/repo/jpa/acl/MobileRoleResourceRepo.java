@@ -2,7 +2,7 @@ package hx.base.core.dao.repo.jpa.acl;
 
 import hx.base.core.dao.entity.acl.MobileRoleResource;
 import hx.base.core.dao.repo.jpa.common.AbstractJpaRepo;
-import hx.base.core.dao.dict.PositionsType;
+import hx.base.core.dao.dict.acl.PositionsType;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,12 +1,12 @@
 package hx.service.manage.web.honor;
 
 import hx.service.manage.manage.honor.HonorManager;
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.honor.HonorAddRequest;
-import hx.service.manage.manage.model.honor.HonorIdRequest;
-import hx.service.manage.manage.model.honor.HonorImportRequest;
-import hx.service.manage.manage.model.honor.HonorQueryRequest;
-import hx.service.manage.web.MyBaseController;
+import hx.service.manage.model.common.CommonRequest;
+import hx.service.manage.model.honor.HonorAddRequest;
+import hx.service.manage.model.honor.HonorIdRequest;
+import hx.service.manage.model.honor.HonorImportRequest;
+import hx.service.manage.model.honor.HonorQueryRequest;
+import hx.service.manage.web.common.MyBaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

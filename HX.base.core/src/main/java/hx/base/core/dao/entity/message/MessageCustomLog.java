@@ -1,6 +1,6 @@
 package hx.base.core.dao.entity.message;
 
-import hx.base.core.dao.dict.PushType;
+import hx.base.core.dao.dict.test.PushType;
 import hx.base.core.dao.entity.common.StringUUIDEntity;
 
 import javax.persistence.*;

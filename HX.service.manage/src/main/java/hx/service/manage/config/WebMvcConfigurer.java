@@ -1,7 +1,6 @@
 package hx.service.manage.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hx.service.manage.manage.AclHandlerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

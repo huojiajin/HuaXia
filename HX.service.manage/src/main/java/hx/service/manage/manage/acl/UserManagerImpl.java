@@ -1,6 +1,6 @@
 package hx.service.manage.manage.acl;
 
-import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.dict.acl.ErrorType;
 import hx.base.core.dao.entity.acl.Role;
 import hx.base.core.dao.entity.acl.User;
 import hx.base.core.dao.repo.jpa.acl.RoleRepo;
@@ -8,19 +8,18 @@ import hx.base.core.dao.repo.jpa.acl.UserRepo;
 import hx.base.core.dao.repo.request.acl.UserPageRequest;
 import hx.base.core.dao.repo.request.common.Pagination;
 import hx.base.core.manage.model.CommonResponse;
-import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.RegexValid;
 import hx.base.core.manage.tools.SecurityUtil;
-import hx.service.manage.manage.AbstractManager;
-import hx.service.manage.manage.MyMecachedPrefix;
-import hx.service.manage.manage.model.CommonPageRequest;
-import hx.service.manage.manage.model.acl.user.*;
-import org.apache.poi.ss.formula.functions.Errortype;
+import hx.service.manage.manage.common.AbstractManager;
+import hx.service.manage.model.acl.user.UserAddRequest;
+import hx.service.manage.model.acl.user.UserEditRequest;
+import hx.service.manage.model.acl.user.UserIdRequest;
+import hx.service.manage.model.acl.user.UserModel;
+import hx.service.manage.model.common.CommonPageRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Optional;

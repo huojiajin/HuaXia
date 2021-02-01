@@ -1,6 +1,6 @@
 package hx.service.mobile.manage.test;
 
-import hx.base.core.dao.dict.ErrorType;
+import hx.base.core.dao.dict.acl.ErrorType;
 import hx.base.core.dao.entity.acl.MobileUser;
 import hx.base.core.dao.entity.test.integral.Integral;
 import hx.base.core.dao.entity.test.integral.IntegralSignIn;
@@ -9,12 +9,12 @@ import hx.base.core.dao.repo.jpa.test.integral.IntegralRepo;
 import hx.base.core.dao.repo.jpa.test.integral.IntegralSignInRepo;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.MyTimeTools;
-import hx.service.mobile.manage.AbstractMobileManager;
-import hx.service.mobile.manage.model.common.MobileCommonRequest;
-import hx.service.mobile.manage.model.login.MobileUserModel;
-import hx.service.mobile.manage.model.test.integral.IntegralRankModel;
-import hx.service.mobile.manage.model.test.integral.IntegralRankResponse;
-import hx.service.mobile.manage.model.test.integral.SignInResponse;
+import hx.service.mobile.manage.common.AbstractMobileManager;
+import hx.service.mobile.model.common.MobileCommonRequest;
+import hx.service.mobile.model.login.MobileUserModel;
+import hx.service.mobile.model.test.integral.IntegralRankModel;
+import hx.service.mobile.model.test.integral.IntegralRankResponse;
+import hx.service.mobile.model.test.integral.SignInResponse;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

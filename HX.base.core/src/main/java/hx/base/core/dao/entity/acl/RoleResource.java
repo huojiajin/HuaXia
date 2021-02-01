@@ -1,6 +1,6 @@
 package hx.base.core.dao.entity.acl;
 
-import hx.base.core.dao.dict.ResourceType;
+import hx.base.core.dao.dict.acl.ResourceType;
 import hx.base.core.dao.entity.common.StringUUIDEntity;
 
 import javax.persistence.*;

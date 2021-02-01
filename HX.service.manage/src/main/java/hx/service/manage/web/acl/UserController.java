@@ -1,14 +1,11 @@
 package hx.service.manage.web.acl;
 
 import hx.base.core.dao.entity.common.BaseEntity;
-import hx.base.core.manage.model.CommonResponse;
 import hx.service.manage.manage.acl.UserManager;
-import hx.service.manage.manage.model.CommonPageRequest;
-import hx.service.manage.manage.model.CommonRequest;
-import hx.service.manage.manage.model.acl.user.UserAddRequest;
-import hx.service.manage.manage.model.acl.user.UserEditRequest;
-import hx.service.manage.manage.model.acl.user.UserIdRequest;
-import hx.service.manage.manage.model.acl.user.UserPasswordEditRequest;
+import hx.service.manage.model.common.CommonPageRequest;
+import hx.service.manage.model.acl.user.UserAddRequest;
+import hx.service.manage.model.acl.user.UserEditRequest;
+import hx.service.manage.model.acl.user.UserIdRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

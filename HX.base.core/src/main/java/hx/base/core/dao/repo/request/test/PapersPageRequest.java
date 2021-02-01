@@ -2,7 +2,7 @@ package hx.base.core.dao.repo.request.test;
 
 import hx.base.core.dao.repo.request.common.HqlBuilder;
 import hx.base.core.dao.repo.request.common.JpaPageableDataRequest;
-import hx.base.core.dao.dict.PapersType;
+import hx.base.core.dao.dict.test.PapersType;
 import hx.base.core.dao.entity.test.papers.Papers;
 
 /**
