@@ -21,4 +21,9 @@ public interface HonorRepo extends AbstractJpaRepo<Honor, String> {
     @Transactional
     @Query("update Honor set stop = true, updateTime = ?2 where id = ?1")
     int updateDelete(String id, LocalDateTime updateTime);
+
+    @Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query("update Train set status = 'YDR', updateTime = ?1 where id = ?2")
+    int updateImport(LocalDateTime updateTime, String id);
 }

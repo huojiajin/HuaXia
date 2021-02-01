@@ -17,7 +17,7 @@ public interface SituationManager {
      * @Description 查询
      * @Date 2021/1/31 15:54
      * @Param [request]
-     * @return java.lang.String
+     * @Return java.lang.String
      **/
     String query(SituationQueryRequest request);
 
@@ -27,7 +27,7 @@ public interface SituationManager {
      * @Description 导出
      * @Date 2021/1/31 15:54
      * @Param [request]
-     * @return java.lang.String
+     * @Return java.lang.String
      **/
     String export(SituationQueryRequest request);
 }

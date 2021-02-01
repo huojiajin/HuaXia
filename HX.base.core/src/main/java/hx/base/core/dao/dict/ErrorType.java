@@ -28,7 +28,8 @@ public enum ErrorType {
     NOCOURSE(70012, "学习资料不存在"){},
     //人员管理
     NOTRAIN(70020, "培训场次不存在"){},
-
+    //荣誉
+    NOHONOR(70031, "荣誉不存在"){},
     //移动端
     //登录
     NOEMPLAYEE(70100, "客户无法访问本系统"){},

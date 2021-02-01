@@ -17,7 +17,7 @@ public interface MessageCustomManager {
      * @Description 分页查询
      * @Date 2021/2/1 0:11
      * @Param [request]
-     * @return java.lang.String
+     * @Return java.lang.String
      **/
     String query(MessageQueryRequest request);
 
@@ -27,7 +27,7 @@ public interface MessageCustomManager {
      * @Description 添加
      * @Date 2021/2/1 0:11
      * @Param [request]
-     * @return java.lang.String
+     * @Return java.lang.String
      **/
     String add(MessageAddRequest request);
 
@@ -37,7 +37,7 @@ public interface MessageCustomManager {
      * @Description 删除
      * @Date 2021/2/1 0:11
      * @Param [request]
-     * @return java.lang.String
+     * @Return java.lang.String
      **/
     String delete(MessageIdRequest request);
 
@@ -47,7 +47,7 @@ public interface MessageCustomManager {
      * @Description 查询推送日志
      * @Date 2021/2/1 0:55
      * @Param [request]
-     * @return java.lang.String
+     * @Return java.lang.String
      **/
     String queryLog(MessageLogQueryRequest request);
 
@@ -57,7 +57,7 @@ public interface MessageCustomManager {
      * @Description 推送消息
      * @Date 2021/2/1 0:55
      * @Param [request]
-     * @return java.lang.String
+     * @Return java.lang.String
      **/
     String push(MessagePushRequest request);
 }

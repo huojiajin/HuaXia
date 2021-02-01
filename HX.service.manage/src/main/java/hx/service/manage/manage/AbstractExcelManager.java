@@ -15,6 +15,14 @@ import java.util.Map;
  */
 public abstract class AbstractExcelManager extends AbstractManager{
 
+    /**
+     * @Name getCellValue
+     * @Author HuoJiaJin
+     * @Description 获取单元格的值
+     * @Date 2021/2/1 15:39
+     * @Param [rowData, index]
+     * @return java.lang.String
+     **/
     public String getCellValue(Map<Integer, Cell> rowData, int index) throws InterruptedException {
         Cell cell = rowData.get(index);
         switch (cell.getCellType()) {
@@ -30,6 +38,14 @@ public abstract class AbstractExcelManager extends AbstractManager{
         }
     }
 
+    /**
+     * @Name regionCells
+     * @Author HuoJiaJin
+     * @Description 合并单元格
+     * @Date 2021/2/1 15:39
+     * @Param [workbook, sheet, cell, cellValue, firstRow, lastRow, firstCol, lastCol]
+     * @return void
+     **/
     public void regionCells(Workbook workbook, Sheet sheet, Cell cell, String cellValue,
                              int firstRow, int lastRow, int firstCol, int lastCol){
         //创建其余空白表格，不创建会报错
@@ -54,6 +70,27 @@ public abstract class AbstractExcelManager extends AbstractManager{
         }
     }
 
+    /**
+     * @Name setCellValueAndStyle
+     * @Author HuoJiaJin
+     * @Description 设置单元格的值
+     * @Date 2021/2/1 15:40
+     * @Param [cell, workbook, value, bold]
+     * @return void
+     **/
+    public void setCellValueAndStyle(Cell cell, Workbook workbook, String value, boolean bold) {
+        setCellStyle(cell, workbook, bold, false);
+        cell.setCellValue(value);
+    }
+    
+    /**
+     * @Name setCellStyle
+     * @Author HuoJiaJin
+     * @Description 设置单元格样式
+     * @Date 2021/2/1 15:40
+     * @Param [cell, workbook, bold, error]
+     * @return org.apache.poi.ss.usermodel.CellStyle
+     **/
     public CellStyle setCellStyle(Cell cell, Workbook workbook, boolean bold, boolean error){
         CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.cloneStyleFrom(cell.getCellStyle());

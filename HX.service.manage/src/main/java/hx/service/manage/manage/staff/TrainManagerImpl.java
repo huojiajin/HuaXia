@@ -116,12 +116,17 @@ public class TrainManagerImpl extends AbstractExcelManager implements TrainManag
             return response.setError(ErrorType.CONVERT, "日期格式错误");
         }
         trainRepo.persist(train);
+        response.setMessage("添加培训场次成功！");
+        addSysLog("添加培训场次", request.getToken(), train.getId());
         return response.toJson();
     }
 
     @Override
     public String delete(TrainIdRequest request){
+        CommonResponse response = new CommonResponse();
         trainRepo.updateDelete(request.getTrainId());
+        response.setMessage("删除培训场次成功！");
+        addSysLog("删除培训场次", request.getToken(), request.getTrainId());
         return new CommonResponse<>().toJson();
     }
 
@@ -191,6 +196,8 @@ public class TrainManagerImpl extends AbstractExcelManager implements TrainManag
         }
         trainRepo.updateImport(staffList.size(),LocalDateTime.now(), trainId);
         trainPeopleRepo.persistAll(staffList);
+        addSysLog("导入培训场次人员", request.getToken(), request.getTrainId());
+        response.setMessage("导入成功");
         return response.toJson();
     }
 
@@ -209,6 +216,7 @@ public class TrainManagerImpl extends AbstractExcelManager implements TrainManag
         TrainStaffImportModel model = new TrainStaffImportModel();
         try {
             model.setAgentCode(String.valueOf(getCellValue(rowData, 1)));
+            model.setName(String.valueOf(getCellValue(rowData, 2)));
             model.setMobile(String.valueOf(getCellValue(rowData, 3)));
         } catch (Exception e) {
             logger.error("", e);

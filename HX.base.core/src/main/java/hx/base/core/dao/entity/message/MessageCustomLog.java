@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 /**
  * @ClassName: MessageCustomLog
- * @Description: TODO
+ * @Description: 自定义消息日志
  * @Author HuoJiaJin
  * @Date 2021/1/31 21:05
  * @Version 1.0

@@ -24,6 +24,12 @@ public class HonorPeople extends AbstractInsertTimeEntity {
     private String honorId;//荣誉ID
     private String agentCode;//营销员编码
     private String name;//姓名
+    private String campName;//营服名称
+    private String campCode;//营服代码
+    private String sectionName;//部名称
+    private String sectionCode;//部名称
+    private String groupName;//组名称
+    private String groupCode;//组名称
 
     @Column(name = "honor_id")
     public String getHonorId() {
@@ -50,5 +56,59 @@ public class HonorPeople extends AbstractInsertTimeEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Column(name = "camp_name")
+    public String getCampName() {
+        return campName;
+    }
+
+    public void setCampName(String campName) {
+        this.campName = campName;
+    }
+
+    @Column(name = "camp_code")
+    public String getCampCode() {
+        return campCode;
+    }
+
+    public void setCampCode(String campCode) {
+        this.campCode = campCode;
+    }
+
+    @Column(name = "section_name")
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
+    }
+
+    @Column(name = "section_code")
+    public String getSectionCode() {
+        return sectionCode;
+    }
+
+    public void setSectionCode(String sectionCode) {
+        this.sectionCode = sectionCode;
+    }
+
+    @Column(name = "group_name")
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    @Column(name = "group_code")
+    public String getGroupCode() {
+        return groupCode;
+    }
+
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
     }
 }

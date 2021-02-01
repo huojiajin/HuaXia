@@ -14,7 +14,7 @@ import hx.base.core.manage.poi.ExcelTemplateHelper;
 import hx.base.core.manage.poi.WorkbookWithDataHandler;
 import hx.base.core.manage.tools.FileTools;
 import hx.base.core.manage.tools.MyTimeTools;
-import hx.service.manage.manage.AbstractManager;
+import hx.service.manage.manage.AbstractExcelManager;
 import hx.service.manage.manage.model.CommonExportResponse;
 import hx.service.manage.manage.model.staff.situation.SituationAttendModel;
 import hx.service.manage.manage.model.staff.situation.SituationQueryRequest;
@@ -22,8 +22,9 @@ import hx.service.manage.manage.model.staff.situation.SituationQueryResponse;
 import hx.service.manage.manage.model.staff.situation.SituationStadpremModel;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.Lists;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ import java.util.stream.Collectors;
  * @Version 1.0
  **/
 @Service
-public class SituationManagerImpl extends AbstractManager implements SituationManager, WorkbookWithDataHandler<SituationQueryRequest> {
+public class SituationManagerImpl extends AbstractExcelManager implements SituationManager, WorkbookWithDataHandler<SituationQueryRequest> {
 
     @Autowired
     private MarketingManpowerRepo manpowerRepo;
@@ -160,7 +161,7 @@ public class SituationManagerImpl extends AbstractManager implements SituationMa
         //创建表头
         String titleValue = "人员情况统计";
         int lastcol = 9 + result.get(0).getStadpremList().size() + result.get(0).getAttendList().size();
-        mergedRegion(sheet, cell, workbook, titleValue, 0, 0, 0, lastcol);
+        regionCells(workbook, sheet, cell, titleValue, 0, 0, 0, lastcol);
         //添加查询条件
         StringBuilder searchValue = new StringBuilder();
         if (hasText(request.getCampCode())){
@@ -178,31 +179,31 @@ public class SituationManagerImpl extends AbstractManager implements SituationMa
         if (hasText(request.getEmployeeNum())){
             searchValue.append("工号：" + request.getEmployeeNum());
         }
-        mergedRegion(sheet, cell, workbook, searchValue.toString(), 1, 1, 0, lastcol);
+        regionCells(workbook, sheet, cell, searchValue.toString(), 1, 1, 0, lastcol);
 
         //添加数据
         for (int i = 0; i < result.size(); i++) {
             SituationQueryResponse model = result.get(i);
             if (i == 0){
                 //创建属性列表
-                mergedRegion(sheet, cell, workbook, "序号", 2, 3, 0, 0);
-                mergedRegion(sheet, cell, workbook, "工号", 2, 3, 1, 1);
-                mergedRegion(sheet, cell, workbook, "人员名称", 2, 3, 2, 2);
-                mergedRegion(sheet, cell, workbook, "营服名称", 2, 3, 3, 3);
-                mergedRegion(sheet, cell, workbook, "总监名称", 2, 3, 4, 4);
-                mergedRegion(sheet, cell, workbook, "部名称", 2, 3, 5, 5);
-                mergedRegion(sheet, cell, workbook, "组名称", 2, 3, 6, 6);
-                mergedRegion(sheet, cell, workbook, "星级", 2, 3, 7, 7);
-                mergedRegion(sheet, cell, workbook, "职级名称", 2, 3, 8, 8);
-                mergedRegion(sheet, cell, workbook, "入职时间", 2, 3, 9, 9);
+                regionCells(workbook, sheet, cell, "序号", 2, 3, 0, 0);
+                regionCells(workbook, sheet, cell, "工号", 2, 3, 1, 1);
+                regionCells(workbook, sheet, cell, "人员名称", 2, 3, 2, 2);
+                regionCells(workbook, sheet, cell, "营服名称", 2, 3, 3, 3);
+                regionCells(workbook, sheet, cell, "总监名称", 2, 3, 4, 4);
+                regionCells(workbook, sheet, cell, "部名称", 2, 3, 5, 5);
+                regionCells(workbook, sheet, cell, "组名称", 2, 3, 6, 6);
+                regionCells(workbook, sheet, cell, "星级", 2, 3, 7, 7);
+                regionCells(workbook, sheet, cell, "职级名称", 2, 3, 8, 8);
+                regionCells(workbook, sheet, cell, "入职时间", 2, 3, 9, 9);
                 //业绩
-                mergedRegion(sheet, cell, workbook, "业绩", 2, 3, 10, 12);
+                regionCells(workbook, sheet, cell, "业绩", 2, 3, 10, 12);
                 for (int j = 0; j < model.getStadpremList().size(); j++) {
                     SituationStadpremModel stadpremModel = model.getStadpremList().get(j);
                     cell = ExcelTemplateHelper.getCell(sheet, 3, 10 + j);
                     setCellValueAndStyle(cell, workbook, stadpremModel.getMonth() + "月", true);
                 }
-                mergedRegion(sheet, cell, workbook, "出勤", 2, 3, 13, 15);
+                regionCells(workbook, sheet, cell, "出勤", 2, 3, 13, 15);
                 //出勤
                 for (int K = 0; K < model.getStadpremList().size(); K++) {
                     SituationAttendModel attendModel = model.getAttendList().get(K);
@@ -251,58 +252,6 @@ public class SituationManagerImpl extends AbstractManager implements SituationMa
                 SituationAttendModel attendModel = model.getAttendList().get(k);
                 cell = ExcelTemplateHelper.getCell(sheet, 4 + i, 13 + k);
                 setCellValueAndStyle(cell, workbook, attendModel.getAttendNum(), false);
-            }
-        }
-    }
-
-    private void setCellValueAndStyle(Cell cell, Workbook workbook, String value, boolean bold) {
-        setCellStyle(cell, workbook, bold);
-        cell.setCellValue(value);
-    }
-
-    private CellStyle setCellStyle(Cell cell, Workbook workbook, boolean bold) {
-        CellStyle cellStyle = workbook.createCellStyle();
-        cellStyle.cloneStyleFrom(cell.getCellStyle());
-        cellStyle.setAlignment(HorizontalAlignment.CENTER);//水平居中
-        cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
-        if (bold) {
-            Font font = workbook.createFont();
-            font.setBold(true);
-            cellStyle.setFont(font);
-        }
-        //设置边框线
-        cellStyle.setBorderBottom(BorderStyle.THIN);
-        cellStyle.setBorderLeft(BorderStyle.THIN);
-        cellStyle.setBorderRight(BorderStyle.THIN);
-        cellStyle.setBorderTop(BorderStyle.THIN);
-        cell.setCellStyle(cellStyle);
-        return cellStyle;
-    }
-
-    //合并单元格
-    private void mergedRegion(Sheet sheet, Cell cell, Workbook workbook, String value, int firstRow, int lastRow, int firstCol, int lastCol){
-        //创建单元格
-        for (int i = firstRow; i <= lastRow; i++){
-            for (int j = firstCol; j <= lastCol; j++) {
-                cell = ExcelTemplateHelper.getCell(sheet, i, j);
-                if (i == firstRow && j == firstCol) {
-                    cell.setCellValue(value);
-                }
-            }
-        }
-        //合并单元格
-        CellRangeAddress region = new CellRangeAddress(firstRow, lastRow, firstCol, lastCol);
-        sheet.addMergedRegion(region);
-        CellStyle regionCellStyle = setCellStyle(cell, workbook, true);
-        setRegionStyle(sheet, region, regionCellStyle);
-    }
-
-    public void setRegionStyle(Sheet sheet, CellRangeAddress region, CellStyle cs) {
-        for (int i = region.getFirstRow(); i <= region.getLastRow(); i++) {
-            Row row = sheet.getRow(i);
-            for (int j = region.getFirstColumn(); j <= region.getLastColumn(); j++) {
-                Cell cell = row.getCell(j);
-                cell.setCellStyle(cs);
             }
         }
     }
