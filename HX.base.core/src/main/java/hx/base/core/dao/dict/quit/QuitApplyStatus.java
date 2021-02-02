@@ -29,4 +29,13 @@ public enum QuitApplyStatus {
     public int getCode() {
         return code;
     }
+
+    public static QuitApplyStatus fromCode(int code) throws InterruptedException {
+        for (QuitApplyStatus status : QuitApplyStatus.values()) {
+            if (status.getCode() == code){
+                return status;
+            }
+        }
+        throw new InterruptedException("此类型不存在：" + code);
+    }
 }

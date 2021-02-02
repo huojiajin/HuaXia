@@ -13,19 +13,19 @@ import java.util.List;
  **/
 public enum QuitApplyFlowType {
 
-    NONEXECUTIVE("非主管离职审批流程"){
+    NONEXECUTIVE("非主管离职审批流程", "quitApplyTemplate.pdf"){
         @Override
         public List<QuitApplyApprovalType> getApprovalFlow() {
             return Lists.newArrayList(QuitApplyApprovalType.RECOMMEND, QuitApplyApprovalType.GROUP, QuitApplyApprovalType.SECTION);
         }
     },
-    GROUPMANAGER("组经理离职审批流程"){
+    GROUPMANAGER("组经理离职审批流程", "executiveQuitApplyTemplate.pdf"){
         @Override
         public List<QuitApplyApprovalType> getApprovalFlow() {
             return Lists.newArrayList(QuitApplyApprovalType.REAR, QuitApplyApprovalType.SECTION, QuitApplyApprovalType.CHIEF);
         }
     },
-    SECTIONMANAGER("部经理离职审批流程"){
+    SECTIONMANAGER("部经理离职审批流程", "executiveQuitApplyTemplate.pdf"){
         @Override
         public List<QuitApplyApprovalType> getApprovalFlow() {
             return Lists.newArrayList(QuitApplyApprovalType.REAR, QuitApplyApprovalType.CHIEF);
@@ -33,14 +33,20 @@ public enum QuitApplyFlowType {
     },
     ;
 
-    QuitApplyFlowType(String value) {
+    QuitApplyFlowType(String value, String template) {
         this.value = value;
+        this.template = template;
     }
 
     private String value;
+    private String template;//模板名称
 
     public String getValue() {
         return value;
+    }
+
+    public String getTemplate() {
+        return template;
     }
 
     public abstract List<QuitApplyApprovalType> getApprovalFlow();

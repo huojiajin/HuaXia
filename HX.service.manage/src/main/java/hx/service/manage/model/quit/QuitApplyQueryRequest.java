@@ -12,6 +12,7 @@ import hx.service.manage.model.common.CommonPageRequest;
 public class QuitApplyQueryRequest extends CommonPageRequest {
 
     private String employeeNum;//工号
+    private int status;//状态
 
     public String getEmployeeNum() {
         return employeeNum;
@@ -19,5 +20,13 @@ public class QuitApplyQueryRequest extends CommonPageRequest {
 
     public void setEmployeeNum(String employeeNum) {
         this.employeeNum = employeeNum;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
