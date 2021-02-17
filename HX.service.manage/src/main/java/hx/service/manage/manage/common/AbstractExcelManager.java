@@ -79,7 +79,8 @@ public abstract class AbstractExcelManager extends AbstractManager{
      * @return void
      **/
     public void setCellValueAndStyle(Cell cell, Workbook workbook, String value, boolean bold) {
-        setCellStyle(cell, workbook, bold, false);
+        CellStyle cellStyle = setCellStyle(cell, workbook, bold, false);
+        cell.setCellStyle(cellStyle);
         cell.setCellValue(value);
     }
     

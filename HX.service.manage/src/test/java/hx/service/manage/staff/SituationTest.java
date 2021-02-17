@@ -22,7 +22,7 @@ import java.io.OutputStream;
  */
 public class SituationTest extends ApplicationTests {
 
-    private static final String token = "d898f3038b2d422e948b707b374fdf8e";
+    private static final String token = "5718a71270b942d4918ccdf12914704b";
 
     @Test
     void query() throws IOException {

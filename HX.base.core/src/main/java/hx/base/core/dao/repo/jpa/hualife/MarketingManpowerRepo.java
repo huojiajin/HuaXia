@@ -41,6 +41,9 @@ public interface MarketingManpowerRepo extends AbstractJpaRepo<MarketingManpower
     @Query("select count(agentCode) from MarketingManpower where deptCode3 = ?1 and employDate >= ?2 and employDate < ?3")
     Integer sectionMonthNew(String deptCode3, LocalDate employStartDate, LocalDate employEndDate);
 
+    @Query("select count(agentCode) from MarketingManpower where deptCode1 = ?1 and employDate >= ?2 and employDate < ?3")
+    Integer campMonthNew(String deptCode1, LocalDate employStartDate, LocalDate employEndDate);
+
     @Query("select count(agentCode) from MarketingManpower where deptCode4 = ?1 and employDate >= ?2 and employDate < ?3")
     Integer groupMonthNew(String deptCode4, LocalDate employStartDate, LocalDate employEndDate);
 
@@ -55,4 +58,16 @@ public interface MarketingManpowerRepo extends AbstractJpaRepo<MarketingManpower
 
     @Query(" from MarketingManpower where deptCode1 = ?1 and outworkDate is null")
     List<MarketingManpower> listByDeptCode1(String deptCode1);
+
+    @Query("select count(agentCode) from MarketingManpower where deptCode1 = ?1 and outworkDate is null")
+    Integer countByDeptCode1(String deptCode1);
+
+    @Query("select count(agentCode) from MarketingManpower where deptCode1 = ?1 and agentGrade in ?2 and outworkDate is null")
+    Integer countByGrades(String campCode, List<String> gradeList);
+
+    @Query("select count(deptCode3) from MarketingManpower where deptCode1 = ?1 group by deptCode3")
+    Integer countSection(String campCode);
+
+    @Query("select count(deptCode4) from MarketingManpower where deptCode1 = ?1 group by deptCode4")
+    Integer countGroup(String campCode);
 }

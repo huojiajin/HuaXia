@@ -26,7 +26,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -259,8 +258,7 @@ public class RadarStandardQuartz extends CommonQuartz {
         logger.info("======" + (isSection ? "部" : "组") + "出勤人力为：" + attendanceNum);
 
         //保存上季度评级
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM");
-        String month = df.format(firstMonthDate);
+        String month = MyTimeTools.dateToStr(firstMonthDate, "yyyy-MM");
         SectionType sectionType = isSection ? SectionType.SECTION : SectionType.GROUP;
         RadarGrade originRadarGrade = radarGradeRepo.findByCode(deptCode, month, sectionType);
         if (originRadarGrade == null) {

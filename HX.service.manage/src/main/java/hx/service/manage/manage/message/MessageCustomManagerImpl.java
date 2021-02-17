@@ -90,6 +90,10 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
             if (!isEmpty(messageCustoms)){
                 return response.setError(ErrorType.VALID, "日常消息类型只可存在一条");
             }
+        }else{
+            if (!hasText(request.getContent())){
+                return response.setError(ErrorType.CONVERT, "消息内容不能为空");
+            }
         }
         //拼装并保存实体
         MessageCustom custom = new MessageCustom();

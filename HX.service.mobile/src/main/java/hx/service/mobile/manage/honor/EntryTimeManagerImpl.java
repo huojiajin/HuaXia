@@ -40,6 +40,10 @@ public class EntryTimeManagerImpl extends AbstractMobileManager implements Entry
         //处理日期
         Long day = ChronoUnit.DAYS.between(employeeDate, now);
         data.setDay(day.intValue());
+        employeeDate = employeeDate.plusDays(day);
+        //处理小时
+        Long hour = ChronoUnit.HOURS.between(employeeDate, now);
+        data.setHour(hour.intValue());
 
         response.setData(data);
         return response.toJson();

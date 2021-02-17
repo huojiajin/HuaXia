@@ -1,8 +1,9 @@
 package hx.base.core.dao.repo.jpa.radar;
 
+import hx.base.core.dao.dict.acl.SectionType;
+import hx.base.core.dao.dict.structure.RateType;
 import hx.base.core.dao.entity.radar.RadarGrade;
 import hx.base.core.dao.repo.jpa.common.AbstractJpaRepo;
-import hx.base.core.dao.dict.acl.SectionType;
 import org.springframework.data.jpa.repository.Query;
 
 /**
@@ -16,4 +17,7 @@ public interface RadarGradeRepo extends AbstractJpaRepo<RadarGrade, String> {
 
     @Query(" from RadarGrade where code = ?1 and month = ?2 and sectionType = ?3")
     RadarGrade findByCode(String code, String month, SectionType sectionType);
+
+    @Query("select count(id) from RadarGrade where month = ?1 and sectionType = ?2 and rateType = ?3")
+    Integer countByMonth(String month, SectionType sectionType, RateType rateType);
 }

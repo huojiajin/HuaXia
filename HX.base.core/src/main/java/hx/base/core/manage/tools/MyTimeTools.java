@@ -36,6 +36,11 @@ public class MyTimeTools {
         return LocalDateTime.parse(timeStr, df);
     }
 
+    public static String dateToStr(LocalDate date, String pattern){
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(pattern);
+        return df.format(date);
+    }
+
     /**
      * @Name getQuarter
      * @Author HuoJiaJin

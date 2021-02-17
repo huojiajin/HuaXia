@@ -197,13 +197,13 @@ public class SituationManagerImpl extends AbstractExcelManager implements Situat
                 regionCells(workbook, sheet, cell, "职级名称", 2, 3, 8, 8);
                 regionCells(workbook, sheet, cell, "入职时间", 2, 3, 9, 9);
                 //业绩
-                regionCells(workbook, sheet, cell, "业绩", 2, 3, 10, 12);
+                regionCells(workbook, sheet, cell, "业绩（元）", 2, 2, 10, 12);
                 for (int j = 0; j < model.getStadpremList().size(); j++) {
                     SituationStadpremModel stadpremModel = model.getStadpremList().get(j);
                     cell = ExcelTemplateHelper.getCell(sheet, 3, 10 + j);
                     setCellValueAndStyle(cell, workbook, stadpremModel.getMonth() + "月", true);
                 }
-                regionCells(workbook, sheet, cell, "出勤", 2, 3, 13, 15);
+                regionCells(workbook, sheet, cell, "出勤（天）", 2, 2, 13, 15);
                 //出勤
                 for (int K = 0; K < model.getStadpremList().size(); K++) {
                     SituationAttendModel attendModel = model.getAttendList().get(K);

@@ -17,7 +17,11 @@ import java.time.LocalDate;
         @Index(columnList = "AGENTCODE", name = "FACT_YX_PREPREM_LIST_INDEX"),
         @Index(columnList = "ISSUE_DATE", name = "FACT_YX_PREPREM_LIST_INDEX1"),
         @Index(columnList = "DEPTCODE3", name = "FACT_YX_PREPREM_LIST_INDEX2"),
-        @Index(columnList = "DEPTCODE4", name = "FACT_YX_PREPREM_LIST_INDEX3")
+        @Index(columnList = "DEPTCODE4", name = "FACT_YX_PREPREM_LIST_INDEX3"),
+        @Index(columnList = "DEPTCODE1", name = "FACT_YX_PREPREM_LIST_INDEX4"),
+        @Index(columnList = "RECEIVE_DATE", name = "FACT_YX_PREPREM_LIST_INDEX5"),
+        @Index(columnList = "EMPLOYDATE", name = "FACT_YX_PREPREM_LIST_INDEX6"),
+        @Index(columnList = "AGENTGRADE", name = "FACT_YX_PREPREM_LIST_INDEX7")
 })
 @IdClass(BusinessId.class)
 public class Business extends BaseEntity {
