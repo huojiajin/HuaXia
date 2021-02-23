@@ -71,6 +71,7 @@ public class HonorManagerImpl extends AbstractExcelManager implements HonorManag
 
     private HonorQueryResponse convert(Honor entity){
         HonorQueryResponse model = new HonorQueryResponse();
+        model.setId(entity.getId());
         model.setName(entity.getName());
         model.setStatus(entity.getStatus().getCode());
         byte[] iconBytes = entity.getIcon();
@@ -87,7 +88,7 @@ public class HonorManagerImpl extends AbstractExcelManager implements HonorManag
         honor.setName(request.getName());
         honor.setIcon(Base64.decodeBase64(request.getIcon()));
         honorRepo.persist(honor);
-        honorRepo.blobSave(honor, "icon", new ByteArrayInputStream(Base64.decodeBase64(request.getIcon())));
+//        honorRepo.blobSave(honor, "icon", new ByteArrayInputStream(Base64.decodeBase64(request.getIcon())));
         addSysLog("添加荣誉", request.getToken(), honor.getId());
         response.setMessage("添加荣誉成功！");
         return response.toJson();

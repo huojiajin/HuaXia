@@ -37,10 +37,12 @@ public class QuitApplyManagerImpl extends AbstractManager implements QuitApplyMa
         CommonResponse response = new CommonResponse();
         QuitApplyPageRequest pageRequest = new QuitApplyPageRequest();
         pageRequest.setAgentCode(request.getEmployeeNum());
-        try {
-            pageRequest.setStatus(QuitApplyStatus.fromCode(request.getStatus()));
-        } catch (InterruptedException e) {
-            return response.setError(ErrorType.CONVERT, e.getMessage());
+        if (request.getStatus() != 0) {
+            try {
+                pageRequest.setStatus(QuitApplyStatus.fromCode(request.getStatus()));
+            } catch (InterruptedException e) {
+                return response.setError(ErrorType.CONVERT, e.getMessage());
+            }
         }
         Pagination page = applyRepo.page(pageRequest);
         page.convertResult(this::convertModel);

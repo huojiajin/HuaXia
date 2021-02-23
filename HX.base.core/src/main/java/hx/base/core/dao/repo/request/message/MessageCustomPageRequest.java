@@ -16,7 +16,7 @@ public class MessageCustomPageRequest extends JpaPageableDataRequest<MessageCust
     private String name;//消息名称
 
     public MessageCustomPageRequest() {
-        this.otherSort = Sort.by(Sort.Direction.DESC, "updateTime", "createTime");
+        this.otherSort = Sort.by(Sort.Direction.DESC, "updateTime", "insertTime");
     }
 
     @Override

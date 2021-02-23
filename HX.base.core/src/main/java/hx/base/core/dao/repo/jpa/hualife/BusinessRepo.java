@@ -16,6 +16,9 @@ import java.util.List;
  **/
 public interface BusinessRepo extends AbstractJpaRepo<Business, String> {
 
+    @Query("select sum(writtenStadPrem) from Business where deptCode2 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职'")
+    Double sumByDeptCode2(String deptCode2, LocalDate issueDateStart, LocalDate issueDateEnd);
+
     @Query("select sum(writtenStadPrem) from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentState = '在职'")
     Double sumByDeptCode3(String deptCode3, LocalDate issueDateStart, LocalDate issueDateEnd);
 
@@ -103,4 +106,82 @@ public interface BusinessRepo extends AbstractJpaRepo<Business, String> {
      **/
     @Query("select sum(b.writtenStadPrem) from Business b, StarRating s where b.deptCode1 = ?1 and b.issueDate >= ?2 and b.issueDate < ?3 and b.agentCode = s.agentCode")
     Double starContribution(String deptCode1, LocalDate issueDateStart, LocalDate issueDateEnd);
+
+    /**
+     * @Name sumFYCByDeptCode2
+     * @Author HuoJiaJin
+     * @Description 计算总监区FYC
+     * @Date 2021/2/22 0:34
+     * @Param [deptCode2, receiveDateStart, receiveDateEnd]
+     * @Return java.lang.Double
+     **/
+    @Query("select sum(writteFyc) from Business where deptCode2 = ?1 and receiveDate >= ?2 and receiveDate < ?3")
+    Double sumFYCByDeptCode2(String deptCode2, LocalDate receiveDateStart, LocalDate receiveDateEnd);
+
+    /**
+     * @Name sumFYCByDeptCode3
+     * @Author HuoJiaJin
+     * @Description 计算部FYC
+     * @Date 2021/2/22 0:35
+     * @Param [deptCode3, issueDateStart, issueDateEnd]
+     * @Return java.lang.Double
+     **/
+    @Query("select sum(writteFyc) from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3")
+    Double sumFYCByDeptCode3(String deptCode3, LocalDate issueDateStart, LocalDate issueDateEnd);
+
+    /**
+     * @Name sumFYCByDeptCode4
+     * @Author HuoJiaJin
+     * @Description 计算组FYC
+     * @Date 2021/2/22 0:35
+     * @Param [deptCode4, issueDateStart, issueDateEnd]
+     * @Return java.lang.Double
+     **/
+    @Query("select sum(writteFyc) from Business where deptCode4 = ?1 and issueDate >= ?2 and issueDate < ?3")
+    Double sumFYCByDeptCode4(String deptCode4, LocalDate issueDateStart, LocalDate issueDateEnd);
+
+    /**
+     * @Name sumFYCByAgentCode
+     * @Author HuoJiaJin
+     * @Description 计算个人FYC
+     * @Date 2021/2/22 0:35
+     * @Param [agentCode, issueDateStart, issueDateEnd]
+     * @Return java.lang.Double
+     **/
+    @Query("select sum(writteFyc) from Business where agentCode = ?1 and issueDate >= ?2 and issueDate < ?3")
+    Double sumFYCByAgentCode(String agentCode, LocalDate issueDateStart, LocalDate issueDateEnd);
+
+    /**
+     * @Name sumFYCByDeptCode2
+     * @Author HuoJiaJin
+     * @Description 总监区健康人力
+     * @Date 2021/2/22 0:34
+     * @Param [deptCode2, receiveDateStart, receiveDateEnd]
+     * @Return java.lang.Double
+     **/
+    @Query("select agentCode, sum(writteFyc) from Business where deptCode2 = ?1 and receiveDate >= ?2 and receiveDate < ?3 group by agentCode having sum(writteFyc) >= 1500")
+    List<Object[]> healthByDeptCode2(String deptCode2, LocalDate receiveDateStart, LocalDate receiveDateEnd);
+
+    /**
+     * @Name sumFYCByDeptCode3
+     * @Author HuoJiaJin
+     * @Description 部健康人力
+     * @Date 2021/2/22 0:35
+     * @Param [deptCode3, issueDateStart, issueDateEnd]
+     * @Return java.lang.Double
+     **/
+    @Query("select agentCode, sum(writteFyc) from Business where deptCode3 = ?1 and issueDate >= ?2 and issueDate < ?3 group by agentCode having sum(writteFyc) >= 1500")
+    List<Object[]> healthByDeptCode3(String deptCode3, LocalDate issueDateStart, LocalDate issueDateEnd);
+
+    /**
+     * @Name sumFYCByDeptCode4
+     * @Author HuoJiaJin
+     * @Description 组健康人力
+     * @Date 2021/2/22 0:35
+     * @Param [deptCode4, issueDateStart, issueDateEnd]
+     * @Return java.lang.Double
+     **/
+    @Query("select agentCode, sum(writteFyc) from Business where deptCode4 = ?1 and issueDate >= ?2 and issueDate < ?3 group by agentCode having sum(writteFyc) >= 1500")
+    List<Object[]> healthByDeptCode4(String deptCode4, LocalDate issueDateStart, LocalDate issueDateEnd);
+
 }

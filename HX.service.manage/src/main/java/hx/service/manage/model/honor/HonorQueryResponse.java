@@ -11,10 +11,19 @@ import hx.base.core.dao.entity.common.BaseEntity;
  **/
 public class HonorQueryResponse extends BaseEntity {
 
+    private String id;
     private String name;//荣誉名称
     private int status;//状态
     private String icon;//荣誉图标
     private String createTime;//创建时间
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

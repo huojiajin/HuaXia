@@ -3,9 +3,9 @@ package hx.service.manage.manage.message;
 import com.google.common.collect.Lists;
 import hx.base.core.dao.dict.acl.ErrorType;
 import hx.base.core.dao.dict.acl.PositionsClass;
-import hx.base.core.dao.dict.test.PushType;
 import hx.base.core.dao.dict.message.ContentType;
 import hx.base.core.dao.dict.message.MessageType;
+import hx.base.core.dao.dict.test.PushType;
 import hx.base.core.dao.entity.hualife.MarketingManpower;
 import hx.base.core.dao.entity.message.MessageCustom;
 import hx.base.core.dao.entity.message.MessageCustomLog;
@@ -25,7 +25,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -104,10 +103,13 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
         }else if (contentType == ContentType.IMAGE){
             custom.setImage(Base64.decodeBase64(request.getContent()));
         }
+        custom.setMessageType(messageType);
         custom.setDeadline(LocalDate.parse(request.getDeadline()));
         custom.setInsertTime(LocalDateTime.now());
         customRepo.persist(custom);
-        customRepo.blobSave(custom, "image", new ByteArrayInputStream(Base64.decodeBase64(request.getContent())));
+//        if (contentType == ContentType.IMAGE){
+//            customRepo.blobSave(custom, "image", new ByteArrayInputStream(Base64.decodeBase64(request.getContent())));
+//        }
         addSysLog("添加自定义消息", request.getToken(), custom.getId());
         response.setMessage("添加自定义消息成功！");
         return response.toJson();

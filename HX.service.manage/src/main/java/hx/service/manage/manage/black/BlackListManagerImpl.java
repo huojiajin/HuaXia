@@ -44,10 +44,12 @@ public class BlackListManagerImpl extends AbstractExcelManager implements BlackL
     public String query(BlackListQueryRequest request){
         CommonResponse response = new CommonResponse();
         BlackListPageRequest pageRequest = new BlackListPageRequest();
-        try {
-            pageRequest.setType(BlackListType.fromCode(request.getType()));
-        } catch (InterruptedException e) {
-            return response.setError(ErrorType.CONVERT, e.getMessage());
+        if (request.getType() != 0) {
+            try {
+                pageRequest.setType(BlackListType.fromCode(request.getType()));
+            } catch (InterruptedException e) {
+                return response.setError(ErrorType.CONVERT, e.getMessage());
+            }
         }
         Pagination page = blackListRepo.page(pageRequest);
         page.convertResult(this::convertModel);
