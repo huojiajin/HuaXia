@@ -26,6 +26,12 @@ public interface MarketingManpowerRepo extends AbstractJpaRepo<MarketingManpower
     @Query(" from MarketingManpower where agentCode in (?1) and outworkDate is null")
     List<MarketingManpower> listByAgentCodes(List<String> agentCodes);
 
+    @Query(" from MarketingManpower where deptCode1 = ?1 and outworkDate is null")
+    List<MarketingManpower> listByDeptCode1(String deptCode1);
+
+    @Query(" from MarketingManpower where deptCode2 = ?1 and outworkDate is null")
+    List<MarketingManpower> listByDeptCode2(String deptCode1);
+
     @Query(" from MarketingManpower where deptCode3 = ?1 and outworkDate is null")
     List<MarketingManpower> listByDeptCode3(String deptCode3);
 
@@ -56,8 +62,14 @@ public interface MarketingManpowerRepo extends AbstractJpaRepo<MarketingManpower
     @Query("select deptName1 as campName, deptCode1 as campCode, count(agentCode) as num from MarketingManpower where outworkDate is null group by deptName1, deptCode1")
     List<Map<String, String>> groupByCamp();
 
-    @Query(" from MarketingManpower where deptCode1 = ?1 and outworkDate is null")
-    List<MarketingManpower> listByDeptCode1(String deptCode1);
+    @Query("select deptName2 as directorName, deptCode2 as directorCode, count(agentCode) as num from MarketingManpower where outworkDate is null and deptCode1 = ?1 group by deptName2, deptCode2")
+    List<Map<String, String>> groupByDirector(String campCode);
+
+    @Query("select deptName3 as sectionName, deptCode3 as sectionCode, count(agentCode) as num from MarketingManpower where outworkDate is null and deptCode2 = ?1 group by deptName3, deptCode3")
+    List<Map<String, String>> groupBySection(String directorCode);
+
+    @Query("select deptName4 as groupName, deptCode4 as groupCode, count(agentCode) as num from MarketingManpower where outworkDate is null and deptCode3 = ?1 group by deptName4, deptCode4")
+    List<Map<String, String>> groupByGroup(String sectionCode);
 
     @Query("select count(agentCode) from MarketingManpower where deptCode1 = ?1 and outworkDate is null")
     Integer countByDeptCode1(String deptCode1);

@@ -115,8 +115,8 @@ public interface BusinessRepo extends AbstractJpaRepo<Business, String> {
      * @Param [deptCode2, receiveDateStart, receiveDateEnd]
      * @Return java.lang.Double
      **/
-    @Query("select sum(writteFyc) from Business where deptCode2 = ?1 and receiveDate >= ?2 and receiveDate < ?3")
-    Double sumFYCByDeptCode2(String deptCode2, LocalDate receiveDateStart, LocalDate receiveDateEnd);
+    @Query("select sum(writteFyc) from Business where deptCode2 = ?1 and issueDate >= ?2 and issueDate < ?3")
+    Double sumFYCByDeptCode2(String deptCode2, LocalDate issueDateStart, LocalDate issueDateEnd);
 
     /**
      * @Name sumFYCByDeptCode3

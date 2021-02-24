@@ -18,8 +18,8 @@ import java.time.LocalDate;
 public class SalaryAlert extends AbstractInsertTimeEntity {
 
     private LocalDate month;//月份yyyy-MM-01
-    private String campName;//营服名称
-    private String campCode;//营服代码
+    private String directorName;//总监区名称
+    private String directorCode;//总监区代码
     private String sectionName;//部名称
     private String sectionCode;//部名称
     private String groupName;//组名称
@@ -43,22 +43,22 @@ public class SalaryAlert extends AbstractInsertTimeEntity {
         this.month = month;
     }
 
-    @Column(name = "camp_name")
-    public String getCampName() {
-        return campName;
+    @Column(name = "director_name")
+    public String getDirectorName() {
+        return directorName;
     }
 
-    public void setCampName(String campName) {
-        this.campName = campName;
+    public void setDirectorName(String campName) {
+        this.directorName = campName;
     }
 
-    @Column(name = "camp_code")
-    public String getCampCode() {
-        return campCode;
+    @Column(name = "director_code")
+    public String getDirectorCode() {
+        return directorCode;
     }
 
-    public void setCampCode(String campCode) {
-        this.campCode = campCode;
+    public void setDirectorCode(String campCode) {
+        this.directorCode = campCode;
     }
 
     @Column(name = "section_name")

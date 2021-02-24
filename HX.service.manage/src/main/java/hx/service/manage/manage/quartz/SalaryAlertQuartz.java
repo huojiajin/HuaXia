@@ -120,7 +120,7 @@ public class SalaryAlertQuartz extends CommonQuartz{
                 continue;
             }
             //如果计算月份不是6月或12月，则不计算个人半年奖，即非主管人员不处理
-            if ((startDate.getMonthValue() != 6 && startDate.getMonthValue() != 12) && PositionsClass.isNotDirector(positionsClass)) continue;
+            if ((startDate.getMonthValue() != 6 && startDate.getMonthValue() != 12) && PositionsClass.isNotExecutive(positionsClass)) continue;
             //是否已有卓越部成就奖
             boolean hasExcellent = false;
             for (PrizeType prizeType : positionsClass.getPrizeTypes()) {
@@ -137,8 +137,8 @@ public class SalaryAlertQuartz extends CommonQuartz{
                     //拼装实体
                     SalaryAlert alert = new SalaryAlert();
                     alert.setMonth(startDate);
-                    alert.setCampName(manpower.getDeptName2());
-                    alert.setCampCode(manpower.getDeptCode2());
+                    alert.setDirectorName(manpower.getDeptName2());
+                    alert.setDirectorCode(manpower.getDeptCode2());
                     alert.setSectionName(manpower.getDeptName3());
                     alert.setSectionCode(manpower.getDeptCode3());
                     alert.setGroupName(manpower.getDeptName4());

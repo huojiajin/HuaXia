@@ -2,6 +2,9 @@ package hx.base.core.dao.repo.jpa.salary;
 
 import hx.base.core.dao.entity.salary.SalaryAlertInfluence;
 import hx.base.core.dao.repo.jpa.common.AbstractJpaRepo;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @ClassName: SalaryAlertRepo.java
@@ -11,5 +14,7 @@ import hx.base.core.dao.repo.jpa.common.AbstractJpaRepo;
  * @Version 1.0
 **/
 public interface SalaryAlertInfluenceRepo extends AbstractJpaRepo<SalaryAlertInfluence, String> {
-    
+
+    @Query(" from SalaryAlertInfluence where alertId = ?1")
+    List<SalaryAlertInfluence> listByAlertId(String alertId);
 }

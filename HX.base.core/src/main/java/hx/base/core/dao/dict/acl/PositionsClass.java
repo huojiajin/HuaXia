@@ -87,7 +87,15 @@ public enum PositionsClass {
 
     public abstract List<PrizeType> getPrizeTypes();
 
-    public static boolean isNotDirector(PositionsClass positionsClass){
+    /**
+     * @Name isNotDirector
+     * @Author HuoJiaJin
+     * @Description 判断是否非主管职级
+     * @Date 2021/2/25 0:20
+     * @Param [positionsClass]
+     * @Return boolean
+     **/
+    public static boolean isNotExecutive(PositionsClass positionsClass){
         return positionsClass == PositionsClass.TC || positionsClass == PositionsClass.PBC;
     }
 }
