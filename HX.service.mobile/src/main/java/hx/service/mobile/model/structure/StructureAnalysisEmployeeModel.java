@@ -8,7 +8,7 @@ import hx.base.core.dao.entity.common.BaseEntity;
  * @author: huojiajin
  * @time: 2020/7/7 1:34
  */
-public class SructureAnalysisEmployeeModel extends BaseEntity {
+public class StructureAnalysisEmployeeModel extends BaseEntity {
 
     private String name;//员工名称
     private String agentCode;//员工编号

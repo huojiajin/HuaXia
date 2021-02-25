@@ -8,7 +8,7 @@ import hx.service.mobile.model.common.MobileCommonRequest;
  * @author: huojiajin
  * @time: 2020/7/7 1:32
  */
-public class SructureAnalysisRequest extends MobileCommonRequest {
+public class StructureAnalysisRequest extends MobileCommonRequest {
 
     private String orgCode;//组织代码
     private Integer orgType;//组织类型

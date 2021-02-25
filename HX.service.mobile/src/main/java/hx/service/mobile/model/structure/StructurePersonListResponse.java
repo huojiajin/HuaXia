@@ -10,15 +10,15 @@ import java.util.List;
  * @author: huojiajin
  * @time: 2020/7/10 0:02
  */
-public class SructurePersonListResponse extends BaseEntity {
+public class StructurePersonListResponse extends BaseEntity {
 
-    private List<SructurePersonListModel> result;
+    private List<StructurePersonListModel> result;
 
-    public List<SructurePersonListModel> getResult() {
+    public List<StructurePersonListModel> getResult() {
         return result;
     }
 
-    public void setResult(List<SructurePersonListModel> result) {
+    public void setResult(List<StructurePersonListModel> result) {
         this.result = result;
     }
 }

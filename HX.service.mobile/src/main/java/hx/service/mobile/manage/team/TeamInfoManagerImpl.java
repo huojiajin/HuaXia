@@ -210,7 +210,7 @@ public class TeamInfoManagerImpl extends AbstractMobileManager implements TeamIn
             }
             StarRating starRating = starRatingRepo.findByAgentCode(executive.getAgentCode());
             if (starRating != null) {
-                model.setStar(starRating.getFhagentGrade().substring(2));
+                model.setStar(Integer.valueOf(starRating.getFhagentGrade().substring(2)));
             }
             model.setHealth(healthNum);
             model.setName(executive.getDeptName3());
@@ -304,7 +304,7 @@ public class TeamInfoManagerImpl extends AbstractMobileManager implements TeamIn
             }
             StarRating starRating = starRatingRepo.findByAgentCode(executive.getAgentCode());
             if (starRating != null) {
-                model.setStar(starRating.getFhagentGrade().substring(2));
+                model.setStar(Integer.valueOf(starRating.getFhagentGrade().substring(2)));
             }
             model.setHealth(healthNum);
             model.setName(executive.getDeptName4());
@@ -366,7 +366,7 @@ public class TeamInfoManagerImpl extends AbstractMobileManager implements TeamIn
             model.setType(3);
             StarRating starRating = starRatingRepo.findByAgentCode(agentCode);
             if (starRating != null) {
-                model.setStar(starRating.getFhagentGrade().substring(2));
+                model.setStar(Integer.valueOf(starRating.getFhagentGrade().substring(2)));
             }
             //获取月份数据集合并判断是否健康人力
             boolean isHealth = false;

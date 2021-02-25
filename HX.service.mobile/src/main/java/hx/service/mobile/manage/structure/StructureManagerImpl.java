@@ -1,5 +1,6 @@
 package hx.service.mobile.manage.structure;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import hx.base.core.dao.dict.acl.ErrorType;
 import hx.base.core.dao.dict.acl.PositionsClass;
@@ -19,7 +20,7 @@ import hx.service.mobile.manage.common.AbstractMobileManager;
 import hx.service.mobile.model.common.MobileCommonRequest;
 import hx.service.mobile.model.login.MobileUserModel;
 import hx.service.mobile.model.structure.*;
-import org.apache.commons.compress.utils.Lists;
+import hx.service.mobile.model.structure.internal.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -92,10 +93,10 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
     }
 
     @Override
-    public String structureAnalysis(SructureAnalysisRequest request){
+    public String structureAnalysis(StructureAnalysisRequest request){
         CommonResponse response = new CommonResponse();
         MobileUserModel user = getUser(request.getToken());
-        SructureAnalysisResponse data = new SructureAnalysisResponse();
+        StructureAnalysisResponse data = new StructureAnalysisResponse();
         SectionType sectionType;
         try {
             sectionType = SectionType.fromCode(request.getOrgType());
@@ -115,7 +116,7 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
     }
 
     private void handleSection(List<StructureStandard> standardList, MobileUserModel user,
-                               String orgCode, SructureAnalysisResponse data){
+                               String orgCode, StructureAnalysisResponse data){
         List<String> situation = Lists.newArrayList();//现状
         List<String> advantage = Lists.newArrayList();//优势
         List<String> inferiority = Lists.newArrayList();//劣势
@@ -125,13 +126,13 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
         Map<StructureType, List<StructureStandard>> standardMaps = standardList.stream()
                 .collect(Collectors.groupingBy(StructureStandard::getStructureType));
         //获取人员集合
-        List<SructureAnalysisEmployeeModel> employeeList = Lists.newArrayList();
+        List<StructureAnalysisEmployeeModel> employeeList = Lists.newArrayList();
         List<MarketingManpower> manpowerList = manpowerRepo.listByDeptCode3(orgCode);
         Map<String, List<MarketingManpower>> maps = manpowerList.stream()
                 .collect(Collectors.groupingBy(m -> m.getDeptCode4() + "|" + m.getDeptName4() + "|"
                         + m.getName1() + "|" + m.getAgentCode1()));
         for (Map.Entry<String, List<MarketingManpower>> map : maps.entrySet()) {
-            SructureAnalysisEmployeeModel employee = new SructureAnalysisEmployeeModel();
+            StructureAnalysisEmployeeModel employee = new StructureAnalysisEmployeeModel();
             String[] arr = map.getKey().split("\\|");
             employee.setGroupCode(arr[0]);
             employee.setName(arr[2]);
@@ -246,7 +247,7 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
     }
 
     private void handleGroup(List<StructureStandard> standardList, MobileUserModel user,
-                               String orgCode, SructureAnalysisResponse data){
+                               String orgCode, StructureAnalysisResponse data){
         List<String> situation = Lists.newArrayList();//现状
         List<String> advantage = Lists.newArrayList();//优势
         List<String> inferiority = Lists.newArrayList();//劣势
@@ -256,9 +257,9 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
         Map<StructureType, List<StructureStandard>> standardMaps = standardList.stream()
                 .collect(Collectors.groupingBy(StructureStandard::getStructureType));
         //获取人员集合
-        List<SructureAnalysisEmployeeModel> employeeList = Lists.newArrayList();
+        List<StructureAnalysisEmployeeModel> employeeList = Lists.newArrayList();
         List<MarketingManpower> manpowerList = manpowerRepo.listByDeptCode4(orgCode);
-        SructureAnalysisEmployeeModel employee = new SructureAnalysisEmployeeModel();
+        StructureAnalysisEmployeeModel employee = new StructureAnalysisEmployeeModel();
         employee.setGroupCode(user.getEmployee_group_com());
         employee.setName(user.getName());
         employee.setAgentCode(user.getEmployee_code());
@@ -394,7 +395,7 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
     @Override
     public String getPersonList(StructurePersonListRequest request){
         CommonResponse response = new CommonResponse();
-        SructurePersonListResponse data = new SructurePersonListResponse();
+        StructurePersonListResponse data = new StructurePersonListResponse();
         MobileUserModel user = getUser(request.getToken());
         LocalDate now = LocalDate.now();
         LocalDate startDate = now.withDayOfMonth(1);
@@ -408,9 +409,9 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
         for (Object[] o : businessList) {
             businessMap.put(String.valueOf(o[0]), new BigDecimal(String.valueOf(o[1])));
         }
-        List<SructurePersonListModel> result = Lists.newArrayList();
+        List<StructurePersonListModel> result = Lists.newArrayList();
         for (MarketingManpower manpower : manpowerList) {
-            SructurePersonListModel model = new SructurePersonListModel();
+            StructurePersonListModel model = new StructurePersonListModel();
             model.setName(manpower.getName());
             model.setAgentCode(manpower.getAgentCode());
             model.setGradeName(manpower.getAgentGradeName());
@@ -454,6 +455,74 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
         Double sum = businessRepo.sumByAgentCode(manpower.getAgentCode(), startDate, endDate);
         data.setStadprem(sum);
 
+        response.setData(data);
+        return response.toJson();
+    }
+
+    @Override
+    public String getCampList(MobileCommonRequest request){
+        CommonResponse response = new CommonResponse();
+        StructureCampListResponse data = new StructureCampListResponse();
+        List<StructureCampModel> campList = Lists.newArrayList();
+        List<Map<String, String>> campMaps = manpowerRepo.groupByCamp();
+        for (Map<String, String> campMap : campMaps) {
+            StructureCampModel model = new StructureCampModel();
+            model.setCampName(campMap.get("campName"));
+            model.setCampCode(campMap.get("campCode"));
+            campList.add(model);
+        }
+        data.setCampList(campList);
+        response.setData(data);
+        return response.toJson();
+    }
+
+    @Override
+    public String getDirectorList(StructureDirectorListRequest request){
+        CommonResponse response = new CommonResponse();
+        StructureDirectorListResponse data = new StructureDirectorListResponse();
+        List<StructureDirectorModel> directorList = Lists.newArrayList();
+        List<Map<String, String>> directorMaps = manpowerRepo.groupByDirector(request.getCampCode());
+        for (Map<String, String> directorMap : directorMaps) {
+            StructureDirectorModel model = new StructureDirectorModel();
+            model.setDirectorName(directorMap.get("directorName"));
+            model.setDirectorCode(directorMap.get("directorCode"));
+            directorList.add(model);
+        }
+        data.setDirectorList(directorList);
+        response.setData(data);
+        return response.toJson();
+    }
+
+    @Override
+    public String getSectionList(StructureSectionListRequest request){
+        CommonResponse response = new CommonResponse();
+        StructureSectionListResponse data = new StructureSectionListResponse();
+        List<StructureSectionModel> sectionList = Lists.newArrayList();
+        List<Map<String, String>> sectionMaps = manpowerRepo.groupBySection(request.getDirectorCode());
+        for (Map<String, String> sectionMap : sectionMaps) {
+            StructureSectionModel model = new StructureSectionModel();
+            model.setSectionName(sectionMap.get("sectionName"));
+            model.setSectionCode(sectionMap.get("sectionCode"));
+            sectionList.add(model);
+        }
+        data.setSectionList(sectionList);
+        response.setData(data);
+        return response.toJson();
+    }
+
+    @Override
+    public String getGroupList(StructureGroupListRequest request){
+        CommonResponse response = new CommonResponse();
+        StructureGroupListResponse data = new StructureGroupListResponse();
+        List<StructureGroupModel> groupList = Lists.newArrayList();
+        List<Map<String, String>> groupMaps = manpowerRepo.groupBySection(request.getSectionCode());
+        for (Map<String, String> groupMap : groupMaps) {
+            StructureGroupModel model = new StructureGroupModel();
+            model.setGroupName(groupMap.get("groupName"));
+            model.setGroupCode(groupMap.get("groupCode"));
+            groupList.add(model);
+        }
+        data.setGroupList(groupList);
         response.setData(data);
         return response.toJson();
     }

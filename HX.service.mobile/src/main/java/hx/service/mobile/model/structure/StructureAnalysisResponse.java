@@ -10,20 +10,20 @@ import java.util.List;
  * @author: huojiajin
  * @time: 2020/7/7 1:33
  */
-public class SructureAnalysisResponse extends BaseEntity {
+public class StructureAnalysisResponse extends BaseEntity {
 
-    private List<SructureAnalysisEmployeeModel> employeeList;//人员集合
+    private List<StructureAnalysisEmployeeModel> employeeList;//人员集合
     private String type;//类型
     private List<String> situation;//现状
     private List<String> advantage;//优势
     private List<String> inferiority;//劣势
     private List<String> advice;//建议
 
-    public List<SructureAnalysisEmployeeModel> getEmployeeList() {
+    public List<StructureAnalysisEmployeeModel> getEmployeeList() {
         return employeeList;
     }
 
-    public void setEmployeeList(List<SructureAnalysisEmployeeModel> employeeList) {
+    public void setEmployeeList(List<StructureAnalysisEmployeeModel> employeeList) {
         this.employeeList = employeeList;
     }
 

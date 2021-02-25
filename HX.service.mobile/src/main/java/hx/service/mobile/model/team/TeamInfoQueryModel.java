@@ -16,7 +16,7 @@ public class TeamInfoQueryModel extends BaseEntity {
     private String name;//名称
     private String code;//代码
     private int type;//数据类型
-    private String star;//星级
+    private Integer star;//星级
     private List<TeamInfoQueryMonthModel> monthList;//月份数据集合
     private int health;//健康人力
     private String gradeName;//职级名称
@@ -46,11 +46,11 @@ public class TeamInfoQueryModel extends BaseEntity {
         this.type = type;
     }
 
-    public String getStar() {
+    public Integer getStar() {
         return star;
     }
 
-    public void setStar(String star) {
+    public void setStar(Integer star) {
         this.star = star;
     }
 

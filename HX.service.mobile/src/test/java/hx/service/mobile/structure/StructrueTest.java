@@ -2,7 +2,7 @@ package hx.service.mobile.structure;
 
 import hx.base.core.manage.tools.httpclient.HttpClientHelper;
 import hx.service.mobile.ApplicationTests;
-import hx.service.mobile.model.structure.SructureAnalysisRequest;
+import hx.service.mobile.model.structure.StructureAnalysisRequest;
 import hx.service.mobile.model.structure.StructurePersonListRequest;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,7 @@ public class StructrueTest extends ApplicationTests {
     public void structure() throws IOException {
         String url = "http://localhost:81/mobile//organization/structure";
 
-        SructureAnalysisRequest request = new SructureAnalysisRequest();
+        StructureAnalysisRequest request = new StructureAnalysisRequest();
         request.setToken("0b274c829cac4dba8972ce886ad98b6d");
         request.setOrgCode("861102010601001");
         request.setOrgType(0);
