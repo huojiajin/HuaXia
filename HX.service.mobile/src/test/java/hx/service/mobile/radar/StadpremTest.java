@@ -20,7 +20,7 @@ public class StadpremTest extends ApplicationTests {
 
     @Test
     public void testSection() throws IOException {
-//        String url = "http://123.56.154.176:81/mobile/index/radar/stadprem/section";
+//        String url = "http://39.106.226.73:81/mobile/index/radar/stadprem/section";
         String url = "http://localhost:81/mobile/index/radar/stadprem/section";
         SectionStadpremRequest request = new SectionStadpremRequest();
         request.setSectionCode("861102010601");
@@ -32,7 +32,7 @@ public class StadpremTest extends ApplicationTests {
 
     @Test
     public void testGroup() throws IOException {
-//        String url = "http://123.56.154.176:81/mobile/index/radar/stadprem/section";
+//        String url = "http://39.106.226.73:81/mobile/index/radar/stadprem/section";
         String url = "http://localhost:81/mobile/index/radar/stadprem/group";
         GroupStadpremRequest request = new GroupStadpremRequest();
         request.setSectionCode("861102010601");
@@ -44,7 +44,7 @@ public class StadpremTest extends ApplicationTests {
 
     @Test
     public void testPerson() throws IOException {
-//        String url = "http://123.56.154.176:81/mobile/index/radar/stadprem/section";
+//        String url = "http://39.106.226.73:81/mobile/index/radar/stadprem/section";
         String url = "http://localhost:81/mobile/index/radar/stadprem/person";
         PersonStadpremRequest request = new PersonStadpremRequest();
         request.setGroupCode("861102010601007");
@@ -58,7 +58,7 @@ public class StadpremTest extends ApplicationTests {
 
     @Test
     public void testPersonDetail() throws IOException {
-//        String url = "http://123.56.154.176:81/mobile/index/radar/stadprem/section";
+//        String url = "http://39.106.226.73:81/mobile/index/radar/stadprem/section";
         String url = "http://localhost:81/mobile/index/radar/stadprem/person/detail";
         PersonStadpremDetailRequest request = new PersonStadpremDetailRequest();
         request.setAgentCode("110002207");

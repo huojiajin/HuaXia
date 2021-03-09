@@ -28,7 +28,7 @@ public class UserTest extends ApplicationTests {
         request.setEmployeeNum("000000002");
         request.setMobile("18513086652");
         String url = "http://localhost/manage/user/add";
-//        String url = "http://123.56.154.176/manage/user/add";
+//        String url = "http://39.106.226.73/manage/user/add";
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);

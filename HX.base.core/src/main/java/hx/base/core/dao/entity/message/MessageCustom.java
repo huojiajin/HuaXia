@@ -26,6 +26,9 @@ public class MessageCustom extends AbstractInsertTimeEntity {
     private LocalDate deadline;//截止时间
     private boolean stop = false;
 
+    private String title;//标题
+    private String description;//描述
+
     @Column(name = "name")
     public String getName() {
         return name;
@@ -91,5 +94,23 @@ public class MessageCustom extends AbstractInsertTimeEntity {
 
     public void setStop(boolean stop) {
         this.stop = stop;
+    }
+
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Column(name = "description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

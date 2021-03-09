@@ -30,7 +30,7 @@ public class LoginTest extends ApplicationTests {
     @Test
     void verify() throws URISyntaxException, IOException {
         String url = "http://localhost/manage/login/verify";
-//        String url = "http://123.56.154.176/manage/login/verify";
+//        String url = "http://39.106.226.73/manage/login/verify";
 
         String responseStr = HttpClientHelper.httpGet(new URI(url), "UTF-8");
         CommonResponse<VerifyResponse> response = JsonTools.json2Object(responseStr, CommonResponse.class, VerifyResponse.class);
@@ -56,9 +56,9 @@ public class LoginTest extends ApplicationTests {
         LoginRequest request = new LoginRequest();
         request.setLoginName("000000001");
         request.setPassword("1234567");
-        request.setVerifyId("fce8ac84f245468087bcbf97da89efed");
-        request.setVerifyCode("ktdm");
-//        String url = "http://123.56.154.176/manage/login/login";
+        request.setVerifyId("2cd9a1409558401a928f69830a742ad5");
+        request.setVerifyCode("k7h8");
+//        String url = "http://39.106.226.73/manage/login/login";
         String url = "http://localhost/manage/login/login";
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
@@ -79,7 +79,7 @@ public class LoginTest extends ApplicationTests {
         request.setToken("0106130d1d804137b4e038054cc81a91");
         request.setResourceCode(12);
         String url = "http://localhost/manage/user/query";
-//        String url = "http://123.56.154.176/manage/user/query";
+//        String url = "http://39.106.226.73/manage/user/query";
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);

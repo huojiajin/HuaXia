@@ -19,7 +19,7 @@ spring:
   datasource:
     username: huaxia
     password: test@123456
-    url: jdbc:mysql://rm-2ze0n47guv52dh261125010.mysql.rds.aliyuncs.com:3306/huaxia?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://rm-2ze10x853q7722q2iqo.mysql.rds.aliyuncs.com:3306/huaxia?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:

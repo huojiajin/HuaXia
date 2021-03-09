@@ -34,7 +34,7 @@ public class TrainTest extends ApplicationTests {
         request.setResourceCode(11);
         request.setPageNo(1);
         request.setPageSize(20);
-//        String url = "http://123.56.154.176/manage/staff/train/query";
+//        String url = "http://39.106.226.73/manage/staff/train/query";
         String url = "http://localhost/manage/staff/train/query";
         String s = HttpClientHelper.jsonPost(url, request.toJson());
         echo(s);
@@ -58,7 +58,7 @@ public class TrainTest extends ApplicationTests {
         request.setToken(token);
         request.setResourceCode(11);
         String url = "http://localhost/manage/staff/train/template";
-//        String url = "http://123.56.154.176/manage/staff/train/template";
+//        String url = "http://39.106.226.73/manage/staff/train/template";
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         CommonResponse<CommonTemplateResponse> response =
                 JsonTools.json2Object(responseStr, CommonResponse.class, CommonTemplateResponse.class);
@@ -121,7 +121,7 @@ public class TrainTest extends ApplicationTests {
 //        request.setCampName("第一营业区");
         request.setResourceCode(21);
         request.setTrainId("7c33958e31ba490e8e3b77475b695dfd");
-//        String url = "http://123.56.154.176/manage/test/paper/push";
+//        String url = "http://39.106.226.73/manage/test/paper/push";
         String url = "http://localhost/manage/staff/train/people/export";
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         CommonResponse<CommonExportResponse> response =

@@ -28,7 +28,7 @@ public class TestMessage extends ApplicationTests {
         request.setDeadline("2021-02-28");
         request.setMessageType(21);
         request.setContent("文字内容");
-//        String url = "http://123.56.154.176/manage/message/add";
+//        String url = "http://39.106.226.73/manage/message/add";
         String url = "http://localhost/manage/message/add";
         String s = HttpClientHelper.jsonPost(url, request.toJson());
         echo(s);

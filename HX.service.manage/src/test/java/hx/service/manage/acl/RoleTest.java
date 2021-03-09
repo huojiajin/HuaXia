@@ -30,7 +30,7 @@ public class RoleTest extends ApplicationTests {
         request.setToken("5e9ad2689fe64e0a8dfab3f06370033d");
         request.setResourceCode(12);
         String url = "http://localhost/manage/role/query";
-//        String url = "http://123.56.154.176/manage/role/query";
+//        String url = "http://39.106.226.73/manage/role/query";
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
@@ -48,7 +48,7 @@ public class RoleTest extends ApplicationTests {
         request.setList(1);
         request.setResourceCode(12);
 //        String url = "http://localhost/manage/role/add";
-        String url = "http://123.56.154.176/manage/role/add";
+        String url = "http://39.106.226.73/manage/role/add";
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
         CommonResponse response = JsonTools.json2Object(responseStr, CommonResponse.class);
@@ -64,7 +64,7 @@ public class RoleTest extends ApplicationTests {
         request.setRoleId("123456");
         request.setResourceCodeList(Lists.newArrayList(1,11,12,13,2,21,22,23));
         String url = "http://localhost/manage/role/resource/config";
-//        String url = "http://123.56.154.176/manage/role/resource/config";
+//        String url = "http://39.106.226.73/manage/role/resource/config";
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);

@@ -26,7 +26,7 @@ public class IntegralManagerTest extends ApplicationTests {
         request.setToken("e60ece9e96a5464cb890f0b8323a03f1");
         request.setResourceCode(12);
         String url = "http://localhost/manage/test/integral/query";
-//        String url = "http://123.56.154.176/manage/test/integral/query";
+//        String url = "http://39.106.226.73/manage/test/integral/query";
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);

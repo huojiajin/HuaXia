@@ -142,7 +142,7 @@ public class TeamInfoManagerImpl extends AbstractMobileManager implements TeamIn
         if (hasText(request.getSectionCode())){
             if (request.getSectionCode().equals("0")){//查询所有部数据
                 dealSection(user, startDate, endDate, endDateFinally, data);
-            }else if (request.getGroupCode().equals("0")){//查询所有组数据
+            }else if (request.getGroupCode().equals("0") || !hasText(request.getSectionCode())){//查询所有组数据
                 dealGroup(request.getSectionCode(), startDate, endDate, endDateFinally, data);
             }else if (!request.getGroupCode().equals("0")){//查询指定组个人数据
                 dealPerson(request.getGroupCode(), startDate, endDate, endDateFinally, data);

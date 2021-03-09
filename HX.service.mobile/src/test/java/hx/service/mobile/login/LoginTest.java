@@ -21,7 +21,7 @@ public class LoginTest extends ApplicationTests {
 
     @Test
     public void loginInfo() throws IOException {
-//        String url = "http://123.56.154.176:81/mobile/login/verify";
+//        String url = "http://39.106.226.73:81/mobile/login/verify";
         String url = "http://localhost:81/mobile/login/verify";
         List<NameValuePair> params = Lists.newArrayList();
         String responseStr = HttpClientHelper.httpPost(url, "UTF-8",  params, "UTF-8");
@@ -30,7 +30,7 @@ public class LoginTest extends ApplicationTests {
 
     @Test
     public void login() throws IOException {
-        String url = "http://123.56.154.176:81/mobile/login/login";
+        String url = "http://39.106.226.73:81/mobile/login/login";
         LoginRequest request = new LoginRequest();
         request.setToken("82bb3c229963450fbbce054bad092fc4");
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());

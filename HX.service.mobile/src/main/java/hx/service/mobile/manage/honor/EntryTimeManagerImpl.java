@@ -9,6 +9,8 @@ import hx.service.mobile.model.login.MobileUserModel;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 /**
@@ -28,22 +30,22 @@ public class EntryTimeManagerImpl extends AbstractMobileManager implements Entry
         EntryTimeResponse data = new EntryTimeResponse();
         String employeeDateStr = user.getEmployee_date();
         LocalDate employeeDate = LocalDate.parse(employeeDateStr);
-        LocalDate now = LocalDate.now();
+        LocalDate nowDate = LocalDate.now();
         //处理年份
-        Long year = ChronoUnit.YEARS.between(employeeDate, now);
+        Long year = ChronoUnit.YEARS.between(employeeDate, nowDate);
         data.setYear(year.intValue());
         employeeDate = employeeDate.plusYears(year);
         //处理月份
-        Long month = ChronoUnit.MONTHS.between(employeeDate, now);
+        Long month = ChronoUnit.MONTHS.between(employeeDate, nowDate);
         data.setMonth(month.intValue());
         employeeDate = employeeDate.plusMonths(month);
         //处理日期
-        Long day = ChronoUnit.DAYS.between(employeeDate, now);
+        Long day = ChronoUnit.DAYS.between(employeeDate, nowDate);
         data.setDay(day.intValue());
         employeeDate = employeeDate.plusDays(day);
         //处理小时
-        Long hour = ChronoUnit.HOURS.between(employeeDate, now);
-        data.setHour(hour.intValue());
+        Long hour = ChronoUnit.HOURS.between(employeeDate.atTime(LocalTime.of(9,0)), LocalDateTime.now());
+        data.setHour(hour.intValue() > 0 ? hour.intValue() : 0);
 
         response.setData(data);
         return response.toJson();

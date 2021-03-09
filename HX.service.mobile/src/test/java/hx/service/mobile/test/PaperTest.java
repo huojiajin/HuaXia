@@ -37,7 +37,7 @@ public class PaperTest extends ApplicationTests {
     @Test
     public void getSubmit() throws IOException {
         String url = "http://localhost:81/mobile/test/paper/submit";
-//        String url = "http://123.56.154.176:81/mobile/test/paper/submit";
+//        String url = "http://39.106.226.73:81/mobile/test/paper/submit";
         PaperSubmitRequest request = new PaperSubmitRequest();
         request.setToken(token);
         request.setPaperId("613d8862bf86476a9480665bac63bb1b");

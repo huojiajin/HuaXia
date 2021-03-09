@@ -17,7 +17,7 @@ public class AttendanceTest extends ApplicationTests {
 
     @Test
     public void testPerson() throws IOException {
-//        String url = "http://123.56.154.176:81/mobile/index/radar/stadprem/section";
+//        String url = "http://39.106.226.73:81/mobile/index/radar/stadprem/section";
         String url = "http://localhost:81/mobile/index/radar/attend/person";
         PersonAttendRequest request = new PersonAttendRequest();
         request.setGroupCode("861102010601001");

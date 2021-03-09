@@ -24,7 +24,7 @@ public class StarPowerTest extends ApplicationTests {
         request.setToken("82bb3c229963450fbbce054bad092fc4");
 
         String url = "http://localhost:81/mobile/index/radar/star/list";
-//        String url = "http://123.56.154.176:81/mobile/index/radar/star/detail";
+//        String url = "http://39.106.226.73:81/mobile/index/radar/star/detail";
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
     }
@@ -38,7 +38,7 @@ public class StarPowerTest extends ApplicationTests {
         request.setToken("67bc6c6aa5b44ddd85e0eef30aec26e6");
 
 //        String url = "http://localhost:81/mobile/index/radar/star/detail";
-        String url = "http://123.56.154.176:81/mobile/index/radar/star/detail";
+        String url = "http://39.106.226.73:81/mobile/index/radar/star/detail";
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
     }

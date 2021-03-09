@@ -33,7 +33,7 @@ public class PaperTest extends ApplicationTests {
         request.setType(null);
         request.setPageNo(1);
         request.setPageSize(20);
-//        String url = "http://123.56.154.176/manage/test/paper/query";
+//        String url = "http://39.106.226.73/manage/test/paper/query";
         String url = "http://localhost/manage/test/paper/query";
         String s = HttpClientHelper.jsonPost(url, request.toJson());
         echo(s);
@@ -59,7 +59,7 @@ public class PaperTest extends ApplicationTests {
         request.setToken(token);
         request.setResourceCode(31);
 //        String url = "http://localhost/manage/test/paper/template";
-        String url = "http://123.56.154.176/manage/test/paper/template";
+        String url = "http://39.106.226.73/manage/test/paper/template";
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         CommonResponse<CommonTemplateResponse> response =
                 JsonTools.json2Object(responseStr, CommonResponse.class, CommonTemplateResponse.class);
@@ -120,7 +120,7 @@ public class PaperTest extends ApplicationTests {
         request.setResourceCode(31);
         request.setPaperId("bc1f6adfff3e4316b0a6ac7d087f3025");
         request.setCodeList(Lists.newArrayList("AS", "BC"));
-//        String url = "http://123.56.154.176/manage/test/paper/push";
+//        String url = "http://39.106.226.73/manage/test/paper/push";
         String url = "http://localhost/manage/test/paper/push";
         String s = HttpClientHelper.jsonPost(url, request.toJson());
         echo(s);
@@ -131,7 +131,7 @@ public class PaperTest extends ApplicationTests {
         CommonRequest request = new CommonRequest();
         request.setToken(token);
         request.setResourceCode(11);
-//        String url = "http://123.56.154.176/manage/test/paper/push";
+//        String url = "http://39.106.226.73/manage/test/paper/push";
         String url = "http://localhost/manage/test/paper/push/campList";
         String s = HttpClientHelper.jsonPost(url, request.toJson());
         echo(s);
