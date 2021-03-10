@@ -14,12 +14,14 @@ import hx.base.core.dao.repo.request.common.JpaPageableDataRequest;
 public class HonorPageRequest extends JpaPageableDataRequest<Honor> {
 
     private String name;
+    private boolean stop;//是否删除
 
 
     @Override
     public HqlBuilder toSelectHql() {
         HqlBuilder hql = new HqlBuilder("from " + clazz.getName() + " where 1=1");
         hql.append(" and name = :name", name);
+        hql.append(" and stop = :stop", stop);
         return hql;
     }
 
@@ -29,5 +31,13 @@ public class HonorPageRequest extends JpaPageableDataRequest<Honor> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isStop() {
+        return stop;
+    }
+
+    public void setStop(boolean stop) {
+        this.stop = stop;
     }
 }

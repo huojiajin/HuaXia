@@ -20,7 +20,7 @@ public class SignTest extends ApplicationTests {
 
     @Test
     public void getList() throws IOException {
-        String url = "http://123.56.154.176:81/mobile/test/sign";
+        String url = "http://39.106.226.73:81/mobile/test/sign";
 //        String url = "http://localhost:81/mobile/test/sign";
         MobileCommonRequest request = new MobileCommonRequest();
         request.setToken(token);

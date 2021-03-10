@@ -69,7 +69,7 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
             String base64 = new String(Base64.encodeBase64(imageBytes));
             model.setContent(base64);
         }
-        model.setDeadline(entity.toString());
+        model.setDeadline(entity.getDeadline().toString());
         return model;
     }
 

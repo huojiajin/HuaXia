@@ -26,7 +26,7 @@ public class CourseTest extends ApplicationTests {
 
     @Test
     public void getList() throws IOException {
-        String url = "http://123.56.154.176:81/mobile/test/course/list";
+        String url = "http://39.106.226.73:81/mobile/test/course/list";
 //        String url = "http://localhost:81/mobile/test/course/list";
         CourseListRequest request = new CourseListRequest();
         request.setToken(token);
@@ -37,7 +37,7 @@ public class CourseTest extends ApplicationTests {
 
     @Test
     public void getDetail() throws IOException {
-//        String url = "http://123.56.154.176:81/mobile/test/course/detail";
+//        String url = "http://39.106.226.73:81/mobile/test/course/detail";
         String url = "http://localhost:81/mobile/test/course/detail";
         CourseDetailRequest request = new CourseDetailRequest();
         request.setToken(token);

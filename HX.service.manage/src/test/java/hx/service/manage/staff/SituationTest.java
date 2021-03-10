@@ -33,7 +33,7 @@ public class SituationTest extends ApplicationTests {
         request.setPageSize(20);
         request.setCampCode("861102010");
         request.setCampName("北京本级营业区第一营业区");
-//        String url = "http://123.56.154.176/manage/staff/situation/query";
+//        String url = "http://39.106.226.73/manage/staff/situation/query";
         String url = "http://localhost/manage/staff/situation/query";
         String s = HttpClientHelper.jsonPost(url, request.toJson());
         CommonResponse response = JsonTools.json2Object(s, CommonResponse.class, Pagination.class);
@@ -52,7 +52,7 @@ public class SituationTest extends ApplicationTests {
         request.setCampCode("861102010");
         request.setCampName("北京本级营业区第一营业区");
         request.setGroupName("天创部直辖组");
-//        String url = "http://123.56.154.176/manage/staff/situation/export";
+//        String url = "http://39.106.226.73/manage/staff/situation/export";
         String url = "http://localhost/manage/staff/situation/export";
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         CommonResponse<CommonExportResponse> response =

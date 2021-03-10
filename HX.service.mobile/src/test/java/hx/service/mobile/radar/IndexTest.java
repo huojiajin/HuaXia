@@ -22,7 +22,7 @@ public class IndexTest extends ApplicationTests {
 
     @Test
     public void getSectionList() throws IOException {
-        String url = "http://123.56.154.176:81/mobile/index/sectionlist";
+        String url = "http://39.106.226.73:81/mobile/index/sectionlist";
 //        String url = "http://localhost:81/mobile/index/sectionlist";
         MobileCommonRequest request = new MobileCommonRequest();
         request.setToken(token);
@@ -32,7 +32,7 @@ public class IndexTest extends ApplicationTests {
 
     @Test
     public void getGroupList() throws IOException {
-//        String url = "http://123.56.154.176:81/mobile/index/grouplist";
+//        String url = "http://39.106.226.73:81/mobile/index/grouplist";
         String url = "http://localhost:81/mobile/index/grouplist";
         GroupListReqeust request = new GroupListReqeust();
         request.setToken(token);
@@ -43,7 +43,7 @@ public class IndexTest extends ApplicationTests {
 
     @Test
     public void radar() throws IOException {
-//        String url = "http://123.56.154.176:81/mobile/index/radar";
+//        String url = "http://39.106.226.73:81/mobile/index/radar";
         String url = "http://localhost:81/mobile/index/radar";
         RadarRequest request = new RadarRequest();
         request.setToken(token);
@@ -55,7 +55,7 @@ public class IndexTest extends ApplicationTests {
 
     @Test
     public void staronself() throws IOException {
-//        String url = "http://123.56.154.176:81/mobile/index/radar/oneself";
+//        String url = "http://39.106.226.73:81/mobile/index/radar/oneself";
         String url = "http://localhost:81/mobile/index/radar/oneself";
         MobileCommonRequest request = new MobileCommonRequest();
         request.setToken(token);
