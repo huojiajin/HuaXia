@@ -24,10 +24,13 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName: MessageManagerImpl
@@ -45,6 +48,8 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
     private MessageCustomLogRepo customLogRepo;
     @Autowired
     private MarketingManpowerRepo manpowerRepo;
+    @Autowired
+    private MessageManager messageManager;
 
     @Override
     public String query(MessageQueryRequest request){
@@ -144,8 +149,16 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
     }
 
     @Override
+    @Transactional
     public String push(MessagePushRequest request){
         CommonResponse response = new CommonResponse();
+        //查询自定义消息
+        Optional<MessageCustom> op = customRepo.findById(request.getMessageId());
+        if (!op.isPresent()){
+            return response.setError(ErrorType.NOCUSTOM);
+        }
+        MessageCustom custom = op.get();
+        //转换推送类别
         PushType pushType = null;
         try {
             pushType = PushType.fromCode(request.getPushType());
@@ -154,19 +167,34 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
         }
         for (String code : request.getCodeList()) {
             List<MarketingManpower> manpowerList = Lists.newArrayList();
+            String pushName = null;
             if (pushType == PushType.RANK) {//按职级推送
+                PositionsClass positionsClass;
                 try {
-                    PositionsClass.valueOf(code);
+                    positionsClass = PositionsClass.valueOf(code);
                 } catch (IllegalArgumentException e) {
                     logger.error("无此职级{}", code);
+                    return response.setError(ErrorType.CONVERT, "无此职级" + code);
                 }
-                manpowerList = manpowerRepo.listByAgentGrade(code);
+                manpowerList = manpowerRepo.listByAgentGrade(positionsClass.name());
+                if (isEmpty(manpowerList)){
+                    return response.setError(ErrorType.CONVERT, "该职级无人员：" + code);
+                }
+                pushName = positionsClass.getValue();
             }else if (pushType == PushType.CAMP) {//按营服推送
                 manpowerList = manpowerRepo.listByDeptCode1(code);
+                if (isEmpty(manpowerList)){
+                    return response.setError(ErrorType.CONVERT, "该营服无人员：" + code);
+                }
+                pushName = manpowerList.get(0).getDeptName1();
             }
+            //获取工号集合
+            List<String> agentCodes = manpowerList.stream().map(MarketingManpower::getAgentCode).collect(Collectors.toList());
+            //推送消息
+            messageManager.sendText(custom, agentCodes);
+            //保存推送记录
+            saveSendLog(custom, pushType, code, pushName);
         }
-        //推送消息 TODO
-
         try {
             addSysLog("推送试卷" + request.getMessageId() + "至" + PushType.fromCode(request.getPushType()).getValue() + JsonTools.toJsonStr(request.getCodeList()),
                     request.getToken(), request.getMessageId());
@@ -175,6 +203,24 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
         }
         response.setMessage("推送成功！");
         return response.toJson();
+    }
+
+    /**
+     * @Name saveSendLog
+     * @Author HuoJiaJin
+     * @Description 保存推送记录
+     * @Date 2021/3/11 18:29
+     * @Param [custom, pushType, code, pushName]
+     * @Return void
+     **/
+    private void saveSendLog(MessageCustom custom, PushType pushType, String code, String pushName) {
+        MessageCustomLog log = new MessageCustomLog();
+        log.setMessageId(custom.getId());
+        log.setPushType(pushType);
+        log.setPushCode(code);
+        log.setPushName(pushName);
+        log.setPushTime(LocalDateTime.now());
+        customLogRepo.save(log);
     }
 
 

@@ -1,11 +1,11 @@
 package hx.service.mobile.manage.common;
 
+import hx.base.core.dao.dict.share.ShareType;
+import hx.base.core.dao.entity.share.ShareData;
+import hx.base.core.dao.repo.jpa.share.ShareDataRepo;
 import hx.base.core.manage.common.CommonAbstract;
 import hx.base.core.manage.tools.JsonTools;
-import hx.base.core.manage.tools.httpclient.HttpClientHelper;
 import hx.service.mobile.manage.tools.MyMecachedPrefix;
-import hx.service.mobile.model.common.AccessTokenModel;
-import hx.service.mobile.model.common.HXCommonResponse;
 import hx.service.mobile.model.login.MobileUserModel;
 import net.spy.memcached.MemcachedClient;
 import org.apache.commons.codec.binary.Base64;
@@ -42,14 +42,12 @@ public abstract class AbstractMobileManager extends CommonAbstract {
 
     @Value("${serialNo}")
     private String serialNo;
-    @Value("${appId}")
-    protected String appId;
-    @Value("${secretKey}")
-    protected String secretKey;
     @Value("${url}")
     protected String url;
     @Autowired
     protected MemcachedClient memcachedClient;
+    @Autowired
+    private ShareDataRepo shareDataRepo;
 
     /**
      * @Name post
@@ -120,22 +118,11 @@ public abstract class AbstractMobileManager extends CommonAbstract {
     }
 
     private String getToken() throws IOException {
-        Object accessTokenObj = memcachedClient.get("mobile:accessToken");
-        if (null == accessTokenObj){
-            HXCommonResponse<AccessTokenModel> response;
-            try {
-                String responseStr = HttpClientHelper.httpGet(new URI(url + "/oauth2/token?app_id=" + appId + "&secret_key=" + secretKey), "UTF-8");
-                response = JsonTools.json2Object(responseStr, HXCommonResponse.class, AccessTokenModel.class);
-            } catch (Exception e) {
-                logger.error("", e);
-                throw new IOException(e.getMessage());
-            }
-            if (!response.getCode().equals("0")) throw new IOException(response.getMessage());
-            String accessToken = response.getData().getAccess_token();
-            memcachedClient.set("mobile:accessToken", 60*60, accessToken);
-            return accessToken;
+        ShareData shareData = shareDataRepo.findByType(ShareType.ACCESSTOKEN);
+        if (shareData == null){
+            throw new IOException("======未获取到accessToken");
         }else {
-            return (String)accessTokenObj;
+            return shareData.getData();
         }
     }
 

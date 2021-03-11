@@ -17,12 +17,12 @@ import hx.base.core.dao.repo.jpa.radar.RadarGradeRepo;
 import hx.base.core.dao.repo.jpa.test.integral.IntegralRepo;
 import hx.base.core.dao.repo.jpa.test.integral.IntegralSignInRepo;
 import hx.base.core.manage.model.CommonResponse;
+import hx.base.core.manage.model.HXCommonResponse;
 import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.MyTimeTools;
 import hx.base.core.manage.tools.SecurityUtil;
 import hx.service.mobile.manage.common.AbstractMobileManager;
 import hx.service.mobile.manage.tools.MyMecachedPrefix;
-import hx.service.mobile.model.common.HXCommonResponse;
 import hx.service.mobile.model.login.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +49,10 @@ import java.util.stream.Collectors;
 @Service
 public class LoginManagerImpl extends AbstractMobileManager implements LoginManager {
 
+    @Value("${appId}")
+    protected String appId;
+    @Value("${secretKey}")
+    protected String secretKey;
     @Value("${redirectUrl}")
     private String redirectUrl;
     @Autowired

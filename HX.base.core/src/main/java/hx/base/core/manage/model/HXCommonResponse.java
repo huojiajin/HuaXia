@@ -1,4 +1,4 @@
-package hx.service.mobile.model.common;
+package hx.base.core.manage.model;
 
 import hx.base.core.dao.entity.common.BaseEntity;
 

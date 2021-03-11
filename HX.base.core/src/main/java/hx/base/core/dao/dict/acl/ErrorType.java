@@ -30,6 +30,10 @@ public enum ErrorType {
     NOTRAIN(70020, "培训场次不存在"){},
     //荣誉
     NOHONOR(70031, "荣誉不存在"){},
+    //自定义消息
+    NOCUSTOM(70041, "自定义消息不存在"){},
+
+
     //移动端
     //登录
     NOEMPLAYEE(70100, "客户无法访问本系统"){},
@@ -40,6 +44,7 @@ public enum ErrorType {
     HASLEARNED(70112, "已学习过该资料，不获得积分"){},
     HASSIGNUP(70113, "不可重复签到"){},
     HASCOMPLETED(70114, "试卷已作答，不可重复提交"){}
+
     ;
 
     private final int errCode;
