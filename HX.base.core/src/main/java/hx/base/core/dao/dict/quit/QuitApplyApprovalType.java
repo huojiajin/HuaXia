@@ -10,9 +10,12 @@ package hx.base.core.dao.dict.quit;
 public enum QuitApplyApprovalType {
     RECOMMEND("推荐人审批"){},
     GROUP("组经理审批"){},
+    REAR("育成人审批"){},
     SECTION("区域总审批"){},
-    REAR("一代组育成人审批"){},
     CHIEF("总监审批"){},
+    ZX("营服组训审批"){},
+    YFJL("营服经理审批 "){},
+    FGSRG("分公司人管审批"){},
     ;
 
     QuitApplyApprovalType(String value) {

@@ -30,6 +30,7 @@ public class QuitApplyFlow extends AbstractInsertTimeEntity {
     private LocalDateTime startTime;//审批开始时间
     private LocalDateTime endTime;//审批结束时间
     private byte[] signImg;//签字图片
+    private QuitApplyApprovalType NextApprovalType;//下一个审批阶段
 
     @Column(name = "apply_id")
     public String getApplyId() {
@@ -114,5 +115,15 @@ public class QuitApplyFlow extends AbstractInsertTimeEntity {
 
     public void setSignImg(byte[] signImg) {
         this.signImg = signImg;
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "next_approval_type")
+    public QuitApplyApprovalType getNextApprovalType() {
+        return NextApprovalType;
+    }
+
+    public void setNextApprovalType(QuitApplyApprovalType nextApprovalType) {
+        NextApprovalType = nextApprovalType;
     }
 }

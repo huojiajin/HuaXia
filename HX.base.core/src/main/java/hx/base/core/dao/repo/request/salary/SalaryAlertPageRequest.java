@@ -19,7 +19,7 @@ public class SalaryAlertPageRequest extends JpaPageableDataRequest<SalaryAlert> 
     private String sectionCode;//部代码
     private String groupCode;//组代码
     private LocalDate month;//月份
-    private boolean person;
+    private boolean person;//是否查询个人
 
     public SalaryAlertPageRequest() {
         this.orderBy = "insertTime";

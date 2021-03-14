@@ -3,6 +3,7 @@ package hx.service.manage.message;
 import hx.base.core.manage.tools.httpclient.HttpClientHelper;
 import hx.service.manage.ApplicationTests;
 import hx.service.manage.model.message.MessageAddRequest;
+import hx.service.manage.model.message.MessageQueryRequest;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.io.IOException;
  **/
 public class TestMessage extends ApplicationTests {
 
-    private static final String token = "d3d88221b8c9416b9ed0e15140f2b2c4";
+    private static final String token = "9dec44d1f9bc49cab5ade7d020b0416b";
 
     @Test
     void add() throws IOException {
@@ -30,6 +31,17 @@ public class TestMessage extends ApplicationTests {
         request.setContent("文字内容");
 //        String url = "http://39.106.226.73/manage/message/add";
         String url = "http://localhost/manage/message/add";
+        String s = HttpClientHelper.jsonPost(url, request.toJson());
+        echo(s);
+    }
+
+    @Test
+    void query() throws IOException {
+        MessageQueryRequest request = new MessageQueryRequest();
+        request.setToken(token);
+        request.setResourceCode(6);
+//        String url = "http://39.106.226.73/manage/message/query";
+        String url = "http://localhost/manage/message/query";
         String s = HttpClientHelper.jsonPost(url, request.toJson());
         echo(s);
     }

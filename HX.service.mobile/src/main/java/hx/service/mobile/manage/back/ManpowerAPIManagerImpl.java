@@ -13,8 +13,8 @@ import hx.base.core.dao.repo.jpa.radar.RadarGradeRepo;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.MyTimeTools;
 import hx.service.mobile.manage.common.AbstractMobileManager;
-import hx.service.mobile.model.kpi.ManpowerAPIRequest;
-import hx.service.mobile.model.kpi.ManpowerAPIResponse;
+import hx.service.mobile.model.back.kpi.ManpowerAPIRequest;
+import hx.service.mobile.model.back.kpi.ManpowerAPIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -66,49 +66,62 @@ public class ManpowerAPIManagerImpl extends AbstractMobileManager implements Man
         apiResponse.setManpower(manpower.toString());
         //当月预收
         Double advanceMonth = businessRepo.sumPreByDeptCode1(campCode, monthStartDate, monthEndDate);
-        BigDecimal advanceMonthBd = new BigDecimal(String.valueOf(advanceMonth))
-                .divide(new BigDecimal(10000), 2, BigDecimal.ROUND_HALF_UP);
-        apiResponse.setAdvanceMonth(advanceMonthBd.toString());
+        if (advanceMonth == null){
+            apiResponse.setAdvanceMonth("0");
+        }else {
+            BigDecimal advanceMonthBd = new BigDecimal(String.valueOf(advanceMonth))
+                    .divide(new BigDecimal(10000), 2, BigDecimal.ROUND_HALF_UP);
+            apiResponse.setAdvanceMonth(advanceMonthBd.toString());
+        }
         //当月承保
         Double insuranceMonth = businessRepo.sumByDeptCode1(campCode, monthStartDate, monthEndDate);
-        BigDecimal insuranceMonthBd = new BigDecimal(String.valueOf(insuranceMonth))
-                .divide(new BigDecimal(10000), 2, BigDecimal.ROUND_HALF_UP);
-        apiResponse.setInsuranceMonth(insuranceMonthBd.toString());
+        if (insuranceMonth == null){
+            insuranceMonth = 0d;
+            apiResponse.setInsuranceMonth("0");
+        }else {
+            BigDecimal insuranceMonthBd = new BigDecimal(String.valueOf(insuranceMonth))
+                    .divide(new BigDecimal(10000), 2, BigDecimal.ROUND_HALF_UP);
+            apiResponse.setInsuranceMonth(insuranceMonthBd.toString());
+        }
         //当月实动
-        Integer realActionMonth = businessRepo.campRealAction(campCode, monthStartDate, monthEndDate, 5000L);
-        apiResponse.setRealActionMonth(realActionMonth.toString());
+        Integer realActionMonth = businessRepo.campRealAction(campCode, monthStartDate, monthEndDate, 5000d);
+        apiResponse.setRealActionMonth(realActionMonth == null ? "0" : realActionMonth.toString());
         //当月万元
         Integer moreWanMonth = businessRepo.campRealAction(campCode, monthStartDate, monthEndDate, 10000L);
-        apiResponse.setMoreWanMonth(moreWanMonth.toString());
+        apiResponse.setMoreWanMonth(moreWanMonth == null ? "0" : moreWanMonth.toString());
 
         //新人情况
         //当月新增
         Integer increasedMonth = manpowerRepo.campMonthNew(campCode, monthStartDate, monthEndDate);
-        apiResponse.setIncreasedMonth(increasedMonth.toString());
+        apiResponse.setIncreasedMonth(increasedMonth == null ? "0" : increasedMonth.toString());
         //当季度新增
         Integer increasedQuarter = manpowerRepo.campMonthNew(campCode, quarterStartDate, quarterEndDate);
-        apiResponse.setIncreasedQuarter(increasedQuarter.toString());
+        apiResponse.setIncreasedQuarter(increasedQuarter == null ? "0" : increasedQuarter.toString());
         //新增实动
-        Integer increasedRealAction = businessRepo.newRealAction(campCode, monthStartDate, monthEndDate, 5000L);
-        apiResponse.setIncreasedRealAction(increasedRealAction.toString());
+        Integer increasedRealAction = businessRepo.newRealAction(campCode, monthStartDate, monthEndDate, 5000d);
+        apiResponse.setIncreasedRealAction(increasedRealAction == null ? "0" : increasedRealAction.toString());
         //新增万元
         Integer increasedWan = businessRepo.newRealAction(campCode, monthStartDate, monthEndDate, 10000L);
-        apiResponse.setIncreasedWan(increasedWan.toString());
+        apiResponse.setIncreasedWan(increasedWan == null ? "0" : increasedWan.toString());
         //新增保费贡献
         Double increasedContribution = businessRepo.sumByDeptCode1AndEmployeeDate(campCode, monthStartDate, monthEndDate);
-        BigDecimal increasedContributionBd = new BigDecimal(String.valueOf(increasedContribution))
-                .divide(new BigDecimal(10000), 2, BigDecimal.ROUND_HALF_UP);
-        apiResponse.setIncreasedContribution(increasedContributionBd.toString());
+        if (increasedContribution == null){
+            apiResponse.setIncreasedContribution("0");
+        }else {
+            BigDecimal increasedContributionBd = new BigDecimal(String.valueOf(increasedContribution))
+                    .divide(new BigDecimal(10000), 2, BigDecimal.ROUND_HALF_UP);
+            apiResponse.setIncreasedContribution(increasedContributionBd.toString());
+        }
 
         //主管情况
         //总监数
         Integer chiefNum = manpowerRepo.countByGrades(campCode, Lists.newArrayList(PositionsClass.AS.name()));
         apiResponse.setChiefNum(chiefNum.toString());
         //部数
-        Integer sectionNum = manpowerRepo.countSection(campCode);
+        Integer sectionNum = manpowerRepo.countSection(campCode).size();
         apiResponse.setSectionNum(sectionNum.toString());
         //组数
-        Integer groupNum = manpowerRepo.countGroup(campCode);
+        Integer groupNum = manpowerRepo.countGroup(campCode).size();
         apiResponse.setGroupNum(groupNum.toString());
         //主管在册人数
         List<PositionsClass> positionsClassList = PositionsType.BC.getPositionsClass();
@@ -119,51 +132,63 @@ public class ManpowerAPIManagerImpl extends AbstractMobileManager implements Man
         apiResponse.setExecutiveNum(executiveNum.toString());
         //主管实动
         Integer executiveRealAction = businessRepo.executiveRealAction(campCode, monthStartDate, monthEndDate, gradeList);
-        apiResponse.setExecutiveRealAction(executiveRealAction.toString());
+        apiResponse.setExecutiveRealAction(executiveRealAction == null ? "0" : executiveRealAction.toString());
         //主管实动率
         BigDecimal executiveRealActionRateBd = null;
-        if (realActionMonth == 0 || realActionMonth == null){
+        if (realActionMonth == null || realActionMonth == 0){
             executiveRealActionRateBd = new BigDecimal("0.00");
         }else {
             executiveRealActionRateBd = new BigDecimal(executiveRealAction)
                     .divide(new BigDecimal(realActionMonth), 4, BigDecimal.ROUND_HALF_UP)
-                    .multiply(new BigDecimal(100));
+                    .multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP);;
         }
         apiResponse.setExecutiveRealActionRate(executiveRealActionRateBd.toString());
 
         //绩优情况
         //MDRT人数
         Integer MDRTNum = businessRepo.campRealAction(campCode, now.withDayOfYear(1), now.plusDays(1), MDRT);
-        apiResponse.setMDRTNum(MDRTNum.toString());
+        apiResponse.setMDRTNum(MDRTNum == null ? "0" : MDRTNum.toString());
         //4星以上人数
         List<StarRating> starRatings = starRatingRepo.listByDeptCode1(campCode);
         Long fourStarNum = starRatings.stream().filter(s -> {
-            Integer star = Integer.valueOf(s.getFhagentGrade().substring(2));
-            return star >= 4;
+            if (hasText(s.getFhagentGrade())) {
+                Integer star = Integer.valueOf(s.getFhagentGrade().substring(2));
+                return star >= 4;
+            }
+            return false;
         }).count();
         apiResponse.setFourStarNum(fourStarNum.toString());
         //4星-5星人数
         Long fiveStarNum = starRatings.stream().filter(s -> {
-            Integer star = Integer.valueOf(s.getFhagentGrade().substring(2));
-            return star >= 4 && star <= 5;
+            if (hasText(s.getFhagentGrade())) {
+                Integer star = Integer.valueOf(s.getFhagentGrade().substring(2));
+                return star >= 4 && star <= 5;
+            }
+            return false;
         }).count();
         apiResponse.setFiveStarNum(fiveStarNum.toString());
         //6星-9星人数
         Long sixStarNum = starRatings.stream().filter(s -> {
-            Integer star = Integer.valueOf(s.getFhagentGrade().substring(2));
-            return star >= 6 && star <= 9;
+            if (hasText(s.getFhagentGrade())) {
+                Integer star = Integer.valueOf(s.getFhagentGrade().substring(2));
+                return star >= 6 && star <= 9;
+            }
+            return false;
         }).count();
         apiResponse.setSixStarNum(sixStarNum.toString());
         //10星以上人数
         Long tenStarNum = starRatings.stream().filter(s -> {
-            Integer star = Integer.valueOf(s.getFhagentGrade().substring(2));
-            return star >= 10;
+            if (hasText(s.getFhagentGrade())) {
+                Integer star = Integer.valueOf(s.getFhagentGrade().substring(2));
+                return star >= 10;
+            }
+            return false;
         }).count();
-        apiResponse.setSixStarNum(tenStarNum.toString());
+        apiResponse.setTenStarNum(tenStarNum.toString());
         //星级人数占比
         BigDecimal starRateBd = new BigDecimal(fourStarNum)
                 .divide(new BigDecimal(manpower), 4, BigDecimal.ROUND_HALF_UP)
-                .multiply(new BigDecimal(100));
+                .multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP);
         apiResponse.setStarRate(starRateBd.toString());
         //星级主管人数
         Integer starExecutive = starRatingRepo.countExecutive(campCode, gradeList);
@@ -173,19 +198,19 @@ public class ManpowerAPIManagerImpl extends AbstractMobileManager implements Man
         apiResponse.setStarNotExecutive(starNotExecutive.toString());
         //星级保费贡献
         Double starContribution = businessRepo.starContribution(campCode, monthStartDate, monthEndDate);
-        apiResponse.setStarContribution(starContribution.toString());
+        apiResponse.setStarContribution(starContribution == null ? "0" : starContribution.toString());
         //星级保费占比
         BigDecimal starContributionRateBd = null;
         if (insuranceMonth == 0){
             starContributionRateBd = new BigDecimal("0.00");
         }else {
             starContributionRateBd = new BigDecimal(starContribution).divide(new BigDecimal(insuranceMonth), 4, BigDecimal.ROUND_HALF_UP)
-                    .multiply(new BigDecimal("100"));
+                    .multiply(new BigDecimal("100")).setScale(2, BigDecimal.ROUND_HALF_UP);;
         }
         apiResponse.setStarContributionRate(starContributionRateBd.toString());
         //主管星级化
-        BigDecimal starExecutiveRateBd = new BigDecimal(fourStarNum).divide(new BigDecimal(executiveNum), 2, BigDecimal.ROUND_HALF_UP)
-                .multiply(new BigDecimal("100"));
+        BigDecimal starExecutiveRateBd = new BigDecimal(executiveNum).divide(new BigDecimal(fourStarNum), 2, BigDecimal.ROUND_HALF_UP)
+                .multiply(new BigDecimal("100")).setScale(2, BigDecimal.ROUND_HALF_UP);;
         apiResponse.setStarExecutiveRate(starExecutiveRateBd.toString());
 
         //架构情况-部

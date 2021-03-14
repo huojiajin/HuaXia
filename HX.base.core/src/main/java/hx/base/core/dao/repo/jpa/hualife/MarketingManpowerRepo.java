@@ -65,6 +65,9 @@ public interface MarketingManpowerRepo extends AbstractJpaRepo<MarketingManpower
     @Query("select deptName2 as directorName, deptCode2 as directorCode, count(agentCode) as num from MarketingManpower where outworkDate is null and deptCode1 = ?1 group by deptName2, deptCode2")
     List<Map<String, String>> groupByDirector(String campCode);
 
+    @Query("select deptName2 as directorName, deptCode2 as directorCode, count(agentCode) as num from MarketingManpower where outworkDate is null group by deptName2, deptCode2")
+    List<Map<String, String>> groupByDirectorAll();
+
     @Query("select deptName3 as sectionName, deptCode3 as sectionCode, count(agentCode) as num from MarketingManpower where outworkDate is null and deptCode2 = ?1 group by deptName3, deptCode3")
     List<Map<String, String>> groupBySection(String directorCode);
 
@@ -75,11 +78,11 @@ public interface MarketingManpowerRepo extends AbstractJpaRepo<MarketingManpower
     Integer countByDeptCode1(String deptCode1);
 
     @Query("select count(agentCode) from MarketingManpower where deptCode1 = ?1 and agentGrade in ?2 and outworkDate is null")
-    Integer countByGrades(String campCode, List<String> gradeList);
+    Integer countByGrades(String deptCode1, List<String> gradeList);
 
     @Query("select count(deptCode3) from MarketingManpower where deptCode1 = ?1 group by deptCode3")
-    Integer countSection(String campCode);
+    List<Integer> countSection(String campCode);
 
     @Query("select count(deptCode4) from MarketingManpower where deptCode1 = ?1 group by deptCode4")
-    Integer countGroup(String campCode);
+    List<Integer> countGroup(String campCode);
 }

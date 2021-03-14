@@ -25,6 +25,7 @@ public class LoginResponse extends BaseEntity {
     private List<Integer> resourceCodeList;//资源代码集合
     private boolean hasSignIn;//是否已签到
     private Integer type;//展示类型 1、雷达图 2、入职时长 3、内勤
+    private String campName;//营服名称
 
     public String getEmployeeNum() {
         return employeeNum;
@@ -120,5 +121,13 @@ public class LoginResponse extends BaseEntity {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getCampName() {
+        return campName;
+    }
+
+    public void setCampName(String campName) {
+        this.campName = campName;
     }
 }

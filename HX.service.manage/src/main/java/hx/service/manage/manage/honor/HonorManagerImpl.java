@@ -2,12 +2,12 @@ package hx.service.manage.manage.honor;
 
 import hx.base.core.dao.dict.acl.ErrorType;
 import hx.base.core.dao.dict.honor.HonorStatus;
-import hx.base.core.dao.entity.hualife.MarketingManpower;
 import hx.base.core.dao.entity.honor.Honor;
 import hx.base.core.dao.entity.honor.HonorPeople;
-import hx.base.core.dao.repo.jpa.hualife.MarketingManpowerRepo;
+import hx.base.core.dao.entity.hualife.MarketingManpower;
 import hx.base.core.dao.repo.jpa.honor.HonorPeopleRepo;
 import hx.base.core.dao.repo.jpa.honor.HonorRepo;
+import hx.base.core.dao.repo.jpa.hualife.MarketingManpowerRepo;
 import hx.base.core.dao.repo.request.common.Pagination;
 import hx.base.core.dao.repo.request.honor.HonorPageRequest;
 import hx.base.core.manage.model.CommonResponse;
@@ -74,9 +74,7 @@ public class HonorManagerImpl extends AbstractExcelManager implements HonorManag
         model.setId(entity.getId());
         model.setName(entity.getName());
         model.setStatus(entity.getStatus().getCode());
-        byte[] iconBytes = entity.getIcon();
-        String base64 = new String(Base64.encodeBase64(iconBytes));
-        model.setIcon(base64);
+        model.setIcon(new String(entity.getIcon()));
         model.setCreateTime(MyTimeTools.timeToStr(entity.getInsertTime(), "yyyy-MM-dd"));
         return model;
     }
@@ -86,7 +84,7 @@ public class HonorManagerImpl extends AbstractExcelManager implements HonorManag
         CommonResponse response = new CommonResponse();
         Honor honor = new Honor();
         honor.setName(request.getName());
-        honor.setIcon(Base64.decodeBase64(request.getIcon()));
+        honor.setIcon(request.getIcon().getBytes());
         honorRepo.persist(honor);
 //        honorRepo.blobSave(honor, "icon", new ByteArrayInputStream(Base64.decodeBase64(request.getIcon())));
         addSysLog("添加荣誉", request.getToken(), honor.getId());

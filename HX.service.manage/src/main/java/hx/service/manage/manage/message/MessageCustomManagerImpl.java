@@ -20,7 +20,6 @@ import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.MyTimeTools;
 import hx.service.manage.manage.common.AbstractManager;
 import hx.service.manage.model.message.*;
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,9 +69,7 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
         if (entity.getContentType() == ContentType.TEXT){
             model.setContent(entity.getContent());
         }else if (entity.getContentType() == ContentType.IMAGE){
-            byte[] imageBytes = entity.getImage();
-            String base64 = new String(Base64.encodeBase64(imageBytes));
-            model.setContent(base64);
+            model.setContent(new String(entity.getImage()));
         }
         model.setDeadline(entity.getDeadline().toString());
         return model;
@@ -106,7 +103,7 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
         if (contentType == ContentType.TEXT){
             custom.setContent(request.getContent());
         }else if (contentType == ContentType.IMAGE){
-            custom.setImage(Base64.decodeBase64(request.getContent()));
+            custom.setImage(request.getContent().getBytes());
         }
         custom.setMessageType(messageType);
         custom.setDeadline(LocalDate.parse(request.getDeadline()));

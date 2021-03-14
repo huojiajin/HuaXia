@@ -152,7 +152,8 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
                 return response.setError(ErrorType.CONVERT);
             }
         }else if (mobileUser.getEmployee_type().equals("0")){//TODO 当员工为内勤时
-
+            loginResponse.setType(3);
+            loginResponse.setCampName(mobileUser.getCenter_branch_name());
         }
         response.setData(loginResponse);
         return response.toJson();

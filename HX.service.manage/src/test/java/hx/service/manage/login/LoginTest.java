@@ -56,8 +56,8 @@ public class LoginTest extends ApplicationTests {
         LoginRequest request = new LoginRequest();
         request.setLoginName("000000001");
         request.setPassword("1234567");
-        request.setVerifyId("2cd9a1409558401a928f69830a742ad5");
-        request.setVerifyCode("k7h8");
+        request.setVerifyId("16e31b8ff2d5417fa7f0bc7793776275");
+        request.setVerifyCode("gjkr");
 //        String url = "http://39.106.226.73/manage/login/login";
         String url = "http://localhost/manage/login/login";
 

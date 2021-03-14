@@ -1,10 +1,12 @@
 package hx.base.core.dao.entity.quit;
 
+import hx.base.core.dao.dict.quit.QuitApplyApprovalType;
 import hx.base.core.dao.dict.quit.QuitApplyFlowType;
 import hx.base.core.dao.dict.quit.QuitApplyStatus;
 import hx.base.core.dao.entity.common.AbstractInsertTimeEntity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -22,7 +24,7 @@ public class QuitApply extends AbstractInsertTimeEntity {
 
     private String name;//申请人名称
     private String agentCode;//工号
-    private LocalDateTime entryTime;//入职时间
+    private LocalDate entryTime;//入职时间
     private String campName;//营服名称
     private String campCode;//营服代码
     private String sectionName;//部名称
@@ -32,8 +34,9 @@ public class QuitApply extends AbstractInsertTimeEntity {
     private String reason;//原因
     private LocalDateTime applyTime;//申请时间
     private QuitApplyFlowType flowType;//审批流程类别
+    private QuitApplyApprovalType approvalType;//当前审批环节
     private String currentExaminer;//当前审批人
-    private QuitApplyStatus status;//状态
+    private QuitApplyStatus status = QuitApplyStatus.NEW;//状态
     private byte[] idCardFrontImg;//身份证正面图片
     private byte[] idCardBackImg;//身份证背面图片
     private byte[] signImg;//申请人签字图片
@@ -57,11 +60,11 @@ public class QuitApply extends AbstractInsertTimeEntity {
     }
 
     @Column(name = "entry_time")
-    public LocalDateTime getEntryTime() {
+    public LocalDate getEntryTime() {
         return entryTime;
     }
 
-    public void setEntryTime(LocalDateTime entryTime) {
+    public void setEntryTime(LocalDate entryTime) {
         this.entryTime = entryTime;
     }
 
@@ -145,6 +148,16 @@ public class QuitApply extends AbstractInsertTimeEntity {
 
     public void setFlowType(QuitApplyFlowType flowType) {
         this.flowType = flowType;
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "approval_type")
+    public QuitApplyApprovalType getApprovalType() {
+        return approvalType;
+    }
+
+    public void setApprovalType(QuitApplyApprovalType approvalType) {
+        this.approvalType = approvalType;
     }
 
     @Column(name = "current_examiner")

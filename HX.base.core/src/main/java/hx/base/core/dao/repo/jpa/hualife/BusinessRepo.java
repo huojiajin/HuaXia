@@ -59,7 +59,7 @@ public interface BusinessRepo extends AbstractJpaRepo<Business, String> {
      **/
     @Query("select count(agentCode) from Business where deptCode1 = ?1 and issueDate >= ?2 and issueDate < ?3 " +
             "group by agentCode having sum(writtenStadPrem) >= ?4")
-    Integer campRealAction(String campCode, LocalDate issueDateStart, LocalDate issueDateEnd, long minStadprem);
+    Integer campRealAction(String campCode, LocalDate issueDateStart, LocalDate issueDateEnd, double minStadprem);
 
     /**
      * @Name newRealAction
@@ -71,7 +71,7 @@ public interface BusinessRepo extends AbstractJpaRepo<Business, String> {
      **/
     @Query("select count(agentCode) from Business where deptCode1 = ?1 and employDate >= ?2 and employDate < ?3 " +
             "group by agentCode having sum(writtenStadPrem) >= ?4")
-    Integer newRealAction(String campCode, LocalDate employDateStart, LocalDate employDateEnd, long minStadprem);
+    Integer newRealAction(String campCode, LocalDate employDateStart, LocalDate employDateEnd, double minStadprem);
 
     /**
      * @Name sumByDeptCode1AndEmployeeDate
@@ -92,7 +92,7 @@ public interface BusinessRepo extends AbstractJpaRepo<Business, String> {
      * @Param [campCode, issueDateStart, issueDateEnd, gradeList]
      * @Return java.lang.Integer
      **/
-    @Query("select count(agentCode) from Business where deptCode1 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentGrade in ?4" +
+    @Query("select count(agentCode) from Business where deptCode1 = ?1 and issueDate >= ?2 and issueDate < ?3 and agentGrade in (?4)" +
             "group by agentCode having sum(writtenStadPrem) >= 5000")
     Integer executiveRealAction(String campCode, LocalDate issueDateStart, LocalDate issueDateEnd, List<String> gradeList);
 

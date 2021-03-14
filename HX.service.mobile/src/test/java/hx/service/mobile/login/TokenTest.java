@@ -28,8 +28,6 @@ import java.util.stream.Collectors;
  **/
 public class TokenTest extends MobileApplicationTests {
 
-
-
     @Autowired
     private MemcachedClient memcachedClient;
     @Autowired

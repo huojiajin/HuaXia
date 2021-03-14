@@ -9,9 +9,11 @@ package hx.base.core.dao.dict.quit;
  **/
 public enum QuitApplyStatus {
     NEW("新申请", 1){},
-    APPROVALING("审批中", 2){},
-    PASS("审批通过", 3){},
-    NOPASS("审批不通过", 4){},
+    NOTAPPROVAL("未审批", 2){},
+    APPROVALING("审批中", 3){},
+    PASS("审批通过", 4){},
+    NOPASS("审批不通过", 5){},
+    SPECIAL("特批修改", 6){},
     ;
 
     QuitApplyStatus(String value, int code) {
