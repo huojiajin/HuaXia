@@ -3,8 +3,7 @@ package hx.base.core.dao.entity.quit;
 import hx.base.core.dao.dict.quit.QuitAssignType;
 import hx.base.core.dao.entity.common.AbstractInsertTimeEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @name: QuitAssign
@@ -22,6 +21,7 @@ public class QuitAssign extends AbstractInsertTimeEntity {
     private String campName;//营服名称
     private QuitAssignType type;//指派人员类型
 
+    @Column(name = "agent_code")
     public String getAgentCode() {
         return agentCode;
     }
@@ -30,6 +30,7 @@ public class QuitAssign extends AbstractInsertTimeEntity {
         this.agentCode = agentCode;
     }
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -38,6 +39,7 @@ public class QuitAssign extends AbstractInsertTimeEntity {
         this.name = name;
     }
 
+    @Column(name = "camp_code")
     public String getCampCode() {
         return campCode;
     }
@@ -46,6 +48,7 @@ public class QuitAssign extends AbstractInsertTimeEntity {
         this.campCode = campCode;
     }
 
+    @Column(name = "camp_name")
     public String getCampName() {
         return campName;
     }
@@ -54,6 +57,8 @@ public class QuitAssign extends AbstractInsertTimeEntity {
         this.campName = campName;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
     public QuitAssignType getType() {
         return type;
     }

@@ -5,16 +5,17 @@ import hx.base.core.dao.entity.message.MessageSendFail;
 import hx.base.core.dao.repo.jpa.message.MessageSendFailRepo;
 import hx.base.core.manage.model.HXCommonResponse;
 import hx.base.core.manage.tools.JsonTools;
-import hx.base.core.manage.tools.httpclient.HttpClientHelper;
 import hx.service.manage.manage.common.AbstractManager;
-import hx.service.manage.model.message.huaxia.MessageTextModel;
 import hx.service.manage.model.message.huaxia.MessageSendModel;
 import hx.service.manage.model.message.huaxia.MessageSendRequest;
+import hx.service.manage.model.message.huaxia.MessageTextModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,7 +43,11 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
     @Override
     public boolean sendTextOne(MessageCustom messageCustom, String agentCode) {
         MessageSendRequest request = new MessageSendRequest();
-        request.setMsg_id(serialNo + System.currentTimeMillis() + String.format("%06d", Math.random() * 1000000 - 1));
+        BigDecimal random = new BigDecimal(Math.random() * 1000000 - 1).setScale(0, BigDecimal.ROUND_HALF_UP);
+        //获取时间戳
+        Date date = new Date();
+        Long timestamp = Long.valueOf(String.valueOf(date.getTime()));
+        request.setMsg_id(serialNo + timestamp + String.format("%06d", random.intValue()));
         MessageSendModel<MessageTextModel> sendModel = new MessageSendModel();
         sendModel.setTouser(agentCode);
         MessageTextModel contentModel = new MessageTextModel();
@@ -51,13 +56,16 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
         request.setBusi_data(sendModel);
         HXCommonResponse response = null;
         try {
-            String responseStr = HttpClientHelper.jsonPost(url + textUrl, request.toJson());
+            logger.info("======请求信息为：" + request.toJson());
+            String responseStr = hxPost(url + textUrl, request.toJson());
             response = JsonTools.json2Object(responseStr, HXCommonResponse.class);
+            logger.info("======返回信息为：" + response.toJson());
         } catch (IOException e) {
-            failSave(messageCustom, agentCode, response, e.getMessage());
+            failSave(messageCustom, agentCode, e.getMessage());
+            return false;
         }
         if (!response.getCode().equals("0")){
-            failSave(messageCustom, agentCode, response, response.getMessage());
+            failSave(messageCustom, agentCode, response.getMessage());
         }else{
             return true;
         }
@@ -72,7 +80,7 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
      * @Param [messageCustom, agentCode, response, message]
      * @Return void
      **/
-    private void failSave(MessageCustom messageCustom, String agentCode, HXCommonResponse response, String message) {
+    private void failSave(MessageCustom messageCustom, String agentCode, String message) {
         logger.error("======发送信息至{}时报错，报错信息为：{}，发送消息为：{}", agentCode, message, messageCustom.getId());
         MessageSendFail fail = sendFailRepo.findByCustomIdAndAgentCode(messageCustom.getId(), agentCode);
         if (fail == null) {
@@ -80,7 +88,7 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
             fail.setAgentCode(agentCode);
             fail.setCustomId(messageCustom.getId());
         }
-        fail.setMessage(response.getMessage());
+        fail.setMessage(message);
         sendFailRepo.save(fail);
     }
 }

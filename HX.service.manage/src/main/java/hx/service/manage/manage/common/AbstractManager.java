@@ -12,7 +12,6 @@ import hx.service.manage.manage.tools.MyMecachedPrefix;
 import net.spy.memcached.MemcachedClient;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
-import org.apache.http.StatusLine;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -30,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -80,21 +78,19 @@ public abstract class AbstractManager extends CommonAbstract {
             StringEntity stringEntity = new StringEntity(body, "UTF-8");
             logger.info("请求体是【{}】",stringEntity);
             httpPost.setEntity(stringEntity);
-            String result = null;
+            //处理返回参数
+            String result;
             response = httpclient.execute(httpPost);
             HttpEntity entity = response.getEntity();
-            if (entity == null)
-            {
-                logger.info("Http response's entity is null.");
-                return "";
+            int httpCode = response.getStatusLine().getStatusCode();
+            if(200 == httpCode){
+                result = EntityUtils.toString(entity,"UTF-8").trim();
+                logger.info("服务器请求成功,返回结果:{}",result);
+            }else{
+                result = EntityUtils.toString(entity,"UTF-8").trim();
+                logger.error("失败HTTP状态码:【{}】失败信息【{}】",response.getStatusLine().getStatusCode(),result);
+                throw new IOException("请求网关失败:" + result);
             }
-            StatusLine sl = response.getStatusLine();
-            int code = sl.getStatusCode();
-            HttpEntity resEntity = entity;
-            String res = EntityUtils.toString(resEntity, StandardCharsets.UTF_8.name());
-            int rawLen = res == null ? 0 : res.length();
-            logger.debug("response entity length,transfer length:{} ;raw lengthr:{}", resEntity.getContentLength(), rawLen);
-            if (code >= 400) throw new IOException("Request Error:" + sl + "\n" + res);
             return result;
         } catch (UnsupportedEncodingException e) {
             logger.info("错误信息为：[{}]",e);

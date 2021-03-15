@@ -67,7 +67,7 @@ public class AclHandlerInterceptor extends HandlerInterceptorAdapter {
                             return errorResponse(response, ErrorType.NORESOURCE);
                         }
                     }else {
-                        memcachedClient.set(MyMecachedPrefix.loginResourcePrefix + user.getId(), 10 * 60, resourceCodeList);
+                        memcachedClient.set(MyMecachedPrefix.loginResourcePrefix + user.getId(), 30 * 60, resourceCodeList);
                         boolean contains = resourceCodeList.contains(resourceCode) || resourceCode == 99;
                         if (!contains) {
                             return errorResponse(response, ErrorType.NORESOURCE);
@@ -81,7 +81,7 @@ public class AclHandlerInterceptor extends HandlerInterceptorAdapter {
                         if (CollectionTools.isEmpty(resourceCodeList) || !resourceCodeListNew.contains(resourceCode)) {
                             return errorResponse(response, ErrorType.NORESOURCE);
                         }
-                        memcachedClient.set(MyMecachedPrefix.loginResourcePrefix + user.getId(), 10 * 60, resourceCodeListNew);
+                        memcachedClient.set(MyMecachedPrefix.loginResourcePrefix + user.getId(), 30 * 60, resourceCodeListNew);
                     } else {
                         memcachedClient.touch(resourceKey, 30 * 60);
                     }

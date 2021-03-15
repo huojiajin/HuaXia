@@ -70,6 +70,7 @@ public class AccessTokenQuartz extends CommonQuartz {
                 data.setData(accessToken);
             }
             shareDataRepo.save(data);
+            logger.info("======生成accessToken:" + accessToken);
         }
     }
 }
