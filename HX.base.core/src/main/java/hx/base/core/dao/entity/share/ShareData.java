@@ -3,9 +3,7 @@ package hx.base.core.dao.entity.share;
 import hx.base.core.dao.dict.share.ShareType;
 import hx.base.core.dao.entity.common.StringUUIDEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @name: ShareData
@@ -20,6 +18,7 @@ public class ShareData extends StringUUIDEntity {
     private ShareType type;
     private String data;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", unique = true)
     public ShareType getType() {
         return type;

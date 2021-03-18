@@ -10,9 +10,9 @@ import hx.base.core.dao.entity.common.BaseEntity;
  */
 public class MessageSendModel<T extends BaseEntity> extends BaseEntity {
 
-    private String touser;//成员ID列表；员工工号
-    private String toparty;//部门ID列表；
-    private String totag;//标签ID列表；
+    private String touser = "";//成员ID列表；员工工号
+    private String toparty = "";//部门ID列表；
+    private String totag = "";//标签ID列表；
     private String msgtype = "text";//消息类型;固定值：text
     private String agentid = "107";//目前固定为《消息中心》，测试环境取值1000024，生产环境取值107
     private String safe = "0";//是否是保密消息，0表示否，1表示是，默认0

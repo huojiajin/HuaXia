@@ -10,7 +10,7 @@ import hx.base.core.dao.entity.common.BaseEntity;
  */
 public class MessageTextModel extends BaseEntity {
 
-    private String content;//消息内容
+    private String content = "";//消息内容
 
     public String getContent() {
         return content;

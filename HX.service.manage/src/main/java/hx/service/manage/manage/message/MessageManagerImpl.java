@@ -30,6 +30,8 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
 
     @Value("${textUrl}")
     private String textUrl;
+    @Value("${agentid}")
+    private String agentid;
     @Autowired
     private MessageSendFailRepo sendFailRepo;
 
@@ -50,6 +52,7 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
         request.setMsg_id(serialNo + timestamp + String.format("%06d", random.intValue()));
         MessageSendModel<MessageTextModel> sendModel = new MessageSendModel();
         sendModel.setTouser(agentCode);
+        sendModel.setAgentid(agentid);
         MessageTextModel contentModel = new MessageTextModel();
         contentModel.setContent(messageCustom.getContent());
         sendModel.setText(contentModel);

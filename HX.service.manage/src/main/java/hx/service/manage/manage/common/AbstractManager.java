@@ -11,6 +11,7 @@ import hx.base.core.manage.tools.JsonTools;
 import hx.service.manage.manage.tools.MyMecachedPrefix;
 import net.spy.memcached.MemcachedClient;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -72,11 +73,16 @@ public abstract class AbstractManager extends CommonAbstract {
             httpPost.setHeader("Content-type", "application/json");
             String headerToken = getToken();//先获取token
             String headerSerialNo = getSerialNo();
-            httpPost.setHeader("Authorization",headerToken);
-            httpPost.setHeader("serial_no",headerSerialNo);
+            httpPost.setHeader("Authorization", headerToken);
+            httpPost.setHeader("serial_no", headerSerialNo);
+            logger.info("======请求头信息为：");
+            for (Header header : httpPost.getAllHeaders()) {
+                System.out.println(header.getName() + ":" + header.getValue());
+            }
             //添加请求体
             StringEntity stringEntity = new StringEntity(body, "UTF-8");
-            logger.info("请求体是【{}】",stringEntity);
+            //处理后的String
+            logger.info("请求体是【{}】", body);
             httpPost.setEntity(stringEntity);
             //处理返回参数
             String result;
@@ -209,6 +215,11 @@ public abstract class AbstractManager extends CommonAbstract {
     }
 
     protected String inputStreamToBase64Str(InputStream is) throws IOException {
+        byte[] data = inputStreamToString(is);
+        return new String(Base64.encodeBase64(data));
+    }
+
+    private byte[] inputStreamToString(InputStream is) throws IOException {
         byte[] data = null;
         try {
             ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
@@ -230,6 +241,6 @@ public abstract class AbstractManager extends CommonAbstract {
                 }
             }
         }
-        return new String(Base64.encodeBase64(data));
+        return data;
     }
 }

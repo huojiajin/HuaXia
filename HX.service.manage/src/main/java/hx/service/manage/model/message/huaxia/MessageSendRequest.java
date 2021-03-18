@@ -10,9 +10,9 @@ import hx.base.core.dao.entity.common.BaseEntity;
  */
 public class MessageSendRequest extends BaseEntity {
 
-    private String msg_id;//消息id；appid的流水号段(serial_no) + timestamp（精确到毫秒） + 6位随机数
-    private String busi_msg_type;//业务消息类型
-    private String msg_remarks;//消息备注
+    private String msg_id = "";//消息id；appid的流水号段(serial_no) + timestamp（精确到毫秒） + 6位随机数
+    private String busi_msg_type = "";//业务消息类型
+    private String msg_remarks = "";//消息备注
     private MessageSendModel busi_data;//业务数据
 
     public String getMsg_id() {
