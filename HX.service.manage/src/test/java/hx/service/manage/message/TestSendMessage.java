@@ -27,7 +27,7 @@ public class TestSendMessage extends ApplicationTests {
 
     @Test
     void test(){
-        Optional<MessageCustom> op = customRepo.findById("5b149485cb234addbc55cb48f1e451ea");
+        Optional<MessageCustom> op = customRepo.findById("c09a2c36e69f4958a2f21f92fb55b290");
         MessageCustom custom = op.get();
         manager.sendTextOne(custom, "luchaochao");
     }

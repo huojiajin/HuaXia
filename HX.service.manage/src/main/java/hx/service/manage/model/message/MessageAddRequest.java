@@ -16,6 +16,8 @@ public class MessageAddRequest extends CommonRequest {
     private int messageType;//消息类别
     private String content;//消息内容
     private String deadline;//截止时间
+    private String title;//标题
+    private String description;//描述
 
     public String getName() {
         return name;
@@ -55,5 +57,21 @@ public class MessageAddRequest extends CommonRequest {
 
     public void setDeadline(String deadline) {
         this.deadline = deadline;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

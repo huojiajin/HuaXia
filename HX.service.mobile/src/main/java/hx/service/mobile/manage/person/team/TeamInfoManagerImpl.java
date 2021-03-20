@@ -142,9 +142,10 @@ public class TeamInfoManagerImpl extends AbstractMobileManager implements TeamIn
         if (hasText(request.getSectionCode())){
             if (request.getSectionCode().equals("0")){//查询所有部数据
                 dealSection(user, startDate, endDate, endDateFinally, data);
-            }else if (request.getGroupCode().equals("0") || !hasText(request.getSectionCode())){//查询所有组数据
+            }else if (!request.getSectionCode().equals("0") //部代码不等于0且（组代码无值或组代码等于0）时
+                    && (!hasText(request.getGroupCode()) || request.getGroupCode().equals("0"))){//查询所有组数据
                 dealGroup(request.getSectionCode(), startDate, endDate, endDateFinally, data);
-            }else if (!request.getGroupCode().equals("0")){//查询指定组个人数据
+            }else if (hasText(request.getGroupCode()) && !request.getGroupCode().equals("0")){//查询指定组个人数据
                 dealPerson(request.getGroupCode(), startDate, endDate, endDateFinally, data);
             }
         }else {
@@ -195,7 +196,7 @@ public class TeamInfoManagerImpl extends AbstractMobileManager implements TeamIn
                 boolean isHealth = false;
                 do {
                     Double sumFYC = businessRepo.sumFYCByAgentCode(manpower.getAgentCode(), startDateSelf, endDateSelf);
-                    if (sumFYC >= 1500){
+                    if (sumFYC != null && sumFYC >= 1500){
                         isHealth = true;
                     }
                     startDateSelf = startDateSelf.plusMonths(1);
@@ -289,7 +290,7 @@ public class TeamInfoManagerImpl extends AbstractMobileManager implements TeamIn
                 boolean isHealth = false;
                 do {
                     Double sumFYC = businessRepo.sumFYCByAgentCode(manpower.getAgentCode(), startDateSelf, endDateSelf);
-                    if (sumFYC >= 1500){
+                    if (sumFYC != null && sumFYC >= 1500){
                         isHealth = true;
                     }
                     startDateSelf = startDateSelf.plusMonths(1);

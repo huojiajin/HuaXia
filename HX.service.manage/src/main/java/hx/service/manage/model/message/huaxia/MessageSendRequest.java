@@ -8,12 +8,12 @@ import hx.base.core.dao.entity.common.BaseEntity;
  * @author: huojiajin
  * @time: 2021/3/11 16:09
  */
-public class MessageSendRequest extends BaseEntity {
+public class MessageSendRequest<T extends MessageSendModel> extends BaseEntity {
 
     private String msg_id = "";//消息id；appid的流水号段(serial_no) + timestamp（精确到毫秒） + 6位随机数
     private String busi_msg_type = "";//业务消息类型
     private String msg_remarks = "";//消息备注
-    private MessageSendModel busi_data;//业务数据
+    private T busi_data;//业务数据
 
     public String getMsg_id() {
         return msg_id;
@@ -39,11 +39,11 @@ public class MessageSendRequest extends BaseEntity {
         this.msg_remarks = msg_remarks;
     }
 
-    public MessageSendModel getBusi_data() {
+    public T getBusi_data() {
         return busi_data;
     }
 
-    public void setBusi_data(MessageSendModel busi_data) {
+    public void setBusi_data(T busi_data) {
         this.busi_data = busi_data;
     }
 }

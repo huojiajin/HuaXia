@@ -36,7 +36,7 @@ public class AclHandlerInterceptor extends HandlerInterceptorAdapter {
             String requestURI = request.getRequestURI();
             logger.info("requestURI:{}", requestURI);
             String[] urlSplitArr = requestURI.substring(1).split("/");
-            if (!urlSplitArr[1].equals("login") && !urlSplitArr[1].equals("error")) {//除登陆操作之外
+            if (!urlSplitArr[1].equals("login") && !urlSplitArr[1].equals("error") && !urlSplitArr[1].equals("external")) {//除登陆操作之外
                 String requestData = getOpenApiRequestData(request);
                 if (requestData.length() < 300) logger.info("request:{}", requestData);
                 MobileCommonRequest commonRequest = JsonTools.json2Object(requestData, MobileCommonRequest.class);

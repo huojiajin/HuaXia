@@ -1,14 +1,14 @@
 package hx.service.manage.manage.message;
 
+import com.google.common.collect.Lists;
+import hx.base.core.dao.dict.message.ContentType;
 import hx.base.core.dao.entity.message.MessageCustom;
 import hx.base.core.dao.entity.message.MessageSendFail;
 import hx.base.core.dao.repo.jpa.message.MessageSendFailRepo;
 import hx.base.core.manage.model.HXCommonResponse;
 import hx.base.core.manage.tools.JsonTools;
 import hx.service.manage.manage.common.AbstractManager;
-import hx.service.manage.model.message.huaxia.MessageSendModel;
-import hx.service.manage.model.message.huaxia.MessageSendRequest;
-import hx.service.manage.model.message.huaxia.MessageTextModel;
+import hx.service.manage.model.message.huaxia.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,8 +30,12 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
 
     @Value("${textUrl}")
     private String textUrl;
+    @Value("${picUrl}")
+    private String picUrl;
     @Value("${agentid}")
     private String agentid;
+    @Value("${myPicUrl}")
+    private String myPicUrl;
     @Autowired
     private MessageSendFailRepo sendFailRepo;
 
@@ -50,7 +54,23 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
         Date date = new Date();
         Long timestamp = Long.valueOf(String.valueOf(date.getTime()));
         request.setMsg_id(serialNo + timestamp + String.format("%06d", random.intValue()));
-        MessageSendModel<MessageTextModel> sendModel = new MessageSendModel();
+        if (messageCustom.getContentType() == ContentType.TEXT) {
+            return sendText(messageCustom, agentCode, request);
+        }else {
+            return sendPic(messageCustom, agentCode, request);
+        }
+    }
+
+    /**
+     * @Name sendText
+     * @Author HuoJiaJin
+     * @Description 发送文字消息
+     * @Date 2021/3/20 20:18
+     * @Param [messageCustom, agentCode, request]
+     * @Return boolean
+     **/
+    private boolean sendText(MessageCustom messageCustom, String agentCode, MessageSendRequest request) {
+        MessageSendTextModel sendModel = new MessageSendTextModel();
         sendModel.setTouser(agentCode);
         sendModel.setAgentid(agentid);
         MessageTextModel contentModel = new MessageTextModel();
@@ -61,6 +81,43 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
         try {
             logger.info("======请求信息为：" + request.toJson());
             String responseStr = hxPost(url + textUrl, request.toJson());
+            response = JsonTools.json2Object(responseStr, HXCommonResponse.class);
+            logger.info("======返回信息为：" + response.toJson());
+        } catch (IOException e) {
+            failSave(messageCustom, agentCode, e.getMessage());
+            return false;
+        }
+        if (!response.getCode().equals("0")){
+            failSave(messageCustom, agentCode, response.getMessage());
+        }else{
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @Name sendText
+     * @Author HuoJiaJin
+     * @Description 发送图片消息
+     * @Date 2021/3/20 20:18
+     * @Param [messageCustom, agentCode, request]
+     * @Return boolean
+     **/
+    private boolean sendPic(MessageCustom messageCustom, String agentCode, MessageSendRequest request) {
+        MessageSendPicModel sendModel = new MessageSendPicModel();
+        MessagePicModel newsModel = new MessagePicModel();
+        MessagePicContentModel contentModel = new MessagePicContentModel();
+        contentModel.setTitle(messageCustom.getTitle());
+        contentModel.setDescription(messageCustom.getDescription());
+        contentModel.setPicurl(myPicUrl + messageCustom.getId());
+        List<MessagePicContentModel> articles = Lists.newArrayList(contentModel);
+        newsModel.setArticles(articles);
+        sendModel.setNews(newsModel);
+        request.setBusi_data(sendModel);
+        HXCommonResponse response = null;
+        try {
+            logger.info("======请求信息为：" + request.toJson());
+            String responseStr = hxPost(url + picUrl, request.toJson());
             response = JsonTools.json2Object(responseStr, HXCommonResponse.class);
             logger.info("======返回信息为：" + response.toJson());
         } catch (IOException e) {

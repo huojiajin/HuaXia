@@ -95,6 +95,14 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
             if (!hasText(request.getContent())){
                 return response.setError(ErrorType.CONVERT, "消息内容不能为空");
             }
+            if (contentType == ContentType.IMAGE){
+                if (!hasText(request.getTitle())){
+                    return response.setError(ErrorType.CONVERT, "图片类型消息标题不能为空");
+                }
+                if (!hasText(request.getDescription())){
+                    return response.setError(ErrorType.CONVERT, "图片类型消息描述不能为空");
+                }
+            }
         }
         //拼装并保存实体
         MessageCustom custom = new MessageCustom();
@@ -103,6 +111,8 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
         if (contentType == ContentType.TEXT){
             custom.setContent(request.getContent());
         }else if (contentType == ContentType.IMAGE){
+            custom.setTitle(request.getTitle());
+            custom.setDescription(request.getDescription());
             custom.setImage(request.getContent().getBytes());
         }
         custom.setMessageType(messageType);

@@ -36,9 +36,9 @@ public class TestTeamInfo {
         TeamInfoQueryRequest request = new TeamInfoQueryRequest();
         request.setToken(token);
         request.setEndDate("2021-03");
-        request.setGroupCode("861102010602004");
-        request.setSectionCode("861102010602");
-        request.setStartDate("2021-01");
+//        request.setGroupCode("861102010602004");
+        request.setSectionCode("861102010609");
+        request.setStartDate("2021-03");
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         System.out.println(responseStr);

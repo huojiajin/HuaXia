@@ -49,6 +49,8 @@ public class TokenTest extends MobileApplicationTests {
         model.setFhagent_grade("FH09");
         model.setPosition_code("AS");
         model.setEmployee_code("110001787");
+        model.setEmployee_major_com("8611020106");
+        model.setEmployee_major_com_name("本级吴云天总监区");
         model.setEmployee_part_com("861102010601");
         model.setEmployee_part_com_name("天创部");
         model.setEmployee_group_com("861102010601001");

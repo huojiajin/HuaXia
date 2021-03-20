@@ -24,4 +24,9 @@ public class TestOutworkApply extends ApplicationTests {
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
     }
+
+    @Test
+    public void apply(){
+        return;
+    }
 }
