@@ -39,7 +39,7 @@ import java.util.Map;
  * @Version 1.0
  **/
 @Service
-@MyScheduler(name = "SALARY_ALERT", cron = "0 0 1 1 * ?")
+@MyScheduler(name = "SALARY_ALERT", cron = "0 30 4 1 * ?")
 public class SalaryAlertQuartz extends CommonQuartz{
 
     @Autowired

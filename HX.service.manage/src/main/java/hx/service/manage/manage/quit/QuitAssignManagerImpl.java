@@ -39,6 +39,7 @@ public class QuitAssignManagerImpl extends AbstractManager implements QuitAssign
 
     private QuitAssignQueryResponse convert(QuitAssign entity){
         QuitAssignQueryResponse model = new QuitAssignQueryResponse();
+        model.setId(entity.getId());
         model.setType(entity.getType().getCode());
         model.setEmployeeNum(entity.getAgentCode());
         model.setName(entity.getName());

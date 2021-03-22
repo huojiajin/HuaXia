@@ -1,6 +1,6 @@
 package hx.service.mobile.manage.person.outwork;
 
-import hx.service.mobile.model.common.MobileCommonRequest;
+import hx.service.mobile.model.common.MobileCommonPageRequest;
 import hx.service.mobile.model.person.outwork.apply.OutworkApplyApplyRequest;
 import hx.service.mobile.model.person.outwork.apply.OutworkApplyDetailRequest;
 
@@ -31,7 +31,7 @@ public interface OutworkApplyManager {
      * @Param [request]
      * @Return java.lang.String
      **/
-    String query(MobileCommonRequest request);
+    String query(MobileCommonPageRequest request);
 
     /**
      * @Name detail

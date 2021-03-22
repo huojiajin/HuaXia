@@ -11,12 +11,22 @@ import hx.base.core.dao.entity.common.BaseEntity;
  **/
 public class OutworkApplyQueryResponse extends BaseEntity {
 
+    private String id;
     private String name;//名称
     private String sectionName;//部名称
     private String groupName;//组名称
     private String applyTime;//申请时间
     private String stage;//当前审批环节
     private int status;//审批状态
+    private boolean special;//是否特批
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -64,5 +74,13 @@ public class OutworkApplyQueryResponse extends BaseEntity {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public boolean isSpecial() {
+        return special;
+    }
+
+    public void setSpecial(boolean special) {
+        this.special = special;
     }
 }

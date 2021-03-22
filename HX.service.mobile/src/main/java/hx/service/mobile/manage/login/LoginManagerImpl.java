@@ -171,6 +171,8 @@ public class LoginManagerImpl extends AbstractMobileManager implements LoginMana
 
 
     private void setOutWorker(MobileUserModel mobileUser, LoginResponse loginResponse) throws InterruptedException {
+        loginResponse.setSectionName(mobileUser.getEmployee_part_com_name());
+        loginResponse.setGroupName(mobileUser.getEmployee_group_com_name());
         loginResponse.setGrade(mobileUser.getPosition());
         loginResponse.setStar(hasText(mobileUser.getFhagent_grade()) ?
                 mobileUser.getFhagent_grade().substring(2) : "0");

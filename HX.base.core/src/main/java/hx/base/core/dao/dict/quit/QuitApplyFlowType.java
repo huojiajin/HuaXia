@@ -16,19 +16,22 @@ public enum QuitApplyFlowType {
     NONEXECUTIVE("非主管离职审批流程", "quitApplyTemplate.pdf"){
         @Override
         public List<QuitApplyApprovalType> getApprovalFlow() {
-            return Lists.newArrayList(QuitApplyApprovalType.RECOMMEND, QuitApplyApprovalType.GROUP, QuitApplyApprovalType.SECTION);
+            return Lists.newArrayList(QuitApplyApprovalType.RECOMMEND, QuitApplyApprovalType.GROUP, QuitApplyApprovalType.SECTION,
+                    QuitApplyApprovalType.ZX, QuitApplyApprovalType.YFJL, QuitApplyApprovalType.FGSRG);
         }
     },
     GROUPMANAGER("组经理离职审批流程", "executiveQuitApplyTemplate.pdf"){
         @Override
         public List<QuitApplyApprovalType> getApprovalFlow() {
-            return Lists.newArrayList(QuitApplyApprovalType.REAR, QuitApplyApprovalType.SECTION, QuitApplyApprovalType.CHIEF);
+            return Lists.newArrayList(QuitApplyApprovalType.REAR, QuitApplyApprovalType.SECTION, QuitApplyApprovalType.CHIEF,
+                    QuitApplyApprovalType.ZX, QuitApplyApprovalType.YFJL, QuitApplyApprovalType.FGSRG);
         }
     },
     SECTIONMANAGER("部经理离职审批流程", "executiveQuitApplyTemplate.pdf"){
         @Override
         public List<QuitApplyApprovalType> getApprovalFlow() {
-            return Lists.newArrayList(QuitApplyApprovalType.REAR, QuitApplyApprovalType.CHIEF);
+            return Lists.newArrayList(QuitApplyApprovalType.REAR, QuitApplyApprovalType.CHIEF,
+                    QuitApplyApprovalType.ZX, QuitApplyApprovalType.YFJL, QuitApplyApprovalType.FGSRG);
         }
     },
     ;

@@ -16,6 +16,7 @@ public class OutworkApprovalQueryResponse extends BaseEntity {
     private String sectionName;//部名称
     private String groupName;//组名称
     private String applyTime;//申请时间
+    private boolean special;//是否特批
 
     public String getId() {
         return id;
@@ -55,5 +56,13 @@ public class OutworkApprovalQueryResponse extends BaseEntity {
 
     public void setApplyTime(String applyTime) {
         this.applyTime = applyTime;
+    }
+
+    public boolean isSpecial() {
+        return special;
+    }
+
+    public void setSpecial(boolean special) {
+        this.special = special;
     }
 }

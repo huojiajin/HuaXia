@@ -3,9 +3,7 @@ package hx.base.core.dao.entity.black;
 import hx.base.core.dao.dict.black.BlackListType;
 import hx.base.core.dao.entity.common.AbstractInsertTimeEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @ClassName: BlackList
@@ -44,6 +42,7 @@ public class BlackList extends AbstractInsertTimeEntity {
         this.agentCode = agentCode;
     }
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
     public BlackListType getType() {
         return type;

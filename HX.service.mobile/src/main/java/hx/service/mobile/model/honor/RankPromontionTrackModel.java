@@ -12,6 +12,7 @@ import hx.base.core.dao.entity.common.BaseEntity;
 public class RankPromontionTrackModel extends BaseEntity {
 
     private String gradeName;//职级名称
+    private Integer gradeCode;//职级等级
     private String startTime;//职级开始时间 yyyy-MM-dd
     private int type;//职级变更类型 1 入职 2 晋升 3 降级 4 平调
 
@@ -21,6 +22,14 @@ public class RankPromontionTrackModel extends BaseEntity {
 
     public void setGradeName(String gradeName) {
         this.gradeName = gradeName;
+    }
+
+    public Integer getGradeCode() {
+        return gradeCode;
+    }
+
+    public void setGradeCode(Integer gradeCode) {
+        this.gradeCode = gradeCode;
     }
 
     public String getStartTime() {

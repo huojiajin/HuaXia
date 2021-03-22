@@ -68,6 +68,7 @@ public class RankPromontionTrackManagerImpl extends AbstractMobileManager implem
                 return response.setError(ErrorType.CONVERT, e.getMessage());
             }
             model.setGradeName(positionsClass.getValue());
+            model.setGradeCode(positionsClass.getCode());
             //职级开始时间
             model.setStartTime(MyTimeTools.timeToStr(track.getStartDate(), "yyyy-MM-dd"));
             //职级变更类型

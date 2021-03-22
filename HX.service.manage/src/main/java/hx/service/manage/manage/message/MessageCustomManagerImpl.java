@@ -9,9 +9,11 @@ import hx.base.core.dao.dict.test.PushType;
 import hx.base.core.dao.entity.hualife.MarketingManpower;
 import hx.base.core.dao.entity.message.MessageCustom;
 import hx.base.core.dao.entity.message.MessageCustomLog;
+import hx.base.core.dao.entity.message.MobileMessage;
 import hx.base.core.dao.repo.jpa.hualife.MarketingManpowerRepo;
 import hx.base.core.dao.repo.jpa.message.MessageCustomLogRepo;
 import hx.base.core.dao.repo.jpa.message.MessageCustomRepo;
+import hx.base.core.dao.repo.jpa.message.MobileMessageRepo;
 import hx.base.core.dao.repo.request.common.Pagination;
 import hx.base.core.dao.repo.request.message.MessageCustomLogPageRequest;
 import hx.base.core.dao.repo.request.message.MessageCustomPageRequest;
@@ -49,6 +51,8 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
     private MarketingManpowerRepo manpowerRepo;
     @Autowired
     private MessageManager messageManager;
+    @Autowired
+    private MobileMessageRepo mobileMessageRepo;
 
     @Override
     public String query(MessageQueryRequest request){
@@ -198,12 +202,14 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
             //获取工号集合
             List<String> agentCodes = manpowerList.stream().map(MarketingManpower::getAgentCode).collect(Collectors.toList());
             //推送消息
-            messageManager.sendText(custom, agentCodes);
+//            messageManager.sendText(custom, agentCodes);
+            //推送手机端消息栏
+            saveMobileMessage(custom, agentCodes);
             //保存推送记录
             saveSendLog(custom, pushType, code, pushName);
         }
         try {
-            addSysLog("推送试卷" + request.getMessageId() + "至" + PushType.fromCode(request.getPushType()).getValue() + JsonTools.toJsonStr(request.getCodeList()),
+            addSysLog("推送消息" + request.getMessageId() + "至" + PushType.fromCode(request.getPushType()).getValue() + JsonTools.toJsonStr(request.getCodeList()),
                     request.getToken(), request.getMessageId());
         } catch (Exception e) {
             logger.error("", e);
@@ -230,5 +236,16 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
         customLogRepo.save(log);
     }
 
-
+    private void saveMobileMessage(MessageCustom custom, List<String> agentCodes){
+        if (custom.getContentType() == ContentType.IMAGE) return;
+        List<MobileMessage> messageList = Lists.newArrayList();
+        for (String agentCode : agentCodes) {
+            MobileMessage message = new MobileMessage();
+            message.setAgentCode(agentCode);
+            message.setContent(custom.getContent());
+            message.setSendTime(LocalDateTime.now());
+            messageList.add(message);
+        }
+        mobileMessageRepo.persistAll(messageList);
+    }
 }

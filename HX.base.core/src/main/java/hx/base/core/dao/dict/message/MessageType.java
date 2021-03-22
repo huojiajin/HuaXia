@@ -12,6 +12,11 @@ public enum MessageType {
     DAILY_RETURN("日常通知-回访提醒", 21){},
     DAILY_UP("日常通知-上号提醒", 22){},
     DAILY_OUTWORK("日常通知-离职提醒", 23){},
+    BLACKLIST_FYC("黑名单-FYC", 31){},
+    BLACKLIST_ATTENDANCE("黑名单-出勤天数", 32){},
+    BLACKLIST_CONTINUE("黑名单-13J继续率", 33){},
+    BIRTHDAY("生日消息", 4){},
+    ANNIVERSARY("周年消息", 5){},
     ;
 
     MessageType(String value, int code) {

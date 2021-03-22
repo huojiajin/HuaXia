@@ -2,7 +2,7 @@ package hx.service.mobile.web.person.outwork;
 
 import hx.base.core.manage.common.CommonAbstract;
 import hx.service.mobile.manage.person.outwork.OutworkApplyManager;
-import hx.service.mobile.model.common.MobileCommonRequest;
+import hx.service.mobile.model.common.MobileCommonPageRequest;
 import hx.service.mobile.model.person.outwork.apply.OutworkApplyApplyRequest;
 import hx.service.mobile.model.person.outwork.apply.OutworkApplyDetailRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class OutworkApplyController extends CommonAbstract {
     private OutworkApplyManager manager;
 
     @PostMapping("/query")
-    public String query(@RequestBody MobileCommonRequest request){
+    public String query(@RequestBody MobileCommonPageRequest request){
         return manager.query(request);
     }
 

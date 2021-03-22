@@ -1,5 +1,6 @@
 package hx.service.mobile.manage.person.outwork;
 
+import hx.service.mobile.model.common.MobileCommonPageRequest;
 import hx.service.mobile.model.common.MobileCommonRequest;
 import hx.service.mobile.model.person.outwork.approval.OutworkApprovalApprovalRequest;
 import hx.service.mobile.model.person.outwork.approval.OutworkApprovalDetailRequest;
@@ -22,7 +23,7 @@ public interface OutworkApprovalManager {
      * @Param [request]
      * @Return java.lang.String
      **/
-    String query(MobileCommonRequest request);
+    String query(MobileCommonPageRequest request);
 
     String detail(OutworkApprovalDetailRequest request);
 

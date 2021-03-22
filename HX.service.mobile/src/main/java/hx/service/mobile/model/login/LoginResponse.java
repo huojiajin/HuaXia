@@ -26,6 +26,8 @@ public class LoginResponse extends BaseEntity {
     private boolean hasSignIn;//是否已签到
     private Integer type;//展示类型 1、雷达图 2、入职时长 3、内勤
     private String campName;//营服名称
+    private String sectionName;//部名称
+    private String groupName;//组名称
 
     public String getEmployeeNum() {
         return employeeNum;
@@ -129,5 +131,21 @@ public class LoginResponse extends BaseEntity {
 
     public void setCampName(String campName) {
         this.campName = campName;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

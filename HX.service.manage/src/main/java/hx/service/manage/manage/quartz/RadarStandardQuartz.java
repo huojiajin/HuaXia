@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  * @time: 2020/7/16 15:03
  */
 @Service
-@MyScheduler(name = "RADAR_STANDARD", cron = "0 0 0 1 1,4,7,10 ?")
+@MyScheduler(name = "RADAR_STANDARD", cron = "0 0 4 1 1,4,7,10 ?")
 public class RadarStandardQuartz extends CommonQuartz {
 
     @Autowired

@@ -109,7 +109,7 @@ public class LoginManagerImpl extends CommonAbstract implements LoginManager{
 
         //存放菜单权限至memcached
         List<Integer> resourceCodeList = roleResources.stream().map(r -> r.getResourceType().getCode()).collect(Collectors.toList());
-        memcachedClient.set(MyMecachedPrefix.loginResourcePrefix + user.getId(), 10*60, resourceCodeList);
+        memcachedClient.set(MyMecachedPrefix.loginResourcePrefix + user.getId(), 30 * 60, resourceCodeList);
 
         return response.toJson();
     }

@@ -29,8 +29,8 @@ public class LoginTest extends ApplicationTests {
 
     @Test
     void verify() throws URISyntaxException, IOException {
-        String url = "http://localhost/manage/login/verify";
-//        String url = "http://39.106.226.73/manage/login/verify";
+//        String url = "http://localhost/manage/login/verify";
+        String url = "http://39.106.226.73/manage/login/verify";
 
         String responseStr = HttpClientHelper.httpGet(new URI(url), "UTF-8");
         CommonResponse<VerifyResponse> response = JsonTools.json2Object(responseStr, CommonResponse.class, VerifyResponse.class);
@@ -42,7 +42,7 @@ public class LoginTest extends ApplicationTests {
                 b[i] += 256;
             }
         }
-        String fileName = "C:\\Users\\huojiajin\\Desktop\\out.png";
+        String fileName = "C:\\Users\\霍佳进\\Desktop\\out.png";
         File file = new File(fileName);
         OutputStream out = new FileOutputStream(file);
         out.write(b);
@@ -56,10 +56,10 @@ public class LoginTest extends ApplicationTests {
         LoginRequest request = new LoginRequest();
         request.setLoginName("000000001");
         request.setPassword("1234567");
-        request.setVerifyId("0c7934253e8548f991506a9367336a0a");
-        request.setVerifyCode("dmth");
-//        String url = "http://39.106.226.73/manage/login/login";
-        String url = "http://localhost/manage/login/login";
+        request.setVerifyId("e8a8efb950d7427ebe56ea013509db8f");
+        request.setVerifyCode("6ha8");
+        String url = "http://39.106.226.73/manage/login/login";
+//        String url = "http://localhost/manage/login/login";
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);

@@ -22,7 +22,7 @@ import hx.base.core.dao.repo.request.quit.QuitApplyPageRequest;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.MyTimeTools;
 import hx.service.mobile.manage.common.AbstractMobileManager;
-import hx.service.mobile.model.common.MobileCommonRequest;
+import hx.service.mobile.model.common.MobileCommonPageRequest;
 import hx.service.mobile.model.login.MobileUserModel;
 import hx.service.mobile.model.person.outwork.apply.*;
 import org.apache.commons.compress.utils.Lists;
@@ -149,6 +149,7 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
             if (i == 0){//如果是首个流程，直接进入审批环节
                 applyFlow.setStatus(QuitApplyStatus.APPROVALING);
                 applyFlow.setStartTime(LocalDateTime.now());
+                apply.setApprovalType(approvalType);
             }else{
                 applyFlow.setStatus(QuitApplyStatus.NOTAPPROVAL);
             }
@@ -212,6 +213,9 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
                     break;
                 case ZX:
                     QuitAssign assignZX = assignRepo.findByCampCodeAndType(manpower.getDeptCode1(), QuitAssignType.ZX);
+                    if (assignZX == null){
+                        throw new InterruptedException("营服" + manpower.getDeptName1() + "无对应组训经理");
+                    }
                     applyFlow.setApprovalName(assignZX.getName());
                     applyFlow.setApprovalCode(assignZX.getAgentCode());
                     if (i == 0) {
@@ -251,7 +255,14 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
      * @Return hx.base.core.dao.entity.hualife.MarketingManpower
      **/
     private MarketingManpower getDirector(MarketingManpower manpower, PositionsType directorType) throws InterruptedException {
-        List<MarketingManpower> manpowerList = manpowerRepo.listByDeptCode3(manpower.getDeptCode3());
+        List<MarketingManpower> manpowerList = Lists.newArrayList();
+        if (directorType == PositionsType.AS) {
+            manpowerList = manpowerRepo.listByDeptCode2(manpower.getDeptCode2());
+        }else if (directorType == PositionsType.BM){
+            manpowerList = manpowerRepo.listByDeptCode3(manpower.getDeptCode3());
+        }else {
+            manpowerList = manpowerRepo.listByDeptCode4(manpower.getDeptCode4());
+        }
         MarketingManpower director = null;
         for (MarketingManpower staff : manpowerList) {
             PositionsType positionsType = null;
@@ -260,23 +271,24 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
                 positionsType = PositionsType.fromClass(positionsClass);
             } catch (InterruptedException e) {
                 logger.error("", e);
-                throw new InterruptedException("无此职级" + staff.getAgentGrade());
+                throw new InterruptedException("无此职级" + staff.getAgentGradeName());
             }
             if (positionsType == directorType){
                 director = staff;
             }
         }
         if (director == null){
-            throw new InterruptedException("该人员无区域总" + manpower.getAgentGrade());
+            throw new InterruptedException("该人员无" + manpower.getAgentGradeName());
         }
         return director;
     }
 
     @Override
-    public String query(MobileCommonRequest request){
+    public String query(MobileCommonPageRequest request){
         CommonResponse response = new CommonResponse();
         MobileUserModel user = getUser(request.getToken());
         QuitApplyPageRequest pageRequest = new QuitApplyPageRequest();
+        BeanUtils.copyProperties(request, pageRequest);
         pageRequest.setAgentCode(user.getEmployee_code());
         Pagination page = applyRepo.page(pageRequest);
         page.convertResult(this::convert);
@@ -296,6 +308,9 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
             model.setStage(entity.getApprovalType().getValue());
         }
         model.setStatus(entity.getStatus().getCode());
+        if (entity.getStatus() == QuitApplyStatus.SPECIAL) {
+            model.setSpecial(true);
+        }
         return model;
     }
 

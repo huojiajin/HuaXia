@@ -32,4 +32,14 @@ public interface MessageManager {
      * @Return boolean
      **/
     boolean sendTextOne(MessageCustom messageCustom, String agentCode);
+
+    /**
+     * @Name sendTextOri
+     * @Author HuoJiaJin
+     * @Description 原生消息推送
+     * @Date 2021/3/22 17:29
+     * @Param [text, agentCode]
+     * @Return void
+     **/
+    void sendTextOri(String text, String agentCode);
 }

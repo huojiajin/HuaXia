@@ -72,6 +72,7 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
     private boolean sendText(MessageCustom messageCustom, String agentCode, MessageSendRequest request) {
         MessageSendTextModel sendModel = new MessageSendTextModel();
         sendModel.setTouser(agentCode);
+        sendModel.setMsgtype("text");
         sendModel.setAgentid(agentid);
         MessageTextModel contentModel = new MessageTextModel();
         contentModel.setContent(messageCustom.getContent());
@@ -105,6 +106,9 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
      **/
     private boolean sendPic(MessageCustom messageCustom, String agentCode, MessageSendRequest request) {
         MessageSendPicModel sendModel = new MessageSendPicModel();
+        sendModel.setTouser(agentCode);
+        sendModel.setMsgtype("news");
+        sendModel.setAgentid(agentid);
         MessagePicModel newsModel = new MessagePicModel();
         MessagePicContentModel contentModel = new MessagePicContentModel();
         contentModel.setTitle(messageCustom.getTitle());
@@ -150,5 +154,47 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
         }
         fail.setMessage(message);
         sendFailRepo.save(fail);
+    }
+
+    /**
+     * @Name sendTextOri
+     * @Author HuoJiaJin
+     * @Description 发送文字消息原生
+     * @Date 2021/3/20 20:18
+     * @Param [messageCustom, agentCode, request]
+     * @Return boolean
+     **/
+    @Override
+    public void sendTextOri(String text, String agentCode) {
+        MessageSendRequest request = new MessageSendRequest();
+        BigDecimal random = new BigDecimal(Math.random() * 1000000 - 1).setScale(0, BigDecimal.ROUND_HALF_UP);
+        //获取时间戳
+        Date date = new Date();
+        Long timestamp = Long.valueOf(String.valueOf(date.getTime()));
+        request.setMsg_id(serialNo + timestamp + String.format("%06d", random.intValue()));
+        MessageSendTextModel sendModel = new MessageSendTextModel();
+        sendModel.setTouser(agentCode);
+        sendModel.setMsgtype("text");
+        sendModel.setAgentid(agentid);
+        MessageTextModel contentModel = new MessageTextModel();
+        contentModel.setContent(text);
+        sendModel.setText(contentModel);
+        request.setBusi_data(sendModel);
+        HXCommonResponse response = null;
+        try {
+            logger.info("======请求信息为：" + request.toJson());
+            String responseStr = hxPost(url + textUrl, request.toJson());
+            response = JsonTools.json2Object(responseStr, HXCommonResponse.class);
+            logger.info("======返回信息为：" + response.toJson());
+        } catch (IOException e) {
+            logger.error("", e);
+            return false;
+        }
+        if (!response.getCode().equals("0")){
+            logger.error("推送消息失败，错误代码为：{}，错误信息为：{}", response.getCode(), response.getMessage());
+        }else{
+            return true;
+        }
+        return false;
     }
 }

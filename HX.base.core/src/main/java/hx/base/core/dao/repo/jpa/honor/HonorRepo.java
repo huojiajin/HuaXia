@@ -4,8 +4,8 @@ import hx.base.core.dao.entity.honor.Honor;
 import hx.base.core.dao.repo.jpa.common.AbstractJpaRepo;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 /**
@@ -23,7 +23,7 @@ public interface HonorRepo extends AbstractJpaRepo<Honor, String> {
     int updateDelete(String id, LocalDateTime updateTime);
 
     @Modifying
-    @org.springframework.transaction.annotation.Transactional
-    @Query("update Train set status = 'YDR', updateTime = ?1 where id = ?2")
+    @Transactional
+    @Query("update Honor set status = 'YDR', updateTime = ?1 where id = ?2")
     int updateImport(LocalDateTime updateTime, String id);
 }

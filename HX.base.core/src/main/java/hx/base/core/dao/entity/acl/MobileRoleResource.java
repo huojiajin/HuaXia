@@ -3,9 +3,7 @@ package hx.base.core.dao.entity.acl;
 import hx.base.core.dao.dict.acl.PositionsType;
 import hx.base.core.dao.entity.common.StringUUIDEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @name: MobileRoleResource
@@ -20,6 +18,7 @@ public class MobileRoleResource extends StringUUIDEntity {
     private PositionsType positionsType;
     private Integer resourceCode;//菜单ID
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "positions_type", nullable = false)
     public PositionsType getPositionsType() {
         return positionsType;

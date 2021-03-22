@@ -1,6 +1,7 @@
 package hx.service.mobile.manage.person.outwork;
 
 import hx.base.core.dao.dict.acl.ErrorType;
+import hx.base.core.dao.dict.quit.QuitApplyApprovalType;
 import hx.base.core.dao.dict.quit.QuitApplyStatus;
 import hx.base.core.dao.entity.quit.QuitApply;
 import hx.base.core.dao.entity.quit.QuitApplyFlow;
@@ -11,7 +12,7 @@ import hx.base.core.dao.repo.request.quit.QuitApplyFlowPageRequest;
 import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.MyTimeTools;
 import hx.service.mobile.manage.common.AbstractMobileManager;
-import hx.service.mobile.model.common.MobileCommonRequest;
+import hx.service.mobile.model.common.MobileCommonPageRequest;
 import hx.service.mobile.model.login.MobileUserModel;
 import hx.service.mobile.model.person.outwork.approval.OutworkApprovalApprovalRequest;
 import hx.service.mobile.model.person.outwork.approval.OutworkApprovalDetailRequest;
@@ -41,14 +42,15 @@ public class OutworkApprovalManagerImpl extends AbstractMobileManager implements
     private QuitApplyFlowRepo flowRepo;
 
     @Override
-    public String query(MobileCommonRequest request){
+    public String query(MobileCommonPageRequest request){
 
         CommonResponse response = new CommonResponse();
         MobileUserModel user = getUser(request.getToken());
-        if (!user.getEmployee_type().equals("0")){
-            return response.setError(ErrorType.VALID, "该用户无审批权限");
-        }
+//        if (!user.getEmployee_type().equals("0")){
+//            return response.setError(ErrorType.VALID, "该用户无审批权限");
+//        }
         QuitApplyFlowPageRequest pageRequest = new QuitApplyFlowPageRequest();
+        BeanUtils.copyProperties(request, pageRequest);
         pageRequest.setApprovalName(user.getName());
         pageRequest.setStatus(QuitApplyStatus.APPROVALING);
         Pagination page = flowRepo.page(pageRequest);
@@ -67,6 +69,9 @@ public class OutworkApprovalManagerImpl extends AbstractMobileManager implements
             model.setSectionName(apply.getSectionName());
             model.setGroupName(apply.getGroupName());
             model.setApplyTime(MyTimeTools.timeToStr(apply.getApplyTime()));
+            if (entity.getApprovalType() == QuitApplyApprovalType.FGSRG){
+                model.setSpecial(true);
+            }
         }
         return model;
     }
@@ -120,10 +125,14 @@ public class OutworkApprovalManagerImpl extends AbstractMobileManager implements
                 nextFlow.setStartTime(now);
                 nextFlow.setUpdateTime(now);
                 flowRepo.save(nextFlow);
+                apply.setApprovalType(nextFlow.getApprovalType());
+                apply.setCurrentExaminer(nextFlow.getApprovalName());
+                apply.setUpdateTime(now);
             }else{//审批不通过
                 flow.setStatus(QuitApplyStatus.NOPASS);
                 apply.setStatus(QuitApplyStatus.NOPASS);
             }
+
         }
         applyRepo.save(apply);
         flowRepo.save(flow);

@@ -5,9 +5,10 @@ import hx.base.core.manage.model.CommonResponse;
 import hx.base.core.manage.tools.JsonTools;
 import hx.base.core.manage.tools.httpclient.HttpClientHelper;
 import hx.service.manage.ApplicationTests;
-import hx.service.manage.model.common.CommonPageRequest;
+import hx.service.manage.model.acl.mobile.MobileResourceConfigRequest;
 import hx.service.manage.model.acl.role.RoleAddRequest;
 import hx.service.manage.model.acl.role.RoleResourceRequest;
+import hx.service.manage.model.common.CommonPageRequest;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
@@ -65,6 +66,23 @@ public class RoleTest extends ApplicationTests {
         request.setResourceCodeList(Lists.newArrayList(1,11,12,13,2,21,22,23));
         String url = "http://localhost/manage/role/resource/config";
 //        String url = "http://39.106.226.73/manage/role/resource/config";
+
+        String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
+        echo(responseStr);
+        CommonResponse response = JsonTools.json2Object(responseStr, CommonResponse.class);
+        echo(response);
+    }
+
+    @Test
+    public void mobileResourceConfig() throws IOException {
+
+        MobileResourceConfigRequest request = new MobileResourceConfigRequest();
+        request.setToken("6814eeb4e03c4189b0e41f8c25610495");
+        request.setResourceCode(12);
+        request.setRankCode("FZG");
+        request.setResourceCodeList(Lists.newArrayList(1,2,3,4,5));
+//        String url = "http://localhost/manage/mobile/resource/config";
+        String url = "http://39.106.226.73/manage/mobile/resource/config";
 
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         echo(responseStr);
