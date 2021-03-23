@@ -24,6 +24,7 @@ public class MobileUser extends AbstractInsertTimeEntity {
     private String unionid;//微信开放平台unionid
     private String avatar;//头像url。注：如果要获取小图将url最后的”/0”改成”/100”即可（branch_type不为99时返回）
     private String mdrt_flag;//MDRT会员标识，Y-是，N-不是（branch_type不为99时返回）
+    private String mobile;//手机号
 
     @Column(name = "agent_code")
     public String getAgentCode() {
@@ -68,5 +69,14 @@ public class MobileUser extends AbstractInsertTimeEntity {
 
     public void setMdrt_flag(String mdrt_flag) {
         this.mdrt_flag = mdrt_flag;
+    }
+
+    @Column(name = "mobile")
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

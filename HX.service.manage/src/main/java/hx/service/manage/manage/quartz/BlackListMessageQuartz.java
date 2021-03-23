@@ -8,6 +8,7 @@ import hx.base.core.dao.repo.jpa.message.MessageCustomRepo;
 import hx.base.core.manage.annotation.MyScheduler;
 import hx.service.manage.manage.message.MessageManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -30,9 +31,12 @@ public class BlackListMessageQuartz extends CommonQuartz{
     private BlackListRepo blackListRepo;
     @Autowired
     private MessageCustomRepo customRepo;
+    @Value("${sendMessage}")
+    private boolean sendMessage;
 
     @Override
     public void run() {
+        if (!sendMessage) return;
         LocalDate now = LocalDate.now();
         List<BlackList> blackLists = blackListRepo.findAll();
         for (BlackList blackList : blackLists) {

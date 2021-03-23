@@ -188,13 +188,9 @@ public class MessageManagerImpl extends AbstractManager implements MessageManage
             logger.info("======返回信息为：" + response.toJson());
         } catch (IOException e) {
             logger.error("", e);
-            return false;
         }
-        if (!response.getCode().equals("0")){
+        if (!response.getCode().equals("0")) {
             logger.error("推送消息失败，错误代码为：{}，错误信息为：{}", response.getCode(), response.getMessage());
-        }else{
-            return true;
         }
-        return false;
     }
 }

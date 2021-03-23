@@ -9,7 +9,7 @@ import java.io.IOException;
 
 /**
  * @ClassName: TestSalaryQuartz
- * @Description: 测试薪资项目定时任务
+ * @Description: 测试离职指派相关
  * @Author HuoJiaJin
  * @Date 2021/2/22 23:44
  * @Version 1.0

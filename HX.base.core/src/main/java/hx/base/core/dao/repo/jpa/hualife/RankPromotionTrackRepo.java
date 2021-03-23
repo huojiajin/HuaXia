@@ -4,6 +4,7 @@ import hx.base.core.dao.entity.hualife.RankPromotionTrack;
 import hx.base.core.dao.repo.jpa.common.AbstractJpaRepo;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -17,4 +18,7 @@ public interface RankPromotionTrackRepo extends AbstractJpaRepo<RankPromotionTra
 
     @Query("from RankPromotionTrack where agentCode = ?1 order by startDate desc, modifyTime desc")
     List<RankPromotionTrack> listByAgetnCode(String agentCode);
+
+    @Query("from RankPromotionTrack where startDate = ?1")
+    List<RankPromotionTrack> listByStartDate(LocalDateTime startDate);
 }

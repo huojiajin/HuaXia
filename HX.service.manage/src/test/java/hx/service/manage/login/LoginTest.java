@@ -42,7 +42,7 @@ public class LoginTest extends ApplicationTests {
                 b[i] += 256;
             }
         }
-        String fileName = "C:\\Users\\霍佳进\\Desktop\\out.png";
+        String fileName = "C:\\Users\\huojiajin\\Desktop\\out.png";
         File file = new File(fileName);
         OutputStream out = new FileOutputStream(file);
         out.write(b);
@@ -56,8 +56,8 @@ public class LoginTest extends ApplicationTests {
         LoginRequest request = new LoginRequest();
         request.setLoginName("000000001");
         request.setPassword("1234567");
-        request.setVerifyId("e8a8efb950d7427ebe56ea013509db8f");
-        request.setVerifyCode("6ha8");
+        request.setVerifyId("e46739e1b68c4f6bb9ad09e17f25d5c5");
+        request.setVerifyCode("xakt");
         String url = "http://39.106.226.73/manage/login/login";
 //        String url = "http://localhost/manage/login/login";
 

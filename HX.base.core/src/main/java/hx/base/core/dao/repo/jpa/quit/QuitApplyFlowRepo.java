@@ -19,10 +19,10 @@ public interface QuitApplyFlowRepo extends AbstractJpaRepo<QuitApplyFlow, String
     @Query(" from QuitApplyFlow where applyId = ?1 and approvalType = 'FGSRG'")
     QuitApplyFlow findSpecial(String applyId);
 
-    @Query(" from QuitApplyFlow where applyId = ?1")
+    @Query(" from QuitApplyFlow where applyId = ?1 order by list")
     List<QuitApplyFlow> listByApplyId(String applyId);
 
-    @Query(" from QuitApplyFlow where applyId = ?1 and approvalName = ?2")
+    @Query(" from QuitApplyFlow where applyId = ?1 and approvalName = ?2 and status = 'APPROVALING'")
     QuitApplyFlow findApproval(String applyId, String approvalName);
 
     @Query(" from QuitApplyFlow where applyId = ?1 and approvalType = ?2")

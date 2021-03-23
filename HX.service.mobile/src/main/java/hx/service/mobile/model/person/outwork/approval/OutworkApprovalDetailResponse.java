@@ -11,12 +11,21 @@ import hx.base.core.dao.entity.common.BaseEntity;
  **/
 public class OutworkApprovalDetailResponse extends BaseEntity {
 
+    private String id;
     private String name;//名称
     private String sectionName;//部名称
     private String groupName;//组名称
     private String applyTime;//申请时间
     private String entryTime;//入职时间
     private String reason;//离职原因
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

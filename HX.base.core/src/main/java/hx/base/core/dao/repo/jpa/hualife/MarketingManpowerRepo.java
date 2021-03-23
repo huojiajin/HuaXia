@@ -71,6 +71,9 @@ public interface MarketingManpowerRepo extends AbstractJpaRepo<MarketingManpower
     @Query("select deptName3 as sectionName, deptCode3 as sectionCode, count(agentCode) as num from MarketingManpower where outworkDate is null and deptCode2 = ?1 group by deptName3, deptCode3")
     List<Map<String, String>> groupBySection(String directorCode);
 
+    @Query("select deptName3 as sectionName, deptCode3 as sectionCode, count(agentCode) as num from MarketingManpower where outworkDate is null group by deptName3, deptCode3")
+    List<Map<String, String>> groupBySectionAll();
+
     @Query("select deptName4 as groupName, deptCode4 as groupCode, count(agentCode) as num from MarketingManpower where outworkDate is null and deptCode3 = ?1 group by deptName4, deptCode4")
     List<Map<String, String>> groupByGroup(String sectionCode);
 

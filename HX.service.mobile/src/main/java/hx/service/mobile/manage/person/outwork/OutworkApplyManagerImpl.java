@@ -62,17 +62,19 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
     public String apply(OutworkApplyApplyRequest request){
         CommonResponse response = new CommonResponse();
         MobileUserModel user = getUser(request.getToken());
-        QuitApply approval = applyRepo.findApproval(user.getEmployee_code());
-        if (approval != null){
-            return response.setError(ErrorType.VALID, "您已提交离职申请！");
-        }
         if (request.isSpecial()){
             //查询人员当前申请
             QuitApply special = applyRepo.findBySpecial(user.getEmployee_code());
+            if (special == null){
+                return response.setError(ErrorType.VALID, "未找到对应离职申请！");
+            }
+            if (!hasText(request.getReason())){
+                return response.setError(ErrorType.VALID, "请填写离职原因！");
+            }
             special.setReason(request.getReason());
-            special.setIdCardFrontImg(request.getIdcardFrontImg().getBytes());
-            special.setIdCardBackImg(request.getIdcardBackImg().getBytes());
-            special.setSignImg(request.getSignImg().getBytes());
+//            special.setIdCardFrontImg(request.getIdcardFrontImg().getBytes());
+//            special.setIdCardBackImg(request.getIdcardBackImg().getBytes());
+//            special.setSignImg(request.getSignImg().getBytes());
             special.setStatus(QuitApplyStatus.APPROVALING);
             QuitApplyFlow specialFlow = flowRepo.findSpecial(special.getId());
             specialFlow.setStatus(QuitApplyStatus.APPROVALING);
@@ -80,6 +82,22 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
             flowRepo.save(specialFlow);
         }else {
             MarketingManpower manpower = manpowerRepo.findByAgentCode(user.getEmployee_code());
+            QuitApply approval = applyRepo.findApproval(user.getEmployee_code());
+            if (approval != null){
+                return response.setError(ErrorType.VALID, "您已提交离职申请！");
+            }
+            if (!hasText(request.getReason())){
+                return response.setError(ErrorType.VALID, "请填写离职原因！");
+            }
+            if (!hasText(request.getSignImg())){
+                return response.setError(ErrorType.VALID, "请签字确认！");
+            }
+            if (!hasText(request.getIdcardFrontImg())){
+                return response.setError(ErrorType.VALID, "请提交身份证正面照片！");
+            }
+            if (!hasText(request.getIdcardBackImg())){
+                return response.setError(ErrorType.VALID, "请提交身份证背面照片！");
+            }
             //拼装实体
             QuitApply apply = new QuitApply();
             apply.setName(user.getName());
@@ -160,6 +178,7 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
             }else{
                 applyFlow.setNextApprovalType(null);
             }
+            applyFlow.setList(i + 1);
 
             switch (approvalType) {//获取审批人员相关信息
                 case RECOMMEND:
@@ -335,7 +354,9 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
             model.setApprovalStage(f.getApprovalType().getValue());
             model.setApprovalStatus(f.getStatus().getCode());
             model.setApprovalRemark(f.getRemark());
-            model.setApprovalTime(MyTimeTools.timeToStr(f.getEndTime()));
+            if (f.getEndTime() != null) {
+                model.setApprovalTime(MyTimeTools.timeToStr(f.getEndTime()));
+            }
             return model;
         }).collect(Collectors.toList());
         data.setApprovalList(approvalList);

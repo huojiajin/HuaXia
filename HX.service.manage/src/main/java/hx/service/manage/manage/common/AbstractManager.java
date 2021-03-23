@@ -25,10 +25,7 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -214,11 +211,56 @@ public abstract class AbstractManager extends CommonAbstract {
         return user;
     }
 
+    /**
+     * @Name FileToBase64Str
+     * @Author HuoJiaJin
+     * @Description 文件转Base64字符串
+     * @Date 2021/3/24 0:26
+     * @Param [file]
+     * @Return java.lang.String
+     **/
+    protected String FileToBase64Str(File file) throws IOException {
+        InputStream in = null;
+        try {
+            in = new FileInputStream(file);
+            byte[] bytes = new byte[(int) file.length()];
+            in.read(bytes);
+            return new String(Base64.encodeBase64(bytes));
+        } catch (IOException e) {
+            logger.error("", e);
+            throw new IOException("文件转Base64转换失败");
+        }finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    logger.error("", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * @Name inputStreamToBase64Str
+     * @Author HuoJiaJin
+     * @Description 流转base64字符串
+     * @Date 2021/3/24 0:26
+     * @Param [is]
+     * @Return java.lang.String
+     **/
     protected String inputStreamToBase64Str(InputStream is) throws IOException {
         byte[] data = inputStreamToString(is);
         return new String(Base64.encodeBase64(data));
     }
 
+    /**
+     * @Name inputStreamToString
+     * @Author HuoJiaJin
+     * @Description 流转字符串
+     * @Date 2021/3/24 0:27
+     * @Param [is]
+     * @Return byte[]
+     **/
     private byte[] inputStreamToString(InputStream is) throws IOException {
         byte[] data = null;
         try {

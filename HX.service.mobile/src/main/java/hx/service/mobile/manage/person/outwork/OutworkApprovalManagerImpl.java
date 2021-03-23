@@ -64,8 +64,8 @@ public class OutworkApprovalManagerImpl extends AbstractMobileManager implements
         Optional<QuitApply> op = applyRepo.findById(entity.getApplyId());
         if (op.isPresent()) {
             QuitApply apply = op.get();
-            model.setId(entity.getId());
-            model.setName(entity.getApprovalName());
+            model.setId(apply.getId());
+            model.setName(apply.getName());
             model.setSectionName(apply.getSectionName());
             model.setGroupName(apply.getGroupName());
             model.setApplyTime(MyTimeTools.timeToStr(apply.getApplyTime()));
@@ -99,7 +99,7 @@ public class OutworkApprovalManagerImpl extends AbstractMobileManager implements
         MobileUserModel user = getUser(request.getToken());
         LocalDateTime now = LocalDateTime.now();
         QuitApplyFlow flow = flowRepo.findApproval(request.getApplyId(), user.getName());
-        if (flow.getStatus() != QuitApplyStatus.APPROVALING){
+        if (flow == null || flow.getStatus() != QuitApplyStatus.APPROVALING){
             return  response.setError(ErrorType.VALID, "未到该环节或该环节已经审批结束");
         }
         Optional<QuitApply> op = applyRepo.findById(request.getApplyId());
