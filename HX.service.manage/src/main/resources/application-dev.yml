@@ -134,3 +134,4 @@ agentid: 107
 textUrl: /api/v2/qyh/text/send
 picUrl: /api/v2/qyh/graphic/send
 myPicUrl: http:/39.106.226.73:81/mobile/external/image/
+sendMessage: false
