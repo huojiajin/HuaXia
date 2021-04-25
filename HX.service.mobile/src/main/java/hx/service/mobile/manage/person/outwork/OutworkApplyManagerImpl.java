@@ -25,12 +25,14 @@ import hx.service.mobile.manage.common.AbstractMobileManager;
 import hx.service.mobile.model.common.MobileCommonPageRequest;
 import hx.service.mobile.model.login.MobileUserModel;
 import hx.service.mobile.model.person.outwork.apply.*;
+import net.spy.memcached.MemcachedClient;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -56,12 +58,22 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
     private MarketingManpowerRepo manpowerRepo;
     @Autowired
     private IncubationRepo incubationRepo;
+    @Autowired
+    private MemcachedClient memcachedClient;
 
     @Override
     @Transactional
     public String apply(OutworkApplyApplyRequest request){
+        LocalDateTime startTime = LocalDateTime.now();
+        logger.info("======开始提交申请，当前时间为{}", startTime);
         CommonResponse response = new CommonResponse();
         MobileUserModel user = getUser(request.getToken());
+        Object o = memcachedClient.get(request.getToken());
+        if (o != null){
+            return response.setError(ErrorType.VALID, "您已提交过离职申请，请勿重复提交！");
+        }else {
+            memcachedClient.add(request.getToken(), 10*60, "1");
+        }
         if (request.isSpecial()){
             //查询人员当前申请
             QuitApply special = applyRepo.findBySpecial(user.getEmployee_code());
@@ -76,10 +88,19 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
 //            special.setIdCardBackImg(request.getIdcardBackImg().getBytes());
 //            special.setSignImg(request.getSignImg().getBytes());
             special.setStatus(QuitApplyStatus.APPROVALING);
+
+            LocalDateTime now1 = LocalDateTime.now();
+            Duration duration = Duration.between(now1, startTime);
+            logger.info("======已使用{}毫秒", duration.toMillis());
+
             QuitApplyFlow specialFlow = flowRepo.findSpecial(special.getId());
             specialFlow.setStatus(QuitApplyStatus.APPROVALING);
             applyRepo.save(special);
             flowRepo.save(specialFlow);
+
+            LocalDateTime now2 = LocalDateTime.now();
+            Duration duration2 = Duration.between(now2, startTime);
+            logger.info("======处理结束，已使用{}毫秒", duration2.toMillis());
         }else {
             MarketingManpower manpower = manpowerRepo.findByAgentCode(user.getEmployee_code());
             QuitApply approval = applyRepo.findApproval(user.getEmployee_code());
@@ -98,6 +119,10 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
             if (!hasText(request.getIdcardBackImg())){
                 return response.setError(ErrorType.VALID, "请提交身份证背面照片！");
             }
+            LocalDateTime now1 = LocalDateTime.now();
+            Duration duration = Duration.between(now1, startTime);
+            logger.info("======已使用{}毫秒", duration.toMillis());
+
             //拼装实体
             QuitApply apply = new QuitApply();
             apply.setName(user.getName());
@@ -142,6 +167,10 @@ public class OutworkApplyManagerImpl extends AbstractMobileManager implements Ou
                 return response.setError(ErrorType.CONVERT, e.getMessage());
             }
             applyRepo.persist(apply);
+
+            LocalDateTime now2 = LocalDateTime.now();
+            Duration duration2 = Duration.between(now2, startTime);
+            logger.info("======处理结束，已使用{}毫秒", duration2.toMillis());
         }
         response.setMessage("离职申请提交成功！");
         return response.toJson();

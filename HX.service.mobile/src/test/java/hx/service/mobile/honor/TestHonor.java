@@ -2,6 +2,7 @@ package hx.service.mobile.honor;
 
 import hx.base.core.manage.tools.httpclient.HttpClientHelper;
 import hx.service.mobile.model.common.MobileCommonRequest;
+import hx.service.mobile.model.honor.WallQueryRequest;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -27,4 +28,28 @@ public class TestHonor {
         String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
         System.out.println(responseStr);
     }
+
+    @Test
+    public void queryHonor() throws IOException {
+        String url = "http://localhost:81/mobile/honor/wall/query";
+
+        WallQueryRequest request = new WallQueryRequest();
+        request.setToken("7ea849e7f26348498a6bc6d8cd383b09");
+        request.setYear(2021);
+
+        String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
+        System.out.println(responseStr);
+    }
+
+    @Test
+    public void track() throws IOException {
+        String url = "http://localhost:81/mobile/honor/track";
+
+        MobileCommonRequest request = new MobileCommonRequest();
+        request.setToken("7ea849e7f26348498a6bc6d8cd383b09");
+
+        String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
+        System.out.println(responseStr);
+    }
+
 }

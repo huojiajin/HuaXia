@@ -47,9 +47,7 @@ public class RankPromontionTrackManagerImpl extends AbstractMobileManager implem
         Map<String, RankPromotionTrack> trackMaps = Maps.newHashMap();
         for (RankPromotionTrack track : trackList) {
             String key = track.getAgentLastGrade() + track.getStartDate();
-            if (trackMaps.get(key) != null){
-                trackMaps.put(key, track);
-            }
+            trackMaps.put(key, track);
         }
         List<RankPromotionTrack> newTrackList = Lists.newArrayList(trackMaps.values());
         //按时间正序排序
@@ -63,9 +61,9 @@ public class RankPromontionTrackManagerImpl extends AbstractMobileManager implem
             PositionsClass positionsClass;
             try {
                 positionsClass = PositionsClass.valueOf(track.getAgentGrade());
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
                 logger.error("", e);
-                return response.setError(ErrorType.CONVERT, e.getMessage());
+                continue;
             }
             model.setGradeName(positionsClass.getValue());
             model.setGradeCode(positionsClass.getCode());
@@ -81,9 +79,9 @@ public class RankPromontionTrackManagerImpl extends AbstractMobileManager implem
                 PositionsClass lastPositionsClass;
                 try {
                     lastPositionsClass = PositionsClass.valueOf(lastTrack.getAgentGrade());
-                } catch (IllegalArgumentException e) {
+                } catch (Exception e) {
                     logger.error("", e);
-                    return response.setError(ErrorType.CONVERT, e.getMessage());
+                    continue;
                 }
                 if (lastPositionsClass.getCode() == positionsClass.getCode()){//平调
                     model.setType(4);
