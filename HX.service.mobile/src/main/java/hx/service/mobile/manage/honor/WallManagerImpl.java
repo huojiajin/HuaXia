@@ -48,10 +48,13 @@ public class WallManagerImpl extends AbstractMobileManager implements WallManage
             WallQueryModel model = new WallQueryModel();
             Honor honor = honorRepo.findById(people.getHonorId()).orElse(null);
             if (honor != null && !honor.isStop()){
-                model.setHonorName(honor.getName());
-                model.setObtainTime(MyTimeTools.timeToStr(people.getInsertTime(), "yyyy-MM-dd"));
-                model.setHonorImage(new String(Base64.encodeBase64(honor.getIcon())));
-                modelList.add(model);
+                if (request.getYear() == null ||
+                        (request.getYear() != null && request.getYear() == people.getInsertTime().getYear())) {//筛选当前年份
+                    model.setHonorName(honor.getName());
+                    model.setObtainTime(MyTimeTools.timeToStr(people.getInsertTime(), "yyyy-MM-dd"));
+                    model.setHonorImage(new String(Base64.encodeBase64(honor.getIcon())));
+                    modelList.add(model);
+                }
             }
         }
         queryResponse.setResult(modelList);

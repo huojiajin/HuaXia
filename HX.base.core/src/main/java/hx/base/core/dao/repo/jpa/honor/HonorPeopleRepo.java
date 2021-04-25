@@ -18,6 +18,6 @@ public interface HonorPeopleRepo extends AbstractJpaRepo<HonorPeople, String> {
     @Query("from HonorPeople where honorId = ?1")
     List<HonorPeople> listByHonorId(String honorId);
 
-    @Query("from HonorPeople where agentCode = ?1")
+    @Query("from HonorPeople where agentCode = ?1 order by insertTime desc")
     List<HonorPeople> listByAgentCode(String agnetCode);
 }

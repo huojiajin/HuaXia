@@ -33,6 +33,7 @@ public class StructureManagerImpl extends AbstractManager implements StructureMa
     public String query(CommonPageRequest request){
         CommonResponse response = new CommonResponse();
         StructureStandardPageRequest pageRequest = new StructureStandardPageRequest();
+        BeanUtils.copyProperties(request, pageRequest);
         Pagination page = standardRepo.page(pageRequest);
         page.convertResult(this::convert);
         response.setData(page);

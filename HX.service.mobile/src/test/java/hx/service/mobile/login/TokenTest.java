@@ -42,6 +42,7 @@ public class TokenTest extends MobileApplicationTests {
         setFZGTokenUser();
     }
 
+
     @Test
     public void setTokenUser(){
         MobileUserModel model = new MobileUserModel();

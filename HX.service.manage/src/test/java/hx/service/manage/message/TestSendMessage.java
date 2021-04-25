@@ -31,4 +31,13 @@ public class TestSendMessage extends ApplicationTests {
         MessageCustom custom = op.get();
         manager.sendTextOne(custom, "luchaochao");
     }
+
+    @Test
+    void testOri(){
+        StringBuilder builder = new StringBuilder("您好，你的部门有以下几人过生日：\n");
+        builder.append("鲁超超\n");
+        builder.append("刘秀秀\n");
+        builder.append("霍佳进\n");
+        manager.sendTextOri(builder.toString(), "luchaochao");
+    }
 }
