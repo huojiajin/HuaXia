@@ -12,7 +12,6 @@ import hx.service.mobile.model.honor.WallQueryModel;
 import hx.service.mobile.model.honor.WallQueryRequest;
 import hx.service.mobile.model.honor.WallQueryResponse;
 import hx.service.mobile.model.login.MobileUserModel;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +49,7 @@ public class WallManagerImpl extends AbstractMobileManager implements WallManage
             if (honor != null && !honor.isStop()){
                 model.setHonorName(honor.getName());
                 model.setObtainTime(MyTimeTools.timeToStr(people.getInsertTime(), "yyyy-MM-dd"));
-                model.setHonorImage(new String(Base64.encodeBase64(honor.getIcon())));
+                model.setHonorImage(new String(honor.getIcon()));
                 modelList.add(model);
             }
         }
