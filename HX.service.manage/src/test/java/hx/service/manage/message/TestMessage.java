@@ -7,7 +7,6 @@ import hx.service.manage.model.message.MessageQueryRequest;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * @ClassName: TestMessage
@@ -46,11 +45,5 @@ public class TestMessage extends ApplicationTests {
 //        String url = "http://localhost/manage/message/query";
         String s = HttpClientHelper.jsonPost(url, request.toJson());
         echo(s);
-    }
-
-    public static void main(String[] args) {
-        for (int i = 0; i < 10; i++) {
-            System.out.println(UUID.randomUUID().toString().replace("-", ""));
-        }
     }
 }

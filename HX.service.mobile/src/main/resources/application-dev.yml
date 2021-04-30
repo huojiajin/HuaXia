@@ -84,15 +84,18 @@ spring:
         # 显示sql
         show_sql: true
 
-url: https://open-int.ihxlife.com
+#正式环境
 #url: https://open.ihxlife.com
-serialNo: 1539
 #serialNo: 1189
-appId: 3c1ae45d-24e9-4300-bda5-18f15a89cf31
 #appId: 0ff81e14-35f9-4fdf-8c3c-6d5aa33eb64f
-secretKey: rJev4P6gOKVjV8SX45y22d3D6RlNbNyH
 #secretKey: ES4g8P2HfWD7zhokfdQR8o1xScSHXrWB
+
+#测试环境
+url: https://open-int.ihxlife.com
+serialNo: 1539
+appId: 3c1ae45d-24e9-4300-bda5-18f15a89cf31
+secretKey: rJev4P6gOKVjV8SX45y22d3D6RlNbNyH
+
 redirectUrl: https://unitywebgl-1252899150.cos.ap-shanghai.myqcloud.com/test_chinalife/index.html
 
 MDRT: 642000
-sendMessage: false
