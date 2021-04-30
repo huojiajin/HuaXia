@@ -75,7 +75,9 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
         }else if (entity.getContentType() == ContentType.IMAGE){
             model.setContent(new String(entity.getImage()));
         }
-        model.setDeadline(entity.getDeadline().toString());
+        if (entity.getDeadline() != null) {
+            model.setDeadline(entity.getDeadline().toString());
+        }
         return model;
     }
 
@@ -95,6 +97,7 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
             if (!isEmpty(messageCustoms)){
                 return response.setError(ErrorType.VALID, "日常消息类型只可存在一条");
             }
+
         }else{
             if (!hasText(request.getContent())){
                 return response.setError(ErrorType.CONVERT, "消息内容不能为空");
@@ -120,7 +123,9 @@ public class MessageCustomManagerImpl extends AbstractManager implements Message
             custom.setImage(request.getContent().getBytes());
         }
         custom.setMessageType(messageType);
-        custom.setDeadline(LocalDate.parse(request.getDeadline()));
+        if (MessageType.isDaily(messageType)) {
+            custom.setDeadline(LocalDate.parse(request.getDeadline()));
+        }
         custom.setInsertTime(LocalDateTime.now());
         customRepo.persist(custom);
 //        if (contentType == ContentType.IMAGE){

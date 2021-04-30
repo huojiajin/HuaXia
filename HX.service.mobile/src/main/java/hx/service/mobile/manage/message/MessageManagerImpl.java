@@ -46,7 +46,9 @@ public class MessageManagerImpl extends AbstractMobileManager implements Message
     private MessageQueryResponse convert(MobileMessage entity){
         MessageQueryResponse model = new MessageQueryResponse();
         model.setContent(entity.getContent());
-        model.setSendTime(MyTimeTools.timeToStr(entity.getReadTime(), "yyyy.MM.dd"));
+        if (entity.getReadTime() != null) {
+            model.setSendTime(MyTimeTools.timeToStr(entity.getReadTime(), "yyyy.MM.dd"));
+        }
         model.setUnread(!entity.isHasRead());
         return model;
     }

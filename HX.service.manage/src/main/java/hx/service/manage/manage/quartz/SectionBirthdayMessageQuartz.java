@@ -22,7 +22,7 @@ import java.util.Map;
  * @Version 1.0
  **/
 @Service
-@MyScheduler(name = "ANNIVERS_MESSAGE", cron = "0 40 9 1 * ?")
+@MyScheduler(name = "SECTION_BIRTHDAY", cron = "0 40 9 1 * ?")
 public class SectionBirthdayMessageQuartz extends CommonQuartz{
 
     @Autowired
