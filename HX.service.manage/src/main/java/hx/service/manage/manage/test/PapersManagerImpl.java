@@ -518,12 +518,12 @@ public class PapersManagerImpl extends AbstractExcelManager implements PapersMan
             for (PapersSubject subject : subjects) {
                 PapersPushAnswer answer = answerMaps.get(subject.getId());
                 boolean error = !answer.getAnswer().equals(subject.getCorrectNum());
-                cell = ExcelTemplateHelper.getCell(sheet, 3, 4 + colInterval);
+                cell = ExcelTemplateHelper.getCell(sheet, 4 + i, 4 + colInterval);
                 cell.setCellValue(answer.getAnswer());
-                setCellStyle(cell, workbook, true, error);
-                cell = ExcelTemplateHelper.getCell(sheet, 3, 5 + colInterval);
+                setCellStyle(cell, workbook, false, error);
+                cell = ExcelTemplateHelper.getCell(sheet, 4 + i, 5 + colInterval);
                 cell.setCellValue(subject.getCorrectNum());
-                setCellStyle(cell, workbook, true, error);
+                setCellStyle(cell, workbook, false, error);
                 colInterval += 2;
             }
         }

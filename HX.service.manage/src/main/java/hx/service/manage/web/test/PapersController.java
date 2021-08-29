@@ -60,7 +60,7 @@ public class PapersController extends MyBaseController {
     }
 
     @PostMapping("/result")
-    public String add(@RequestBody PapersIdRequest request){
+    public String result(@RequestBody PapersIdRequest request){
         return manager.resultView(request);
     }
 

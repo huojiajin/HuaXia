@@ -112,6 +112,7 @@ public abstract class AbstractExcelManager extends AbstractManager{
         if (error) {
             cellStyle.setFillForegroundColor(IndexedColors.RED.getIndex());
         }
+        cell.setCellStyle(cellStyle);
         return cellStyle;
     }
 }
