@@ -37,6 +37,8 @@ public class MessageManagerImpl extends AbstractMobileManager implements Message
         CommonResponse response = new CommonResponse();
         MobileMessagePageRequest pageRequest = new MobileMessagePageRequest();
         BeanUtils.copyProperties(request, pageRequest);
+        MobileUserModel user = getUser(request.getToken());
+        pageRequest.setAgentCode(user.getEmployee_code());
         Pagination page = messageRepo.page(pageRequest);
         page.convertResult(this::convert);
         response.setData(page);

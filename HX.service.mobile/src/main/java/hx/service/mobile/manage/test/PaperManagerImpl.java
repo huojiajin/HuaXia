@@ -97,6 +97,23 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
             }
             result.add(model);
         }
+        result.sort((o1, o2) -> {
+            if(o1.getAnswerType() == o2.getAnswerType()){
+                LocalDateTime endTime1 = MyTimeTools.strToTime(o1.getEndTime());
+                LocalDateTime endTime2 = MyTimeTools.strToTime(o2.getEndTime());
+                if (endTime1.isBefore(endTime2)){
+                    return -1;
+                }else if(endTime1.isAfter(endTime2)){
+                    return 1;
+                }else{
+                    return 0;
+                }
+            }else if(o1.getAnswerType() > o2.getAnswerType()){
+                return -1;
+            }else{
+                return 1;
+            }
+        });
         data.setResult(result);
         response.setData(data);
         return response.toJson();
@@ -275,6 +292,7 @@ public class PaperManagerImpl extends AbstractMobileManager implements PaperMana
             model.setCompleteTime(MyTimeTools.timeToStr(push.getCompleteTime()));
             result.add(model);
         }
+        result.sort(Comparator.comparing(PaperCompletedListModel::getCompleteTime).reversed());
         data.setResult(result);
         response.setData(data);
         return response.toJson();

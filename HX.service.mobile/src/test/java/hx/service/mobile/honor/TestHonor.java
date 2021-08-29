@@ -30,6 +30,17 @@ public class TestHonor {
     }
 
     @Test
+    public void track() throws IOException {
+        String url = "http://localhost:81/mobile/honor/track";
+
+        MobileCommonRequest request = new MobileCommonRequest();
+        request.setToken(token);
+
+        String responseStr = HttpClientHelper.jsonPost(url, request.toJson());
+        System.out.println(responseStr);
+    }
+
+    @Test
     public void queryHonor() throws IOException {
         String url = "http://localhost:81/mobile/honor/wall/query";
 

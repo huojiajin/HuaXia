@@ -217,7 +217,7 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
 
         //主管绩优
         StarRating oneselfStar = starRatingRepo.findByAgentCode(user.getEmployee_code());
-        Integer star = Integer.valueOf(oneselfStar.getFhagentGrade().substring(2));
+        int star = oneselfStar == null ? 0 :Integer.parseInt(oneselfStar.getFhagentGrade().substring(2));
         Double stadprem = businessRepo.sumByAgentCode(user.getEmployee_code(), MDRTStartDate, MDRTEndDate);
         stadprem = stadprem == null ? 0 : stadprem;
         boolean isMDRT = stadprem >= MDRT;
@@ -334,7 +334,7 @@ public class StructureManagerImpl extends AbstractMobileManager implements Struc
 
         //主管绩优
         StarRating oneselfStar = starRatingRepo.findByAgentCode(user.getEmployee_code());
-        Integer star = Integer.valueOf(oneselfStar.getFhagentGrade().substring(2));
+        int star = oneselfStar == null ? 0 : Integer.parseInt(oneselfStar.getFhagentGrade().substring(2));
         Double stadprem = businessRepo.sumByAgentCode(user.getEmployee_code(), MDRTStartDate, MDRTEndDate);
         stadprem = stadprem == null ? 0 : stadprem;
         boolean isMDRT = stadprem >= MDRT;

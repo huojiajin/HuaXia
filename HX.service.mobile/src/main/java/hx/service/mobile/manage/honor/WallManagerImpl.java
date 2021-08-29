@@ -12,7 +12,6 @@ import hx.service.mobile.model.honor.WallQueryModel;
 import hx.service.mobile.model.honor.WallQueryRequest;
 import hx.service.mobile.model.honor.WallQueryResponse;
 import hx.service.mobile.model.login.MobileUserModel;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +35,7 @@ public class WallManagerImpl extends AbstractMobileManager implements WallManage
 
     @Override
     public String query(WallQueryRequest request){
-        CommonResponse response = new CommonResponse();
+        CommonResponse<WallQueryResponse> response = new CommonResponse<>();
         MobileUserModel user = getUser(request.getToken());
         if (user == null){
             return response.setError(ErrorType.NOLOGIN);

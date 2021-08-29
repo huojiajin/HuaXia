@@ -35,7 +35,7 @@ public class RankPromontionTrackManagerImpl extends AbstractMobileManager implem
 
     @Override
     public String track(MobileCommonRequest request){
-        CommonResponse response = new CommonResponse();
+        CommonResponse<RankPromontionTrackResponse> response = new CommonResponse<>();
         MobileUserModel user = getUser(request.getToken());
         if (user == null) {
             return response.setError(ErrorType.NOLOGIN);
@@ -47,7 +47,7 @@ public class RankPromontionTrackManagerImpl extends AbstractMobileManager implem
         Map<String, RankPromotionTrack> trackMaps = Maps.newHashMap();
         for (RankPromotionTrack track : trackList) {
             String key = track.getAgentLastGrade() + track.getStartDate();
-            trackMaps.put(key, track);
+            trackMaps.putIfAbsent(key, track);
         }
         List<RankPromotionTrack> newTrackList = Lists.newArrayList(trackMaps.values());
         //按时间正序排序

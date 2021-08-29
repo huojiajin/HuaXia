@@ -73,8 +73,9 @@ public class TokenTest extends MobileApplicationTests {
         model.setEmployee_part_com_name("任慧锋部");
         model.setEmployee_group_com("861102010611001");
         model.setEmployee_group_com_name("任慧锋部直辖组");
+        model.setCenter_branch_name("第一营服");
         model.setEmployee_date("2015-02-10");
-        model.setEmployee_type("1");
+        model.setEmployee_type("0");
         model.setPosition("业务主任");
         memcachedClient.set(MyMecachedPrefix.mobileLoginTokenPrefix + "57484c042a27490490881b593896a176", 7*24*60*60, model.toJson());
     }
