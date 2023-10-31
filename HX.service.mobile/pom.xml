@@ -13,7 +13,7 @@
     <version>0.0.1</version>
 <!--    <packaging>war</packaging>-->
     <name>HX.service.mobile</name>
-    <description>华夏经营主管系统-移动端</description>
+    <description>XX经营主管系统-移动端</description>
 
     <properties>
         <java.version>8</java.version>
