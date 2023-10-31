@@ -12,7 +12,7 @@
     <artifactId>core</artifactId>
     <version>0.0.1</version>
     <name>HX.base.core</name>
-    <description>华夏保险项目基础项目</description>
+    <description>xx保险项目基础项目</description>
 
     <properties>
         <java.version>8</java.version>
